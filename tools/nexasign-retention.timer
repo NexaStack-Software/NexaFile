@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# © 2026 NexaStack, NexaSign contributors.
+[Unit]
+Description=NexaSign GoBD Retention-Check — daily
+Documentation=https://nexasign.nexastack.co/vorlagen/gobd/
+
+[Timer]
+# Täglich um 03:17 Uhr — 17 Min nach der vollen Stunde, damit nicht alles gleichzeitig startet
+OnCalendar=*-*-* 03:17:00
+RandomizedDelaySec=15m
+Persistent=true
+Unit=nexasign-retention.service
+
+[Install]
+WantedBy=timers.target

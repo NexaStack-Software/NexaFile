@@ -1,0 +1,15 @@
+{
+  "title": "Developers",
+  "description": "Integrate with NexaSign",
+  "root": true,
+  "pages": [
+    "getting-started",
+    "api",
+    "webhooks",
+    "embedding",
+    "examples",
+    "local-development",
+    "contributing",
+    "demo-environment"
+  ]
+}

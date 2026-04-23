@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# © 2026 NexaStack, NexaSign contributors.
+[Unit]
+Description=NexaSign GoBD Retention-Check
+Documentation=https://nexasign.nexastack.co/vorlagen/gobd/
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/nexasign-tools/bin/nexasign-retention-check.sh
+User=root
+Nice=10
+StandardOutput=journal
+StandardError=journal

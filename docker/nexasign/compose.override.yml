@@ -1,0 +1,18 @@
+# Fresh-Install-Sandbox: eigene Container-Namen + Port 3070 (statt 3060).
+services:
+  database:
+    container_name: nexasign-fresh-db
+    volumes: !override
+      - nexasign-fresh-db:/var/lib/postgresql/data
+  app:
+    container_name: nexasign-fresh-app
+    ports: !override
+      - "127.0.0.1:3070:3000"
+    volumes: !override
+      - nexasign-fresh-cert:/opt/documenso
+
+volumes:
+  nexasign-fresh-db:
+    name: nexasign-fresh-db
+  nexasign-fresh-cert:
+    name: nexasign-fresh-cert

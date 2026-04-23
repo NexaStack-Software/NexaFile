@@ -1,0 +1,49 @@
+NexaSign — Enterprise features intentionally removed
+=====================================================
+
+Upstream Documenso ships a proprietary Enterprise Edition under the
+"Documenso Commercial License" that provides the following features:
+
+  - The Stripe Billing Module
+  - Organisation Authentication Portal (SSO)
+  - Document Action Reauthentication (Passkeys and 2FA)
+  - 21 CFR
+  - Email domains
+  - Embed authoring (with white-label)
+  - Enterprise-level support and SLAs
+
+NexaSign is a pure AGPL-3.0 fork. The proprietary code for these features
+has been removed and replaced with stub implementations (see the LICENSE
+file in this directory). Concretely:
+
+  - Self-hosted quotas: return "unlimited" for all limits
+    (documents, recipients, direct templates, envelope item count).
+
+  - Stripe: all billing / subscription / webhook / customer-management
+    functions throw a clearly-labelled "not available" error if something
+    still tries to call them. Since `IS_BILLING_ENABLED` is false for
+    self-hosters, nothing in the normal request path should reach them.
+
+  - Organisation Authentication Portal: the confirmation-email helper
+    and the `linkOrganisationAccount` entry point are stubbed to no-ops.
+    Ordinary login (email + password, OAuth) continues to work via the
+    non-enterprise auth package.
+
+  - Custom email sending domains: `createEmailDomain`,
+    `verifyEmailDomain`, `deleteEmailDomain`, `reregisterEmailDomain`
+    return sensible defaults but do not talk to AWS SES. Emails are
+    sent through the SMTP transport configured in `.env`.
+
+  - The tRPC `enterprise-router` still exists (to keep types stable
+    with upstream) but its endpoints surface "feature not available"
+    errors when called.
+
+Anyone who wants these features in their own deployment has two paths:
+
+  1. License the Enterprise features from Documenso directly
+     (https://documenso.com/pricing), self-host Documenso proper, and
+     port back the parts of NexaSign that appeal (GoBD tooling,
+     X-Rechnung generator, German templates).
+
+  2. Re-implement what they need under AGPL as new code inside this
+     repository. Pull requests welcome.

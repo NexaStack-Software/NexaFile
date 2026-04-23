@@ -1,0 +1,91 @@
+# NexaSign Docker-Compose
+# -----------------------
+# Isolierter Stack — Port 3060 extern, Postgres intern (nicht exponiert).
+# Der App-Service wird aus dem lokalen Repo gebaut, weil NexaSigns eigene
+# Funktionen (GoBD-WORM-Strict, deutsche Übersetzung, Logo, Nav-Erweiterungen,
+# packages/ee AGPL-Stubs) NICHT im Upstream-Image `nexasign/nexasign:latest`
+# enthalten sind.
+#
+# Erster Start (build + run):   docker compose up -d --build
+# Späterer Restart:             docker compose up -d
+# Fork-Update (neuer Fork-Code): docker compose up -d --build --force-recreate app
+
+name: nexasign
+
+services:
+  database:
+    image: postgres:15
+    container_name: nexasign-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?err}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?err}
+      POSTGRES_DB: ${POSTGRES_DB:?err}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - nexasign-db:/var/lib/postgresql/data
+    networks:
+      - nexasign-net
+    # Kein ports-Mapping: Postgres ist nur intern im Stack erreichbar.
+
+  app:
+    image: nexasign:latest
+    build:
+      context: ../..
+      dockerfile: docker/Dockerfile
+    container_name: nexasign-app
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      PORT: "3000"
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?err}
+      NEXT_PRIVATE_ENCRYPTION_KEY: ${NEXT_PRIVATE_ENCRYPTION_KEY:?err}
+      NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY: ${NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY:?err}
+      NEXT_PUBLIC_WEBAPP_URL: ${NEXT_PUBLIC_WEBAPP_URL:?err}
+      NEXT_PRIVATE_INTERNAL_WEBAPP_URL: http://localhost:3000
+      NEXT_PRIVATE_DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
+      NEXT_PRIVATE_DIRECT_DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
+      NEXT_PUBLIC_UPLOAD_TRANSPORT: database
+
+      # SMTP — Du konfigurierst hier Deinen Provider (Resend, Postmark, SMTP-Relay, ...)
+      NEXT_PRIVATE_SMTP_TRANSPORT: ${NEXT_PRIVATE_SMTP_TRANSPORT:-smtp-auth}
+      NEXT_PRIVATE_SMTP_HOST: ${NEXT_PRIVATE_SMTP_HOST}
+      NEXT_PRIVATE_SMTP_PORT: ${NEXT_PRIVATE_SMTP_PORT}
+      NEXT_PRIVATE_SMTP_USERNAME: ${NEXT_PRIVATE_SMTP_USERNAME}
+      NEXT_PRIVATE_SMTP_PASSWORD: ${NEXT_PRIVATE_SMTP_PASSWORD}
+      NEXT_PRIVATE_SMTP_SECURE: ${NEXT_PRIVATE_SMTP_SECURE:-true}
+      NEXT_PRIVATE_SMTP_FROM_NAME: ${NEXT_PRIVATE_SMTP_FROM_NAME:-NexaSign}
+      NEXT_PRIVATE_SMTP_FROM_ADDRESS: ${NEXT_PRIVATE_SMTP_FROM_ADDRESS:?err}
+      # Nur nötig, wenn NEXT_PRIVATE_SMTP_TRANSPORT=resend:
+      NEXT_PRIVATE_RESEND_API_KEY: ${NEXT_PRIVATE_RESEND_API_KEY}
+
+      # Signing-Cert — NICHT auto-generiert. Vor dem ersten Sign-Versuch entweder
+      # ./scripts/nexasign/generate-dev-cert.sh laufen lassen oder ein echtes Cert
+      # ins nexasign-cert-Volume legen. Ohne Cert bleiben signierte Dokumente
+      # auf „Ausstehend" hängen (Seal-Job schlägt fehl). Details: SIGNING.nexasign.md.
+      NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH: /opt/nexasign/cert.p12
+      NEXT_PRIVATE_SIGNING_PASSPHRASE: ${NEXT_PRIVATE_SIGNING_PASSPHRASE}
+
+      NEXT_PUBLIC_DISABLE_SIGNUP: ${NEXT_PUBLIC_DISABLE_SIGNUP:-false}
+    ports:
+      - "127.0.0.1:3060:3000"  # Host-Port 3060 → Container-Port 3000, nur auf localhost
+    volumes:
+      - nexasign-cert:/opt/nexasign
+    networks:
+      - nexasign-net
+
+volumes:
+  nexasign-db:
+    name: nexasign-db
+  nexasign-cert:
+    name: nexasign-cert
+
+networks:
+  nexasign-net:
+    name: nexasign-net

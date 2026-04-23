@@ -1,0 +1,22 @@
+{
+  "name": "@nexasign/ee",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "AGPL-3.0-or-later",
+  "description": "NexaSign replacement of the upstream NexaSign Enterprise Edition. AGPL stubs that return 'unlimited' for self-hosters and 'feature not available' for proprietary Enterprise functions. See LICENSE and FEATURES for details.",
+  "files": [
+    "server-only/"
+  ],
+  "scripts": {
+    "clean": "rimraf node_modules"
+  },
+  "dependencies": {
+    "@nexasign/lib": "*",
+    "@nexasign/prisma": "*",
+    "react": "^18",
+    "remeda": "^2.32.0",
+    "stripe": "^12.18.0",
+    "zod": "^3.25.76"
+  }
+}

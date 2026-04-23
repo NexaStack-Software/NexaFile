@@ -1,0 +1,202 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- © 2026 NexaStack, NexaSign contributors -->
+
+# NexaSign
+
+**Die deutsche, selbstgehostete Alternative zu DocuSign.**
+
+NexaSign signiert elektronische Dokumente rechtskonform nach eIDAS — komplett
+in Ihrer eigenen Infrastruktur. Keine Daten in US-Clouds, kein Abo-Zwang,
+keine Drittanbieter-Server im Signatur-Pfad.
+
+Gepflegt von [NexaStack](https://nexastack.co/) als Open-Source-Projekt unter
+AGPL-3.0-or-later.
+
+---
+
+## 🔎 NexaSign live ausprobieren, bevor Sie selbst hosten
+
+**→ [nexasign-demo.nexastack.co](https://nexasign-demo.nexastack.co)**
+
+Öffentliche Vorschau-Instanz zum Durchklicken: Dokumente signieren, Vorlagen
+anschauen, AV-Vertrag- und X-Rechnung-Generator testen. Ideal, um einen
+ersten Eindruck zu bekommen, bevor Sie den eigenen Stack aufsetzen.
+
+> Die Demo-Instanz wird von NexaStack privat betrieben und ist **nicht** Teil
+> dieses Repositorys. Dieses Repo enthält den Quellcode für Ihre **eigene**
+> Instanz.
+
+---
+
+## Was NexaSign kann
+
+**E-Signatur, rechtskonform und self-hosted:**
+
+- Dokumente hochladen, Unterschrifts-Felder setzen, Unterzeichner per Link einladen
+- Mehrere Unterzeichner, sequenzielle oder parallele Flows
+- PDF mit eingebetteter, kryptographisch verifizierbarer Signatur als Ergebnis
+- eIDAS-konform für einfache und fortgeschrittene elektronische Signaturen (EES/AES)
+- Vollständige deutsche Benutzeroberfläche, Audit-Logs, Mehrbenutzer-/Team-Verwaltung
+- API und Webhooks für Integration in eigene Systeme
+
+**Speziell für den deutschen Geschäftsalltag:**
+
+- **GoBD-Tooling** — WORM-Strict-Mode für abgeschlossene Dokumente,
+  10-Jahres-Retention nach § 147 AO / § 257 HGB, Export-CLI mit SHA-256-Manifest
+  für Z2/Z3-Finanzamt-Prüfzugriff.
+- **X-Rechnung / ZUGFeRD-Generator** — EN 16931-konforme E-Rechnungen mit
+  Auto-Extraction aus bestehenden Rechnungs-PDFs. Komplett lokal, keine Cloud-API.
+- **AV-Vertrag-Generator** — Auftragsverarbeitungs-Vertrag nach DSGVO Art. 28
+  als ausfüllbares Formular mit PDF-Export.
+- **11 deutsche Vertragsvorlagen** — NDA (einseitig/gegenseitig), Arbeitsvertrag
+  (befristet/unbefristet), Freelancer-Werkvertrag, Beratungsvertrag,
+  Aufhebungsvertrag, Verfahrensdokumentation GoBD und weitere.
+
+**Self-Hosted heißt:**
+
+- Keine Daten verlassen Ihre Infrastruktur
+- DSGVO-konform durch Betrieb in Deutschland
+- Keine US-Surveillance-Gesetze (CLOUD Act), keine Drittlandübermittlung
+- Volle Kontrolle über Zertifikate, Audit-Logs, Retention
+
+## Hinweis zur Schriftform
+
+NexaSign erzeugt **einfache und fortgeschrittene elektronische Signaturen (EES/AES)**.
+Das reicht für die allermeisten Verträge im deutschen Geschäftsalltag
+(AGB-Zustimmungen, NDAs, Freelance-Verträge, Dienstleistungen, Angebote), da
+diese nach § 125 BGB formfrei sind.
+
+Für Verträge mit gesetzlicher **Schriftform-Pflicht** (z. B. Mietverträge
+> 1 Jahr, bestimmte Kündigungen, Arbeitszeugnisse) wird eine **qualifizierte
+elektronische Signatur (QES)** nach eIDAS Art. 25 benötigt. Diese erfordert
+einen akkreditierten Vertrauensdiensteanbieter (z. B. D-Trust / Bundesdruckerei)
+und ist in NexaSign aktuell **nicht** integriert.
+
+---
+
+## Installation (Self-Hosting)
+
+NexaSign besteht aus zwei Teilen:
+
+1. **E-Signatur-App** — Docker, Port 3060 (Pflicht)
+2. **Vorlagen-Tools** (`/vorlagen/*`, AV-Vertrag, X-Rechnung, GoBD) — PHP auf Host, **optional**
+
+### Schritt 1 — App-Stack (Pflicht)
+
+```bash
+cd docker/nexasign
+cp .env.example .env
+# .env editieren: DB-Passwort, NEXTAUTH_SECRET + ENCRYPTION_KEY + ENCRYPTION_SECONDARY_KEY
+# (alle drei mit `openssl rand -base64 32`), NEXT_PUBLIC_WEBAPP_URL, SMTP-Zugangsdaten,
+# NEXT_PRIVATE_SIGNING_PASSPHRASE (beliebiger starker String).
+
+# Erster Start — baut das App-Image aus diesem Repo (~10 min):
+docker compose up -d --build
+
+# Spätere Restarts:
+docker compose up -d
+
+# Nach Code-Änderungen neu builden:
+docker compose up -d --build --force-recreate app
+```
+
+App läuft jetzt auf `http://localhost:3060`.
+
+### Schritt 2 — Reverse-Proxy mit TLS
+
+Port 3060 niemals direkt öffentlich exponieren (kein TLS, kein Rate-Limiting).
+Minimalbeispiele:
+
+**Caddy** (automatisches Let's Encrypt):
+```caddyfile
+sign.beispiel.de {
+    reverse_proxy 127.0.0.1:3060
+}
+```
+
+**nginx** (mit `certbot` für TLS):
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name sign.beispiel.de;
+    # ssl_certificate / ssl_certificate_key via certbot
+
+    location / {
+        proxy_pass http://127.0.0.1:3060;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+
+Wenn zusätzlich die PHP-Vorlagen-Tools auf derselben Domain laufen sollen,
+siehe die erweiterte nginx-Konfiguration in
+[DEPLOY-PHP.nexasign.md](DEPLOY-PHP.nexasign.md).
+
+In `.env` muss `NEXT_PUBLIC_WEBAPP_URL` auf die öffentliche HTTPS-URL zeigen
+(`https://sign.beispiel.de`), nicht auf `localhost:3060`.
+
+### Schritt 3 — Signatur-Zertifikat (Pflicht!)
+
+> ⚠️ **Ohne Signatur-Cert bleibt jedes signierte Dokument auf „Ausstehend"
+> hängen**, weil der Seal-Job nach dem Unterzeichnen scheitert. Cert **vor**
+> dem ersten Sign-Versuch einrichten.
+
+Schnell-Setup (Self-signed, 10 Jahre, **nur Dev/Test**):
+
+```bash
+./scripts/nexasign/generate-dev-cert.sh
+(cd docker/nexasign && docker compose restart app)
+```
+
+Für Produktivbetrieb ein AATL-Cert kaufen — Anleitung, Anbieter-Vergleich und
+Fehlerdiagnose in [SIGNING.nexasign.md](SIGNING.nexasign.md).
+
+### Schritt 4 — Vorlagen-Tools (optional)
+
+Nur nötig, wenn Sie die Vorlagen-Bibliothek, AV-Generator, X-Rechnung-Generator
+und GoBD-Tools mitnutzen wollen. Setup-Anleitung in
+[DEPLOY-PHP.nexasign.md](DEPLOY-PHP.nexasign.md).
+
+---
+
+## Entwicklung
+
+```bash
+npm install
+npm run dx            # Startet App + DB lokal via Docker
+npm run test:dev      # Playwright-E2E-Suite
+```
+
+Details in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+## Lizenz und Haftung
+
+- **Code:** [AGPL-3.0-or-later](LICENSE)
+- **Haftung:** Die Software wird **ohne jede Gewährleistung** bereitgestellt
+  (§§ 15/16 AGPL-3.0). Bei unentgeltlicher Überlassung gilt zusätzlich § 521
+  BGB analog — Haftung nur bei Vorsatz und grober Fahrlässigkeit.
+- **Keine Rechtsberatung:** Die Ausgabe einer Signatur durch NexaSign ersetzt
+  **keine juristische Prüfung** der unterzeichneten Dokumente.
+- **Betrieb als Service:** AGPL-3.0 verlangt, dass alle Nutzer des Services
+  Zugang zum Quellcode haben. Der gesamte NexaSign-Source liegt öffentlich
+  in diesem Repo.
+
+## Sicherheit
+
+Nicht-kritische Bugs bitte als GitHub-Issue melden.
+**Security-sensitive Befunde:** vertraulich per Mail an `security@nexastack.co`.
+Details: [.well-known/security.txt](.well-known/security.txt).
+
+## Support und kommerzielle Begleitung
+
+- **Bugs, Fragen, Feature-Requests:** [GitHub-Issues](https://github.com/NexaStack-Software/NexaSign/issues)
+- **Kommerzielle Unterstützung (Hosting, Setup, Schulung):**
+  [NexaStack](https://nexastack.co/) · `info@nexastack.co`

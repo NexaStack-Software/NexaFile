@@ -1,0 +1,10 @@
+# NexaSign security disclosure
+
+# Non-critical bugs: public issue tracker
+Contact: https://github.com/NexaStack-Software/NexaSign/issues
+
+# Security-sensitive reports: report privately first
+Contact: mailto:security@nexastack.co
+
+Preferred-Languages: de,en
+Canonical: https://github.com/NexaStack-Software/NexaSign/blob/main/.well-known/security.txt

@@ -1,0 +1,24 @@
+NexaSign — packages/ee/ replacement
+
+This directory in the upstream Documenso project contained proprietary
+Enterprise-Edition code licensed under the "Documenso Commercial License"
+(Copyright (c) 2023 Documenso, Inc).
+
+In NexaSign, ALL code in this directory has been REPLACED with an
+independent re-implementation, written from scratch by NexaStack contributors
+and licensed under the GNU Affero General Public License v3.0
+(the same license that covers the rest of the NexaSign repository — see
+the LICENSE file at the repository root).
+
+The replacement provides stub / no-op implementations of the same
+public exports, so that the rest of the Documenso-derived codebase (which
+imports from `@documenso/ee/*`) continues to compile and run without
+modification. The Enterprise-specific features (Stripe billing, SSO /
+Organisation-Authentication Portal, Email-Domains, 21 CFR, Embed
+white-label) are DISABLED in NexaSign. The corresponding functions either
+return safe defaults ("unlimited" quotas for self-hosters) or throw an
+explicit "feature not available in the NexaSign AGPL edition" error.
+
+This replacement ships under AGPL-3.0-or-later. See FEATURES for the list
+of Enterprise features that are intentionally unavailable, and the
+repository root LICENSE file for the full AGPL-3.0 license text.

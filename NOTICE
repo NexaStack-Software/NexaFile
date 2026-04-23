@@ -1,0 +1,54 @@
+NexaSign
+Copyright (c) 2026 NexaStack and NexaSign contributors
+
+This product includes software developed at Documenso, Inc.
+
+NexaSign is a German-focused fork of Documenso (https://github.com/documenso/documenso),
+and the majority of the code in this repository originates from that upstream
+project. All original Documenso copyrights are retained.
+
+The NexaSign fork adds:
+
+  * German localisation beyond the upstream Lingui translations
+  * A public templates hub (Vorlagen/) with 11 German contract templates
+  * An AV-Vertrag (GDPR Art. 28) generator (PHP + WeasyPrint)
+  * An X-Rechnung / ZUGFeRD (EN 16931) generator with local auto-extraction
+  * A GoBD compliance hub with retention-cron, WORM-enforcement and export CLI
+  * An independent AGPL re-implementation of the Documenso Enterprise Edition
+    package (packages/ee/) — see packages/ee/LICENSE and packages/ee/FEATURES
+    for what was replaced and why
+  * NexaSign branding (logo, wordmark, colour tokens, meta tags)
+
+All original components retain their upstream licenses:
+
+  * The core Documenso application code is licensed under AGPL-3.0-or-later
+    (see LICENSE in this repository root — unchanged from upstream).
+  * packages/ee/ in the upstream is licensed under the "Documenso Commercial
+    License". In NexaSign it has been REPLACED with an AGPL-3.0-or-later
+    re-implementation. No Commercial-licensed code from upstream ships in
+    this fork.
+  * Third-party dependencies retain their respective licenses; see
+    package-lock.json and each dependency for details.
+
+Attribution requirements:
+
+  * AGPL-3.0 Section 5(a) — notices of modification: fulfilled by
+    CHANGELOG.nexasign.md.
+  * AGPL-3.0 Section 5(b) — preserve "Appropriate Legal Notices" in
+    user-interactive code: the footer link in the Remix app
+    ("NexaSign — ein Open-Source-Projekt von NexaStack") and the footer
+    on the public Vorlagen/GoBD pages point to the project's origin.
+  * AGPL-3.0 Section 13 — source offer for network interaction: the
+    complete source is available at the NexaSign git repository
+    (see README.nexasign.md for the URL).
+
+Documenso branding:
+
+  * "Documenso" is the trademark of Documenso, Inc. NexaSign neither claims
+    ownership of nor affiliation with Documenso, Inc.
+  * User-facing strings that were previously "Documenso" have been changed
+    to "NexaSign" in the normal course of rebranding a fork. Strings and
+    files that identify Documenso as the origin/author of the upstream
+    code (this NOTICE, README.nexasign.md, CHANGELOG.nexasign.md, meta
+    tags, packages/ee/LICENSE) intentionally preserve the "Documenso"
+    attribution.

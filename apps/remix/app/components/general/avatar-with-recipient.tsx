@@ -1,0 +1,71 @@
+import { msg } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
+import { DocumentStatus } from '@prisma/client';
+
+import { useCopyToClipboard } from '@nexasign/lib/client-only/hooks/use-copy-to-clipboard';
+import { getRecipientType } from '@nexasign/lib/client-only/recipient-type';
+import { NEXT_PUBLIC_WEBAPP_URL } from '@nexasign/lib/constants/app';
+import { RECIPIENT_ROLES_DESCRIPTION } from '@nexasign/lib/constants/recipient-roles';
+import type { TRecipientLite } from '@nexasign/lib/types/recipient';
+import { recipientAbbreviation } from '@nexasign/lib/utils/recipient-formatter';
+import { cn } from '@nexasign/ui/lib/utils';
+import { useToast } from '@nexasign/ui/primitives/use-toast';
+
+import { StackAvatar } from './stack-avatar';
+
+export type AvatarWithRecipientProps = {
+  recipient: TRecipientLite;
+  documentStatus: DocumentStatus;
+};
+
+export function AvatarWithRecipient({ recipient, documentStatus }: AvatarWithRecipientProps) {
+  const [, copy] = useCopyToClipboard();
+
+  const { _ } = useLingui();
+  const { toast } = useToast();
+
+  const signingToken = documentStatus === DocumentStatus.PENDING ? recipient.token : null;
+
+  const onRecipientClick = () => {
+    if (!signingToken) {
+      return;
+    }
+
+    void copy(`${NEXT_PUBLIC_WEBAPP_URL()}/sign/${signingToken}`).then(() => {
+      toast({
+        title: _(msg`Copied to clipboard`),
+        description: _(msg`The signing link has been copied to your clipboard.`),
+      });
+    });
+  };
+
+  return (
+    <div
+      className={cn('my-1 flex items-center gap-2', {
+        'cursor-pointer hover:underline': signingToken,
+      })}
+      role={signingToken ? 'button' : undefined}
+      title={signingToken ? _(msg`Click to copy signing link for sending to recipient`) : undefined}
+      onClick={onRecipientClick}
+    >
+      <StackAvatar
+        first={true}
+        key={recipient.id}
+        type={getRecipientType(recipient)}
+        fallbackText={recipientAbbreviation(recipient)}
+      />
+
+      <div
+        className="text-sm text-muted-foreground"
+        title={
+          signingToken ? _(msg`Click to copy signing link for sending to recipient`) : undefined
+        }
+      >
+        <p>{recipient.email || recipient.name}</p>
+        <p className="text-xs text-muted-foreground/70">
+          {_(RECIPIENT_ROLES_DESCRIPTION[recipient.role].roleName)}
+        </p>
+      </div>
+    </div>
+  );
+}
