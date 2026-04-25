@@ -14,7 +14,7 @@ name: nexasign
 
 services:
   database:
-    image: postgres:15
+    image: postgres:15.17
     container_name: nexasign-db
     restart: unless-stopped
     environment:
@@ -33,7 +33,7 @@ services:
     # Kein ports-Mapping: Postgres ist nur intern im Stack erreichbar.
 
   app:
-    image: nexasign:latest
+    image: nexasign:${NEXASIGN_VERSION:-latest}
     build:
       context: ../..
       dockerfile: docker/Dockerfile
@@ -73,6 +73,12 @@ services:
       NEXT_PRIVATE_SIGNING_PASSPHRASE: ${NEXT_PRIVATE_SIGNING_PASSPHRASE}
 
       NEXT_PUBLIC_DISABLE_SIGNUP: ${NEXT_PUBLIC_DISABLE_SIGNUP:-false}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     ports:
       - "127.0.0.1:3060:3000"  # Host-Port 3060 → Container-Port 3000, nur auf localhost
     volumes:

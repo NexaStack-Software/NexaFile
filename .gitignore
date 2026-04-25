@@ -112,3 +112,25 @@ scripts/nexasign/seed-demo*.ts
 backups/
 *.backup.gz
 *.backup.tar.zst
+
+# ──────── Explicit build artefact paths (defense in depth) ────────
+# Catch-all `build` and `.next/` lines above are intentional, but explicit
+# paths make the intent unmistakable and survive accidental glob removal.
+apps/remix/build/
+apps/docs/.next/
+apps/docs/build/
+apps/docs/out/
+apps/openpage-api/.next/
+
+# Turbo per-package caches
+apps/*/.turbo/
+packages/*/.turbo/
+
+# Coverage & test artefacts
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Prisma client output (generated, never tracked)
+packages/prisma/generated/
