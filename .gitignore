@@ -93,3 +93,22 @@ tmp-logo/
 
 # Ad-hoc-Build-Logs (werden im /tmp erzeugt, aber für den Fall)
 /tmp/nx-*.log
+
+# ──────── NexaSign Operator-/Demo-Stack (privat, NICHT in OSS-Repo) ────────
+# Diese Dateien gehören in ein privates NexaStack-Infra-Repo, nicht hierher.
+# Falls sie versehentlich lokal landen, blockiert .gitignore das Tracking.
+DEMO.nexasign.md
+README.documenso-upstream.md
+docker/nexasign-demo/
+docker/nexasign-demo.compose.yml
+scripts/nexasign/reset-demo.sh
+scripts/nexasign/seed-demo.sh
+scripts/nexasign/seed-demo*.mjs
+scripts/nexasign/seed-demo*.ts
+
+# Lokale Operator-Konfiguration und Backups
+.env.operator
+.env.operator.*
+backups/
+*.backup.gz
+*.backup.tar.zst
