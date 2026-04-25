@@ -1,1 +1,0 @@
-# @nexasign/openpage-api

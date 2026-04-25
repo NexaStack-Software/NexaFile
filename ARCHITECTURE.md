@@ -43,7 +43,6 @@ NexaSign is an open-source document signing platform built as a **monorepo** usi
 | -------------------------- | -------------------------------------------------------- | ---- |
 | `@nexasign/remix`         | Main application - React Router (Remix) with Hono server | 3000 |
 | `@nexasign/documentation` | Documentation site (Next.js + Nextra)                    | 3002 |
-| `@nexasign/openpage-api`  | Public analytics API                                     | 3003 |
 
 ### Core Packages (`packages/`)
 
