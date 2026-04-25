@@ -46,6 +46,17 @@ ein Jahr, bestimmte Kündigungen, Arbeitszeugnisse, Immobilienkäufe) wird eine
 erfordert einen akkreditierten Vertrauensdiensteanbieter (z. B. D-Trust / Bundesdruckerei)
 und ist in NexaSign aktuell **nicht** integriert.
 
+## Hinweis zu GoBD und Aufbewahrung
+
+NexaSign liefert **GoBD-Tooling** (WORM-Strict-Mode, 10-Jahres-Retention nach
+§ 147 AO / § 257 HGB, Z2/Z3-Export-CLI mit SHA-256-Manifest). Das ist die
+technische Basis für eine GoBD-orientierte Aufbewahrung, **nicht** der fertige
+GoBD-Nachweis. **GoBD-Konformität** entsteht erst aus Tooling, Verfahrens­
+dokumentation und gelebtem Prozess zusammen — die Verfahrensdokumentation und
+die formelle Prüfung durch Steuerberater oder Wirtschaftsprüfer bleiben
+Betreiberpflicht. Eine Vorlage liegt unter
+[`Vorlagen/11-verfahrensdokumentation-gobd.md`](Vorlagen/11-verfahrensdokumentation-gobd.md).
+
 ## Installation
 
 ### Entwicklung / lokal

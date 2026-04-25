@@ -74,6 +74,22 @@ und ist in NexaSign aktuell **nicht** integriert.
 
 ---
 
+## Hinweis zu GoBD und Aufbewahrung
+
+NexaSign liefert **GoBD-Tooling** (WORM-Strict-Mode, 10-Jahres-Retention nach
+§ 147 AO / § 257 HGB, Z2/Z3-Export-CLI mit SHA-256-Manifest). Das ist die
+technische Basis für eine GoBD-orientierte Aufbewahrung — **nicht** der
+fertige GoBD-Nachweis.
+
+**GoBD-Konformität** entsteht erst aus **Tooling, Verfahrensdokumentation und
+gelebtem Prozess** zusammen. Die Verfahrensdokumentation, die formelle Prüfung
+des Gesamtsystems und die Verantwortung gegenüber dem Finanzamt bleiben
+Betreiberpflicht — typischerweise mit Steuerberater oder Wirtschaftsprüfer
+abgestimmt. Eine Vorlage für die Verfahrensdokumentation liegt unter
+[`Vorlagen/11-verfahrensdokumentation-gobd.md`](Vorlagen/11-verfahrensdokumentation-gobd.md).
+
+---
+
 ## Installation (Self-Hosting)
 
 NexaSign besteht aus zwei Teilen:
