@@ -19,7 +19,7 @@ NexaSign follows [Semantic Versioning](https://semver.org/):
 | Patch        | `x.y.z` | Bug fixes, security patches                |
 
 <Callout type="info">
-  Review the [release notes](https://github.com/nexastack/nexasign/releases) before upgrading to
+  Review the [release notes](https://github.com/NexaStack-Software/NexaSign/releases) before upgrading to
   understand what changes are included.
 </Callout>
 
@@ -68,10 +68,10 @@ kubectl get deployment nexasign -n nexasign -o jsonpath='{.spec.template.spec.co
 View available releases on GitHub:
 
 ```bash
-curl -s https://api.github.com/repos/nexastack/nexasign/releases/latest | grep tag_name
+curl -s https://api.github.com/repos/NexaStack-Software/NexaSign/releases/latest | grep tag_name
 ```
 
-Or visit the [releases page](https://github.com/nexastack/nexasign/releases).
+Or visit the [releases page](https://github.com/NexaStack-Software/NexaSign/releases).
 
 ### Check Available Docker Tags
 
@@ -81,7 +81,7 @@ List available image tags:
 <Tab value="DockerHub">
 
 ```bash
-curl -s https://hub.docker.com/v2/repositories/nexastack/nexasign/tags | jq -r '.results[].name'
+curl -s https://hub.docker.com/v2/repositories/NexaStack-Software/NexaSign/tags | jq -r '.results[].name'
 ```
 
 </Tab>
@@ -165,7 +165,7 @@ See [Backups](/docs/self-hosting/maintenance/backups) for automated backup strat
 ### Pull the new image
 
 ```bash
-docker pull nexastack/nexasign:1.6.0
+docker pull NexaStack-Software/NexaSign:1.6.0
 ```
 
 Replace `1.6.0` with your target version.
@@ -189,7 +189,7 @@ docker run -d \
   -p 3000:3000 \
   --env-file .env \
   -v /path/to/cert.p12:/opt/nexasign/cert.p12:ro \
-  nexastack/nexasign:1.6.0
+  NexaStack-Software/NexaSign:1.6.0
 ```
 
 </Step>
@@ -223,7 +223,7 @@ Edit `compose.yml` or your `.env` file to specify the new version:
 ```yaml
 services:
   nexasign:
-    image: nexastack/nexasign:1.6.0
+    image: NexaStack-Software/NexaSign:1.6.0
 ```
 
 Or if using environment variable substitution:
@@ -237,7 +237,7 @@ NEXASIGN_VERSION=1.6.0
 # In compose.yml
 services:
   nexasign:
-    image: nexastack/nexasign:${NEXASIGN_VERSION:-latest}
+    image: NexaStack-Software/NexaSign:${NEXASIGN_VERSION:-latest}
 ```
 
 </Step>
@@ -283,7 +283,7 @@ Edit the deployment directly:
 
 ```bash
 kubectl set image deployment/nexasign \
-  nexasign=nexastack/nexasign:1.6.0 \
+  nexasign=NexaStack-Software/NexaSign:1.6.0 \
   -n nexasign
 ```
 
@@ -295,7 +295,7 @@ spec:
     spec:
       containers:
         - name: nexasign
-          image: nexastack/nexasign:1.6.0
+          image: NexaStack-Software/NexaSign:1.6.0
 ```
 
 Then apply:
@@ -421,12 +421,12 @@ To run migrations manually before upgrading:
 
 ```bash
 # Pull the new image
-docker pull nexastack/nexasign:1.6.0
+docker pull NexaStack-Software/NexaSign:1.6.0
 
 # Run migrations only
 docker run --rm \
   -e NEXT_PRIVATE_DATABASE_URL="postgresql://user:password@host:5432/nexasign" \
-  nexastack/nexasign:1.6.0 \
+  NexaStack-Software/NexaSign:1.6.0 \
   npx prisma migrate deploy
 ```
 
@@ -445,7 +445,7 @@ Major version upgrades may include breaking changes that require manual steps.
 <Step>
 ### Read release notes
 
-Read the [release notes](https://github.com/nexastack/nexasign/releases) carefully.
+Read the [release notes](https://github.com/NexaStack-Software/NexaSign/releases) carefully.
 
 </Step>
 <Step>
@@ -490,7 +490,7 @@ Compare your current environment with the latest example:
 
 ```bash
 # Download latest example
-curl -O https://raw.githubusercontent.com/nexastack/nexasign/main/.env.example
+curl -O https://raw.githubusercontent.com/NexaStack-Software/NexaSign/main/.env.example
 
 # Compare with your current config
 diff .env .env.example
@@ -516,7 +516,7 @@ docker run -d \
   -p 3000:3000 \
   --env-file .env \
   -v /path/to/cert.p12:/opt/nexasign/cert.p12:ro \
-  nexastack/nexasign:1.5.0
+  NexaStack-Software/NexaSign:1.5.0
 ```
 
 </Tab>

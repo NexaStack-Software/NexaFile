@@ -160,12 +160,12 @@ docker run -d \
   -v /path/to/certificate.p12:/opt/nexasign/cert.p12:ro \
   -e NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH=/opt/nexasign/cert.p12 \
   -e NEXT_PRIVATE_SIGNING_PASSPHRASE="your-certificate-password" \
-  nexastack/nexasign:latest
+  NexaStack-Software/NexaSign:latest
 ```
 
 ## Using Base64-Encoded Contents
 
-For environments where file mounting is not available (e.g., Railway, Vercel):
+For environments where file mounting is not available:
 
 ```bash
 # Encode the certificate

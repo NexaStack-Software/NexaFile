@@ -49,7 +49,7 @@ apps/docs/content/docs/
 ├── self-hosting/          # Self-hosting documentation
 │   ├── meta.json          # { "root": true, "pages": [...] }
 │   ├── getting-started/   # Quick start, requirements, tips
-│   ├── deployment/        # Docker, docker-compose, Kubernetes, Railway
+│   ├── deployment/        # Docker, docker-compose, Kubernetes
 │   ├── configuration/     # Environment, database, email, storage
 │   │   ├── signing-certificate/  # Local, Google Cloud HSM, timestamp
 │   │   └── advanced/      # OAuth providers, AI features

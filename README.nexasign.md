@@ -126,7 +126,7 @@ Komplette Schritt-für-Schritt-Anleitung: [DEPLOY-PHP.nexasign.md](DEPLOY-PHP.ne
 
 ## Unterstützung
 
-- **Bugs/Fragen:** [GitHub-Issues in diesem Repository](https://github.com/<TODO>/nexasign)
+- **Bugs/Fragen:** [GitHub-Issues in diesem Repository](https://github.com/NexaStack-Software/NexaSign)
 - **Kommerzielle Unterstützung (Hosting, Setup, Schulung):** [NexaStack](https://nexastack.co/)
 
 ## Upstream-Synchronisation
