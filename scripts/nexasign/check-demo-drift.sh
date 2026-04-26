@@ -176,7 +176,10 @@ fi
 echo
 echo "== External demo/content locations =="
 if [[ -d "${LEGACY_OPT_DIR}" ]]; then
-  if [[ -d "${LEGACY_OPT_DIR}/.git" ]]; then
+  if [[ -f "${LEGACY_OPT_DIR}/README.md" ]] &&
+     grep -q 'This directory is not the NexaSign source checkout' "${LEGACY_OPT_DIR}/README.md"; then
+    pass "legacy-opt" "${LEGACY_OPT_DIR} is a pointer directory, not a stale deployment."
+  elif [[ -d "${LEGACY_OPT_DIR}/.git" ]]; then
     warn "legacy-opt" "${LEGACY_OPT_DIR} is a Git checkout; confirm whether it should still exist."
   elif [[ -f "${LEGACY_OPT_DIR}/compose.yml" || -f "${LEGACY_OPT_DIR}/.env" ]]; then
     warn "legacy-opt" "${LEGACY_OPT_DIR} looks like a legacy/stale deployment folder, not the active source checkout."
