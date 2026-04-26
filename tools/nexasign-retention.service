@@ -8,7 +8,7 @@ Requires=docker.service
 
 [Service]
 Type=oneshot
-ExecStart=/opt/nexasign-tools/bin/nexasign-retention-check.sh
+ExecStart=/opt/NexaSign/tools/nexasign-retention-check.sh
 User=root
 Nice=10
 StandardOutput=journal

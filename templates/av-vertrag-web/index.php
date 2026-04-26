@@ -16,7 +16,7 @@ set_time_limit(60);  // WeasyPrint ist langsamer als das ZUGFeRD-Writing
 ini_set('memory_limit', '256M');
 
 const TEMPLATE_FILE    = __DIR__ . '/template.html.php';
-const WEASYPRINT_BIN   = '/opt/nexasign-tools/venv/bin/weasyprint';
+const WEASYPRINT_BIN   = '/opt/NexaSign/demo/tools/venv/bin/weasyprint';
 const REQUIRED_FIELDS  = [
     'verantwortlicher_name',
     'verantwortlicher_anschrift',

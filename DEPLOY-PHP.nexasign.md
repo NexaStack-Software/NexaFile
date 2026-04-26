@@ -46,13 +46,13 @@ Vorschlag (kann angepasst werden — die nginx-Regeln dann entsprechend mitziehe
 
 ```
 /var/www/nexasign/vorlagen/           ← Web-Root für /vorlagen/*
-/opt/nexasign-tools/                  ← Host-seitige Tools (venv, Cert-Scripts)
+/opt/NexaSign/demo/tools/             ← Lokale Host-Tools (venv, KoSIT; nicht GitHub)
 /etc/systemd/system/                  ← Retention-Timer + Service
 ```
 
 ```bash
 sudo mkdir -p /var/www/nexasign/vorlagen
-sudo mkdir -p /opt/nexasign-tools
+sudo mkdir -p /opt/NexaSign/demo/tools
 sudo chown -R $USER:www-data /var/www/nexasign
 ```
 
@@ -83,9 +83,9 @@ WeasyPrint in einem isolierten venv — **nicht** system-weit installieren:
 
 ```bash
 # Python venv mit WeasyPrint
-sudo python3 -m venv /opt/nexasign-tools/venv
-sudo /opt/nexasign-tools/venv/bin/pip install weasyprint
-/opt/nexasign-tools/venv/bin/weasyprint --version   # Version-Check
+sudo python3 -m venv /opt/NexaSign/demo/tools/venv
+sudo /opt/NexaSign/demo/tools/venv/bin/pip install weasyprint
+/opt/NexaSign/demo/tools/venv/bin/weasyprint --version   # Version-Check
 
 # AV-Template deployen
 sudo mkdir -p /var/www/nexasign/vorlagen/av-vertrag
@@ -247,9 +247,7 @@ Aufbewahrungspflicht nach § 147 AO / § 257 HGB erreicht haben. Sie **löschen 
 
 ```bash
 # Scripts
-sudo mkdir -p /opt/nexasign-tools/bin
-sudo cp tools/nexasign-*.sh /opt/nexasign-tools/bin/
-sudo chmod +x /opt/nexasign-tools/bin/*.sh
+sudo chmod +x /opt/NexaSign/tools/nexasign-*.sh
 
 # systemd-Units
 sudo cp tools/nexasign-retention.{service,timer} /etc/systemd/system/
@@ -263,7 +261,7 @@ Log: `/var/log/nexasign/retention-check.log`. Das Script verbindet sich zum
 
 Das **Export-Tool** (`nexasign-gobd-export.sh`) ist interaktiv — liefert ZIP mit
 signierten PDFs, Audit-Log und SHA-256-Manifest für Z2/Z3-Prüfzugriff nach GoBD.
-Bei Bedarf manuell aufrufen: `sudo /opt/nexasign-tools/bin/nexasign-gobd-export.sh`.
+Bei Bedarf manuell aufrufen: `sudo /opt/NexaSign/tools/nexasign-gobd-export.sh`.
 
 ---
 
@@ -285,7 +283,7 @@ curl -sS -o /dev/null -w "HTTP %{http_code}\n" https://sign.example.com/vorlagen
 |---|---|
 | `/vorlagen/x-rechnung/` wirft 500 | `tail /var/log/nginx/error.log` + `journalctl -u php8.4-fpm`. Typisch: vendor-Dir fehlt oder PHP-Extension. |
 | Upload scheitert mit 413 | `client_max_body_size` im nginx-Block auf 15m setzen. |
-| AV-Vertrag-Generator hängt, kein PDF | WeasyPrint-venv prüfen: `/opt/nexasign-tools/venv/bin/weasyprint --version`. Pfad in `templates/av-vertrag-web/index.php` stimmt? |
+| AV-Vertrag-Generator hängt, kein PDF | WeasyPrint-venv prüfen: `/opt/NexaSign/demo/tools/venv/bin/weasyprint --version`. Pfad in `templates/av-vertrag-web/index.php` stimmt? |
 | X-Rechnung erzeugt, aber ist nicht KoSIT-konform | Siehe `scripts/nexasign/` oder bauen eigenes KoSIT-Setup (Java + Validator 1.6.2+ + XRechnung-Config). |
 | Rate-Limit greift zu früh | Zonen-Definitionen in `nginx.conf` vs. `limit_req` in Location-Blöcken prüfen. |
 
