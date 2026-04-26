@@ -1,12 +1,9 @@
-# Pull down translations from Crowdin every two hours or when triggered manually.
+# Pull down translations from Crowdin when triggered manually.
 
 name: 'Pull translations'
 
 on:
-  schedule:
-    - cron: '0 */2 * * *' # Every two hours.
   workflow_dispatch:
-  workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -16,7 +13,6 @@ jobs:
   pull_translations:
     name: Pull translations
     runs-on: ubuntu-latest
-    environment: Translations
     permissions:
       contents: write
       pull-requests: write
