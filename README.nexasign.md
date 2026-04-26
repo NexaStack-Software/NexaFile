@@ -68,7 +68,7 @@ Siehe das Original-README unter [README.md](README.md) — alle Entwicklungs­an
 
 NexaSign besteht aus **zwei Teilen**:
 
-1. **Die E-Signatur-App** (Remix / Documenso-Kernel) — läuft in Docker auf Port 3060.
+1. **Die E-Signatur-App** (Remix / NexaSign-Kernel) — läuft in Docker auf Port 3060.
 2. **Die öffentlichen Vorlagen-Tools** (`/vorlagen/`, `/vorlagen/gobd/`,
    `/vorlagen/av-vertrag/`, `/vorlagen/x-rechnung/`) — PHP-Seiten, die direkt auf
    dem Host via nginx + PHP-FPM ausgeliefert werden. **Optional** — wenn Du nur

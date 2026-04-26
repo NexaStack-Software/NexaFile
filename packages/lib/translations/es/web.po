@@ -6791,10 +6791,6 @@ msgstr "Nueva opción {0}"
 msgid "New Password"
 msgstr "Nueva Contraseña"
 
-#: apps/remix/app/components/general/demo-banner.tsx
-msgid "NexaSign Demo-Instanz"
-msgstr ""
-
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "NexaSign License"
 msgstr "Licencia de NexaSign"
@@ -8756,10 +8752,6 @@ msgstr "Ver documentación"
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "See the background jobs tab for the status"
 msgstr "Consulte la pestaña de trabajos en segundo plano para el estado"
-
-#: apps/remix/app/components/general/demo-banner.tsx
-msgid "Selbst hosten →"
-msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-dropdown-field.tsx
 #: packages/ui/primitives/document-flow/field-content.tsx
@@ -13588,7 +13580,3 @@ msgstr "Su código de verificación:"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "su-dominio.com otro-dominio.com"
-
-#: apps/remix/app/components/general/demo-banner.tsx
-msgid "Zum Ausprobieren. Mutationen mit externer Wirkung (Mails, Webhooks, API-Tokens, Organisations- und Team-Änderungen) sind deaktiviert. Die Datenbank wird regelmäßig zurückgesetzt."
-msgstr ""

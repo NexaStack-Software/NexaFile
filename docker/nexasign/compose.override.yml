@@ -9,7 +9,7 @@ services:
     ports: !override
       - "127.0.0.1:3070:3000"
     volumes: !override
-      - nexasign-fresh-cert:/opt/documenso
+      - nexasign-fresh-cert:/opt/nexasign
 
 volumes:
   nexasign-fresh-db:

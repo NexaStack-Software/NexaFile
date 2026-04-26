@@ -57,21 +57,21 @@ jobs:
             --progress=plain \
             --build-arg NEXT_PRIVATE_TELEMETRY_KEY="${NEXT_PRIVATE_TELEMETRY_KEY:-}" \
             --build-arg NEXT_PRIVATE_TELEMETRY_HOST="${NEXT_PRIVATE_TELEMETRY_HOST:-}" \
-            -t "documenso/documenso-$BUILD_PLATFORM:latest" \
-            -t "documenso/documenso-$BUILD_PLATFORM:$GIT_SHA" \
-            -t "documenso/documenso-$BUILD_PLATFORM:$APP_VERSION" \
-            -t "ghcr.io/documenso/documenso-$BUILD_PLATFORM:latest" \
-            -t "ghcr.io/documenso/documenso-$BUILD_PLATFORM:$GIT_SHA" \
-            -t "ghcr.io/documenso/documenso-$BUILD_PLATFORM:$APP_VERSION" \
+            -t "nexastack/nexasign-$BUILD_PLATFORM:latest" \
+            -t "nexastack/nexasign-$BUILD_PLATFORM:$GIT_SHA" \
+            -t "nexastack/nexasign-$BUILD_PLATFORM:$APP_VERSION" \
+            -t "ghcr.io/nexastack-software/nexasign-$BUILD_PLATFORM:latest" \
+            -t "ghcr.io/nexastack-software/nexasign-$BUILD_PLATFORM:$GIT_SHA" \
+            -t "ghcr.io/nexastack-software/nexasign-$BUILD_PLATFORM:$APP_VERSION" \
             .
 
       - name: Push the docker image to DockerHub
-        run: docker push --all-tags "documenso/documenso-$BUILD_PLATFORM"
+        run: docker push --all-tags "nexastack/nexasign-$BUILD_PLATFORM"
         env:
           BUILD_PLATFORM: ${{ matrix.os == 'warp-ubuntu-latest-arm64-4x' && 'arm64' || 'amd64' }}
 
       - name: Push the docker image to GitHub Container Registry
-        run: docker push --all-tags "ghcr.io/documenso/documenso-$BUILD_PLATFORM"
+        run: docker push --all-tags "ghcr.io/nexastack-software/nexasign-$BUILD_PLATFORM"
         env:
           BUILD_PLATFORM: ${{ matrix.os == 'warp-ubuntu-latest-arm64-4x' && 'arm64' || 'amd64' }}
 
@@ -111,34 +111,34 @@ jobs:
           # Check if the version is stable (no rc or beta in the version)
           if [[ "$APP_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             docker manifest create \
-              documenso/documenso:latest \
-              --amend documenso/documenso-amd64:latest \
-              --amend documenso/documenso-arm64:latest
+              nexastack/nexasign:latest \
+              --amend nexastack/nexasign-amd64:latest \
+              --amend nexastack/nexasign-arm64:latest
 
-            docker manifest push documenso/documenso:latest
+            docker manifest push nexastack/nexasign:latest
           fi
 
           if [[ "$APP_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
             docker manifest create \
-              documenso/documenso:rc \
-              --amend documenso/documenso-amd64:rc \
-              --amend documenso/documenso-arm64:rc
+              nexastack/nexasign:rc \
+              --amend nexastack/nexasign-amd64:rc \
+              --amend nexastack/nexasign-arm64:rc
 
-            docker manifest push documenso/documenso:rc
+            docker manifest push nexastack/nexasign:rc
           fi
 
           docker manifest create \
-            documenso/documenso:$GIT_SHA \
-            --amend documenso/documenso-amd64:$GIT_SHA \
-            --amend documenso/documenso-arm64:$GIT_SHA
+            nexastack/nexasign:$GIT_SHA \
+            --amend nexastack/nexasign-amd64:$GIT_SHA \
+            --amend nexastack/nexasign-arm64:$GIT_SHA
 
           docker manifest create \
-            documenso/documenso:$APP_VERSION \
-            --amend documenso/documenso-amd64:$APP_VERSION \
-            --amend documenso/documenso-arm64:$APP_VERSION
+            nexastack/nexasign:$APP_VERSION \
+            --amend nexastack/nexasign-amd64:$APP_VERSION \
+            --amend nexastack/nexasign-arm64:$APP_VERSION
 
-          docker manifest push documenso/documenso:$GIT_SHA
-          docker manifest push documenso/documenso:$APP_VERSION
+          docker manifest push nexastack/nexasign:$GIT_SHA
+          docker manifest push nexastack/nexasign:$APP_VERSION
 
       - name: Create and push Github Container Registry manifest
         env:
@@ -152,31 +152,31 @@ jobs:
           # Check if the version is stable (no rc or beta in the version)
           if [[ "$APP_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             docker manifest create \
-              ghcr.io/documenso/documenso:latest \
-              --amend ghcr.io/documenso/documenso-amd64:latest \
-              --amend ghcr.io/documenso/documenso-arm64:latest
+              ghcr.io/nexastack-software/nexasign:latest \
+              --amend ghcr.io/nexastack-software/nexasign-amd64:latest \
+              --amend ghcr.io/nexastack-software/nexasign-arm64:latest
 
-            docker manifest push ghcr.io/documenso/documenso:latest
+            docker manifest push ghcr.io/nexastack-software/nexasign:latest
           fi
 
           if [[ "$APP_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
             docker manifest create \
-              ghcr.io/documenso/documenso:rc \
-              --amend ghcr.io/documenso/documenso-amd64:rc \
-              --amend ghcr.io/documenso/documenso-arm64:rc
+              ghcr.io/nexastack-software/nexasign:rc \
+              --amend ghcr.io/nexastack-software/nexasign-amd64:rc \
+              --amend ghcr.io/nexastack-software/nexasign-arm64:rc
 
-            docker manifest push ghcr.io/documenso/documenso:rc
+            docker manifest push ghcr.io/nexastack-software/nexasign:rc
           fi
 
           docker manifest create \
-            ghcr.io/documenso/documenso:$GIT_SHA \
-            --amend ghcr.io/documenso/documenso-amd64:$GIT_SHA \
-            --amend ghcr.io/documenso/documenso-arm64:$GIT_SHA
+            ghcr.io/nexastack-software/nexasign:$GIT_SHA \
+            --amend ghcr.io/nexastack-software/nexasign-amd64:$GIT_SHA \
+            --amend ghcr.io/nexastack-software/nexasign-arm64:$GIT_SHA
 
           docker manifest create \
-            ghcr.io/documenso/documenso:$APP_VERSION \
-            --amend ghcr.io/documenso/documenso-amd64:$APP_VERSION \
-            --amend ghcr.io/documenso/documenso-arm64:$APP_VERSION
+            ghcr.io/nexastack-software/nexasign:$APP_VERSION \
+            --amend ghcr.io/nexastack-software/nexasign-amd64:$APP_VERSION \
+            --amend ghcr.io/nexastack-software/nexasign-arm64:$APP_VERSION
 
-          docker manifest push ghcr.io/documenso/documenso:$GIT_SHA
-          docker manifest push ghcr.io/documenso/documenso:$APP_VERSION
+          docker manifest push ghcr.io/nexastack-software/nexasign:$GIT_SHA
+          docker manifest push ghcr.io/nexastack-software/nexasign:$APP_VERSION
