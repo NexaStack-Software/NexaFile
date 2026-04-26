@@ -14,7 +14,8 @@ MODE="warn-only"
 EXPECTED_CONTAINER="${NEXASIGN_CONTAINER_NAME:-nexasign-app}"
 EXPECTED_COMPOSE="${REPO_ROOT}/docker/nexasign/compose.yml"
 LEGACY_OPT_DIR="${NEXASIGN_LEGACY_OPT_DIR:-/opt/nexasign}"
-DEMO_VORLAGEN_DIR="${NEXASIGN_DEMO_VORLAGEN_DIR:-/var/www/nexasign/vorlagen}"
+DEMO_VORLAGEN_DIR="${NEXASIGN_DEMO_VORLAGEN_DIR:-${REPO_ROOT}/demo/vorlagen}"
+DEMO_VORLAGEN_WEB_PATH="${NEXASIGN_DEMO_VORLAGEN_WEB_PATH:-/var/www/nexasign/vorlagen}"
 
 usage() {
   cat <<'EOF'
@@ -27,7 +28,8 @@ Checks:
   - local demo/runtime files are ignored, not tracked
   - running nexasign-app container was started from this repo's compose file
   - /opt/nexasign is reported if it looks like a stale legacy deployment folder
-  - /var/www/nexasign/vorlagen is reported as external demo/template content
+  - demo/vorlagen is reported as local, Git-ignored demo/template content
+  - /var/www/nexasign/vorlagen is reported as web symlink when present
 
 This script is read-only. It does not print .env values.
 EOF
@@ -117,7 +119,11 @@ echo
 echo "== Allowed local/demo files =="
 if [[ -f docker/nexasign/.env ]]; then
   if git check-ignore -q docker/nexasign/.env; then
-    pass "demo-env" "docker/nexasign/.env exists and is ignored."
+    if [[ -L docker/nexasign/.env ]]; then
+      pass "demo-env" "docker/nexasign/.env is an ignored symlink into demo/app."
+    else
+      pass "demo-env" "docker/nexasign/.env exists and is ignored."
+    fi
   else
     fail "demo-env" "docker/nexasign/.env exists but is not ignored."
   fi
@@ -192,9 +198,26 @@ fi
 
 if [[ -d "${DEMO_VORLAGEN_DIR}" ]]; then
   COUNT="$(find "${DEMO_VORLAGEN_DIR}" -type f 2>/dev/null | wc -l)"
-  pass "demo-vorlagen" "${DEMO_VORLAGEN_DIR} exists with ${COUNT} files. Treat as external demo/content layer."
+  if git check-ignore -q "${DEMO_VORLAGEN_DIR}"; then
+    pass "demo-vorlagen" "${DEMO_VORLAGEN_DIR} exists with ${COUNT} files and is ignored by Git."
+  else
+    fail "demo-vorlagen" "${DEMO_VORLAGEN_DIR} exists but is not ignored by Git."
+  fi
 else
   warn "demo-vorlagen" "${DEMO_VORLAGEN_DIR} not found on this host."
+fi
+
+if [[ -L "${DEMO_VORLAGEN_WEB_PATH}" ]]; then
+  TARGET="$(readlink "${DEMO_VORLAGEN_WEB_PATH}")"
+  if [[ "${TARGET}" == "${DEMO_VORLAGEN_DIR}" ]]; then
+    pass "vorlagen-symlink" "${DEMO_VORLAGEN_WEB_PATH} points to demo/vorlagen."
+  else
+    warn "vorlagen-symlink" "${DEMO_VORLAGEN_WEB_PATH} points to unexpected target: ${TARGET}"
+  fi
+elif [[ -e "${DEMO_VORLAGEN_WEB_PATH}" ]]; then
+  warn "vorlagen-symlink" "${DEMO_VORLAGEN_WEB_PATH} exists but is not a symlink."
+else
+  warn "vorlagen-symlink" "${DEMO_VORLAGEN_WEB_PATH} does not exist."
 fi
 
 echo
