@@ -1,99 +1,68 @@
-# Welcome to React Router!
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- © 2026 NexaStack, NexaSign contributors. Based on NexaSign (AGPL-3.0). -->
 
-A modern, production-ready template for building full-stack React applications using React Router.
+# `@nexasign/remix` — NexaSign Web-App
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+Die zentrale React-Router-/Hono-Anwendung des NexaSign-Monorepos.
+Liefert die UI für Signatur-Workflows, die REST-/tRPC-APIs unter
+`/api/v1`, `/api/v2`, `/api/trpc` und den Job-Endpoint unter `/api/jobs`.
 
-## Features
+Dieses Verzeichnis ist eines von mehreren Workspaces — siehe das Repo-Root-
+[README.nexasign.md](../../README.nexasign.md) für den Gesamtüberblick und
+[ARCHITECTURE.md](../../ARCHITECTURE.md) für die High-Level-Topologie.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Lokale Entwicklung
 
-## Getting Started
-
-### Installation
-
-Install the dependencies:
+Voraussetzungen siehe Repo-Root. In Kürze: Node 22+, npm 11+, Docker für
+Postgres und MinIO.
 
 ```bash
-npm install
+# Vom Repo-Root aus, einmalig:
+npm run dx                # Installiert Deps, startet docker-compose, migriert, seedet
+npm run dev               # Startet die Remix-App auf http://localhost:3000
+npm run prisma:studio     # Datenbank-GUI
 ```
 
-### Development
-
-Start the development server with HMR:
+Spezifisch für dieses Workspace:
 
 ```bash
-npm run dev
+npm run dev -w @nexasign/remix          # nur diese App
+npm run typecheck -w @nexasign/remix    # tsc --noEmit + react-router typegen
+npm run build -w @nexasign/remix        # Production-Build
 ```
 
-Your application will be available at `http://localhost:5173`.
+## Verzeichnislayout
 
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
+```
+apps/remix/
+├── app/
+│   ├── routes/                         # React-Router-Routen
+│   │   ├── _authenticated+/            # eingeloggte Nutzer
+│   │   ├── _unauthenticated+/          # öffentlich
+│   │   ├── _recipient+/                # Signier-Routen für Empfänger
+│   │   └── api+/                       # API-Routen (health, certificate-status, ...)
+│   ├── components/                     # UI-Komponenten der App
+│   └── hooks/                          # React-Hooks
+├── server/
+│   ├── router.ts                       # Hono-Mounts (/api/v1, /api/v2, /api/trpc, /api/jobs)
+│   ├── main.js                         # Entry Point
+│   ├── api/                            # API-Handler-Module
+│   ├── trpc/                           # tRPC-Bindings
+│   └── middleware.ts                   # Authentifizierung, Logging
+└── public/                             # statische Assets
 ```
 
 ## Deployment
 
-### Docker Deployment
+Das Production-Image für diese App wird über `docker/nexasign/compose.yml`
+gebaut und betrieben. Operator-Anleitungen:
 
-This template includes three Dockerfiles optimized for different package managers:
+- [README.nexasign.md](../../README.nexasign.md) — Übersicht und Quickstart
+- [SIGNING.nexasign.md](../../SIGNING.nexasign.md) — Signatur-Zertifikat einrichten
+- [BACKUP_RESTORE.nexasign.md](../../BACKUP_RESTORE.nexasign.md) — Postgres und Cert-Volume sichern
+- [UPGRADE.nexasign.md](../../UPGRADE.nexasign.md) — Versionswechsel und Rollback
+- [DEPLOY-PHP.nexasign.md](../../DEPLOY-PHP.nexasign.md) — optionale PHP-Tools für Vorlagen, AV-Vertrag, X-Rechnung
 
-- `Dockerfile` - for npm
-- `Dockerfile.pnpm` - for pnpm
-- `Dockerfile.bun` - for bun
+## Lizenz
 
-To build and run using Docker:
-
-```bash
-# For npm
-docker build -t my-app .
-
-# For pnpm
-docker build -f Dockerfile.pnpm -t my-app .
-
-# For bun
-docker build -f Dockerfile.bun -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+AGPL-3.0-or-later. Details: [LICENSE](../../LICENSE), [NOTICE](../../NOTICE).

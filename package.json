@@ -24,6 +24,7 @@
     "dx:up": "docker compose -f docker/development/compose.yml up -d",
     "dx:down": "docker compose -f docker/development/compose.yml down",
     "ci": "turbo run build --filter=@nexasign/remix && turbo run test:e2e",
+    "release:gate": "scripts/nexasign/release-gate.sh",
     "prisma:generate": "npm run with:env -- npm run prisma:generate -w @nexasign/prisma",
     "prisma:migrate-dev": "npm run with:env -- npm run prisma:migrate-dev -w @nexasign/prisma",
     "prisma:migrate-deploy": "npm run with:env -- npm run prisma:migrate-deploy -w @nexasign/prisma",

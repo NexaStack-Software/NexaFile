@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@nexasign/tailwind-config": "*",
-    "@nexasign/nodemailer-resend": "4.0.0",
+    "@documenso/nodemailer-resend": "4.0.0",
     "@react-email/body": "0.2.0",
     "@react-email/button": "0.2.0",
     "@react-email/code-block": "0.2.0",

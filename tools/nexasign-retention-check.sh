@@ -55,6 +55,7 @@ while IFS=$'\t' read -r ID TITLE COMPLETED DAYS; do
   [[ -z "$ID" ]] && continue
   TOTAL=$((TOTAL + 1))
   YEARS=$(( DAYS / 365 ))
+  DAYS_LEFT=$(( RETENTION_YEARS * 365 - DAYS ))
 
   if   [[ "$YEARS" -ge "$RETENTION_YEARS" ]]; then
     EXPIRED=$((EXPIRED + 1))

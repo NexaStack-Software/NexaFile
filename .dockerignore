@@ -1,36 +1,59 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# ── dependencies ────────────────────────────────────────────────────────────
 node_modules
 .pnp
 .pnp.js
 
-# testing
-coverage
-
-# next.js
-.next/
-out/
-build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
+# ── env files (secrets gehören nicht ins Image) ──────────────────────────────
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# turbo
+# ── build outputs ────────────────────────────────────────────────────────────
+.next/
 .turbo
+build
+out/
 
-# vercel
+# ── debug/log ────────────────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── testing/coverage ─────────────────────────────────────────────────────────
+coverage
+playwright-report/
+test-results/
+
+# ── deploy/IDE/misc ──────────────────────────────────────────────────────────
 .vercel
+.DS_Store
+*.pem
+
+# ── git (.git ist groß, .github wird im Image nicht gebraucht) ──────────────
+# .gitignore wird im Dockerfile per COPY gebraucht — NICHT ausschließen.
+.git
+.github
+.gitattributes
+.husky
+
+# ── Editor-/Tooling-Konfig (operator-lokal) ─────────────────────────────────
+.devcontainer
+.vscode
+.agents
+.opencode
+.cursorrules
+.gitpod.yml
+
+# ── Operator-lokale Pfade (siehe .gitignore — gehören NIE in den Build) ─────
+demo/
+archive/
+tmp-logo/
+
+# ── Operator-private Assets (kein Code) ─────────────────────────────────────
+*Buza*.jpg
+*Buza*.jpeg
+*Buza*.png
