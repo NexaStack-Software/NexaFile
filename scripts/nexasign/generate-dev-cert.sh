@@ -95,4 +95,4 @@ echo "   — D-Trust AdES                 (ca. 120 €/J,  DE / Bundesdruckerei)
 echo "   Details in SIGNING.nexasign.md."
 echo ""
 echo "   Danach Container neu starten:"
-echo "     cd docker/nexasign && docker compose restart app"
+echo "     cd $REPO_ROOT/docker/nexasign && docker compose restart app"

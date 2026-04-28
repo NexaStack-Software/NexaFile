@@ -7,7 +7,7 @@ services:
   app:
     container_name: nexasign-fresh-app
     ports: !override
-      - "127.0.0.1:3070:3000"
+      - '127.0.0.1:3070:3000'
     volumes: !override
       - nexasign-fresh-cert:/opt/nexasign
 

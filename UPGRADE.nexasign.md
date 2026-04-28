@@ -73,7 +73,7 @@ curl -sS http://localhost:3060/api/health | jq  > /tmp/nx-pre-health.json
 ## Sandbox-Test vor Produktions-Upgrade (empfohlen für Minor und Major)
 
 NexaSign liefert eine Fresh-Install-Sandbox auf Port 3070 mit eigenen Volumen
-(`docker/nexasign/compose.override.yml`). Für einen Test **neben der laufenden
+(`docker/nexasign/compose.fresh-install.yml`). Für einen Test **neben der laufenden
 Produktion** muss zusätzlich ein eigener Compose-Projektname und ein eigenes
 Docker-Netzwerk verwendet werden, damit Service-Aliase wie `database` nicht mit
 dem Produktiv-Stack kollidieren.
@@ -88,7 +88,7 @@ git checkout <NEUE_VERSION>
 
 cd /opt/NexaSign/docker/nexasign
 
-# Separates Netzwerk für die Sandbox. compose.override.yml trennt Container-Namen,
+# Separates Netzwerk für die Sandbox. compose.fresh-install.yml trennt Container-Namen,
 # Ports und Volumes; dieses zusätzliche Override trennt auch das Netzwerk.
 cat > /tmp/nexasign-sandbox-network.override.yml <<'EOF'
 networks:
@@ -100,7 +100,7 @@ EOF
 docker compose \
   -p nexasign-fresh \
   -f compose.yml \
-  -f compose.override.yml \
+  -f compose.fresh-install.yml \
   -f /tmp/nexasign-sandbox-network.override.yml \
   up -d --build
 
@@ -108,7 +108,7 @@ docker compose \
 docker compose \
   -p nexasign-fresh \
   -f compose.yml \
-  -f compose.override.yml \
+  -f compose.fresh-install.yml \
   -f /tmp/nexasign-sandbox-network.override.yml \
   stop app
 
@@ -125,7 +125,7 @@ docker run --rm \
 docker compose \
   -p nexasign-fresh \
   -f compose.yml \
-  -f compose.override.yml \
+  -f compose.fresh-install.yml \
   -f /tmp/nexasign-sandbox-network.override.yml \
   up -d app
 
@@ -140,7 +140,7 @@ curl -sS http://localhost:3070/api/certificate-status | jq
 docker compose \
   -p nexasign-fresh \
   -f compose.yml \
-  -f compose.override.yml \
+  -f compose.fresh-install.yml \
   -f /tmp/nexasign-sandbox-network.override.yml \
   down -v
 rm -f /tmp/nexasign-sandbox-network.override.yml

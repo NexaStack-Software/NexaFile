@@ -4,7 +4,7 @@
 #
 # nexasign-smoke-fresh-install — Frische Docker-Installation als Release-Gate.
 #
-# Bringt einen leeren Stack hoch (compose.override.yml auf Port 3070), erzeugt
+# Bringt einen leeren Stack hoch (compose.fresh-install.yml auf Port 3070), erzeugt
 # ein Self-signed Dev-Cert, prüft Healthcheck und Cert-Status, räumt auf.
 # Damit ist der Pfad „Operator klont Repo, ruft compose up, erstes Sign-Setup"
 # reproduzierbar als Bash-Skript validiert.
@@ -34,7 +34,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 COMPOSE_DIR="${REPO_ROOT}/docker/nexasign"
-COMPOSE_FILES=(-f compose.yml -f compose.override.yml)
+COMPOSE_FILES=(-f compose.yml -f compose.fresh-install.yml)
 APP_URL="http://127.0.0.1:3070"
 APP_CONTAINER="nexasign-fresh-app"
 DB_CONTAINER="nexasign-fresh-db"
@@ -94,8 +94,8 @@ command -v curl >/dev/null || fail "curl nicht im PATH"
 
 [[ -f "${COMPOSE_DIR}/compose.yml" ]] \
   || fail "compose.yml nicht gefunden: ${COMPOSE_DIR}/compose.yml"
-[[ -f "${COMPOSE_DIR}/compose.override.yml" ]] \
-  || fail "compose.override.yml nicht gefunden: ${COMPOSE_DIR}/compose.override.yml"
+[[ -f "${COMPOSE_DIR}/compose.fresh-install.yml" ]] \
+  || fail "compose.fresh-install.yml nicht gefunden: ${COMPOSE_DIR}/compose.fresh-install.yml"
 [[ -f "${COMPOSE_DIR}/.env" ]] \
   || fail ".env nicht gefunden: ${COMPOSE_DIR}/.env (cp .env.example .env und Werte setzen)"
 

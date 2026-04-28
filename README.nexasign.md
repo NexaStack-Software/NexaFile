@@ -74,13 +74,70 @@ NexaSign besteht aus **zwei Teilen**:
    dem Host via nginx + PHP-FPM ausgeliefert werden. **Optional** — wenn Du nur
    die reine Signatur-App willst, kannst Du die PHP-Tools weglassen.
 
+#### Schritt 0 — Frische Ubuntu-/Debian-VM vorbereiten
+
+Empfohlen für eine kleine V1-Installation:
+
+- Ubuntu Server 24.04 LTS oder Debian 12
+- 2 vCPU
+- 8 GB RAM
+- 60 GB Disk
+- SSH-Zugang mit `sudo`
+
+Prüfen:
+
+```bash
+hostname -I
+df -h /
+free -h
+docker --version
+docker compose version
+```
+
+Falls Docker noch fehlt, installiere Docker nach der offiziellen Anleitung für
+Ubuntu/Debian. Danach muss Dein User Docker nutzen dürfen:
+
+```bash
+sudo usermod -aG docker "$USER"
+newgrp docker
+docker ps
+```
+
+Wenn Ubuntu in einer VM nur einen Teil der virtuellen Disk nutzt, liegt das
+meist an LVM. Prüfe zuerst die Namen:
+
+```bash
+lsblk
+df -h /
+```
+
+Typischer Ubuntu-Server-Fix, wenn Root auf
+`/dev/mapper/ubuntu--vg-ubuntu--lv` liegt und die dritte Partition die LVM-PV ist:
+
+```bash
+sudo apt update
+sudo apt install -y cloud-guest-utils
+sudo growpart /dev/vda 3
+sudo pvresize /dev/vda3
+sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+df -h /
+```
+
+Wenn Deine Disk nicht `/dev/vda`, sondern z. B. `/dev/sda` heißt, ersetze die
+Gerätenamen entsprechend (`/dev/sda 3` und `/dev/sda3`).
+
 #### Schritt 1 — App-Stack (Docker, Pflicht)
 
 ```bash
+git clone https://github.com/NexaStack-Software/NexaSign.git
+cd NexaSign
+
 cd docker/nexasign
 cp .env.example .env
-# .env editieren: DB-Passwort, Secrets (openssl rand -base64 32), NEXT_PUBLIC_WEBAPP_URL,
-# SMTP-Zugangsdaten und NEXT_PRIVATE_SIGNING_PASSPHRASE (beliebiger starker String).
+# .env editieren:
+# - POSTGRES_PASSWORD: openssl rand -hex 24
+# - App-Secrets: openssl rand -base64 32
+# - NEXT_PUBLIC_WEBAPP_URL, SMTP-Zugangsdaten und NEXT_PRIVATE_SIGNING_PASSPHRASE
 
 # Erster Start — baut das App-Image aus diesem Repo (dauert ~10 min):
 docker compose up -d --build
@@ -101,11 +158,15 @@ Ohne Signatur-Cert bleibt jedes signierte Dokument auf Status „Ausstehend" hä
 weil der Seal-Job fehlschlägt. Für ein schnelles **Test-Setup**:
 
 ```bash
-./scripts/nexasign/generate-dev-cert.sh
+../../scripts/nexasign/generate-dev-cert.sh
 ```
 
 Das erzeugt ein Self-signed-Cert (10 Jahre Laufzeit) und legt es ins
-Docker-Volume `nexasign-cert`. Anschließend: `docker compose restart app`.
+Docker-Volume `nexasign-cert`. Anschließend:
+
+```bash
+docker compose restart app
+```
 
 **Für Produktivbetrieb** ein AATL-vertrauenswürdiges Cert kaufen (ca. 80–400 €/J).
 Anleitung, Anbieter und Fehlerdiagnose in [SIGNING.nexasign.md](SIGNING.nexasign.md).

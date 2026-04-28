@@ -43,7 +43,7 @@ services:
       database:
         condition: service_healthy
     environment:
-      PORT: "3000"
+      PORT: '3000'
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?err}
       NEXT_PRIVATE_ENCRYPTION_KEY: ${NEXT_PRIVATE_ENCRYPTION_KEY:?err}
       NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY: ${NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY:?err}
@@ -63,10 +63,10 @@ services:
       NEXT_PRIVATE_SMTP_FROM_NAME: ${NEXT_PRIVATE_SMTP_FROM_NAME:-NexaSign}
       NEXT_PRIVATE_SMTP_FROM_ADDRESS: ${NEXT_PRIVATE_SMTP_FROM_ADDRESS:?err}
       # Nur nötig, wenn NEXT_PRIVATE_SMTP_TRANSPORT=resend:
-      NEXT_PRIVATE_RESEND_API_KEY: ${NEXT_PRIVATE_RESEND_API_KEY}
+      NEXT_PRIVATE_RESEND_API_KEY: ${NEXT_PRIVATE_RESEND_API_KEY:-}
 
       # Signing-Cert — NICHT auto-generiert. Vor dem ersten Sign-Versuch entweder
-      # ./scripts/nexasign/generate-dev-cert.sh laufen lassen oder ein echtes Cert
+      # ../../scripts/nexasign/generate-dev-cert.sh laufen lassen oder ein echtes Cert
       # ins nexasign-cert-Volume legen. Ohne Cert bleiben signierte Dokumente
       # auf „Ausstehend" hängen (Seal-Job schlägt fehl). Details: SIGNING.nexasign.md.
       NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH: /opt/nexasign/cert.p12
@@ -74,13 +74,13 @@ services:
 
       NEXT_PUBLIC_DISABLE_SIGNUP: ${NEXT_PUBLIC_DISABLE_SIGNUP:-false}
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health >/dev/null || exit 1"]
+      test: ['CMD-SHELL', 'wget -qO- http://localhost:3000/api/health >/dev/null || exit 1']
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 30s
     ports:
-      - "127.0.0.1:3060:3000"  # Host-Port 3060 → Container-Port 3000, nur auf localhost
+      - '127.0.0.1:3060:3000' # Host-Port 3060 → Container-Port 3000, nur auf localhost
     volumes:
       - nexasign-cert:/opt/nexasign
     networks:
