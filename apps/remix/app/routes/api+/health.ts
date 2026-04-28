@@ -6,7 +6,7 @@ type CheckStatus = 'ok' | 'warning' | 'error';
 export const loader = async () => {
   const checks: {
     database: { status: CheckStatus };
-    certificate: { status: CheckStatus };
+    certificate: { status: CheckStatus } & Record<string, unknown>;
   } = {
     database: { status: 'ok' },
     certificate: { status: 'ok' },
@@ -25,9 +25,9 @@ export const loader = async () => {
     const certStatus = getCertificateStatus();
 
     if (certStatus.isAvailable) {
-      checks.certificate = { status: 'ok' };
+      checks.certificate = { status: 'ok', ...certStatus };
     } else {
-      checks.certificate = { status: 'warning' };
+      checks.certificate = { status: 'warning', ...certStatus };
 
       if (overallStatus === 'ok') {
         overallStatus = 'warning';

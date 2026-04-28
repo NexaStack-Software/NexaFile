@@ -222,7 +222,12 @@ export class AppError extends Error {
     const error = AppError.parseError(err);
 
     const status = match(error.code)
-      .with(AppErrorCode.INVALID_BODY, AppErrorCode.INVALID_REQUEST, () => 400 as const)
+      .with(
+        AppErrorCode.INVALID_BODY,
+        AppErrorCode.INVALID_REQUEST,
+        AppErrorCode.NOT_SETUP,
+        () => 400 as const,
+      )
       .with(AppErrorCode.UNAUTHORIZED, () => 401 as const)
       .with(AppErrorCode.NOT_FOUND, () => 404 as const)
       .otherwise(() => 500 as const);

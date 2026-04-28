@@ -115,7 +115,7 @@ Anleitung, Anbieter und Fehlerdiagnose in [SIGNING.nexasign.md](SIGNING.nexasign
 Wer nur die App braucht, kann das hier überspringen. Die PHP-Tools liefern:
 - Vertragsvorlagen-Hub (11 deutsche Vorlagen als Markdown)
 - AV-Vertrag-Generator (Art. 28 DSGVO, via WeasyPrint zu PDF)
-- X-Rechnung / ZUGFeRD-Generator (EN 16931, KoSIT-validiert)
+- X-Rechnung / ZUGFeRD-Generator (EN 16931, Comfort-Profil) — **Beta**, KoSIT-Validierung steht aus
 - GoBD-Info-Hub + Tooling (WORM-Enforcement, 10-Jahre-Retention-Cron)
 
 Voraussetzungen: PHP 8.1+, Composer, WeasyPrint in einem Python-venv, systemd für

@@ -26,19 +26,13 @@ test('[NEXT_RECIPIENT_DICTATION]: should allow updating next recipient when dict
     teamId: team.id,
     recipients: [firstSigner, secondSigner, thirdSigner],
     recipientsCreateOptions: [{ signingOrder: 1 }, { signingOrder: 2 }, { signingOrder: 3 }],
-    updateDocumentOptions: {
-      documentMeta: {
-        upsert: {
-          create: {
-            allowDictateNextSigner: true,
-            signingOrder: DocumentSigningOrder.SEQUENTIAL,
-          },
-          update: {
-            allowDictateNextSigner: true,
-            signingOrder: DocumentSigningOrder.SEQUENTIAL,
-          },
-        },
-      },
+  });
+
+  await prisma.documentMeta.update({
+    where: { id: document.documentMetaId },
+    data: {
+      allowDictateNextSigner: true,
+      signingOrder: DocumentSigningOrder.SEQUENTIAL,
     },
   });
 
@@ -115,19 +109,13 @@ test('[NEXT_RECIPIENT_DICTATION]: should not show dictation UI when disabled', a
     teamId: team.id,
     recipients: [firstSigner, secondSigner],
     recipientsCreateOptions: [{ signingOrder: 1 }, { signingOrder: 2 }],
-    updateDocumentOptions: {
-      documentMeta: {
-        upsert: {
-          create: {
-            allowDictateNextSigner: false,
-            signingOrder: DocumentSigningOrder.SEQUENTIAL,
-          },
-          update: {
-            allowDictateNextSigner: false,
-            signingOrder: DocumentSigningOrder.SEQUENTIAL,
-          },
-        },
-      },
+  });
+
+  await prisma.documentMeta.update({
+    where: { id: document.documentMetaId },
+    data: {
+      allowDictateNextSigner: false,
+      signingOrder: DocumentSigningOrder.SEQUENTIAL,
     },
   });
 
@@ -201,19 +189,13 @@ test('[NEXT_RECIPIENT_DICTATION]: should work with parallel signing flow', async
     teamId: team.id,
     recipients: [firstSigner, secondSigner],
     recipientsCreateOptions: [{ signingOrder: 1 }, { signingOrder: 2 }],
-    updateDocumentOptions: {
-      documentMeta: {
-        upsert: {
-          create: {
-            allowDictateNextSigner: false,
-            signingOrder: DocumentSigningOrder.PARALLEL,
-          },
-          update: {
-            allowDictateNextSigner: false,
-            signingOrder: DocumentSigningOrder.PARALLEL,
-          },
-        },
-      },
+  });
+
+  await prisma.documentMeta.update({
+    where: { id: document.documentMetaId },
+    data: {
+      allowDictateNextSigner: false,
+      signingOrder: DocumentSigningOrder.PARALLEL,
     },
   });
 

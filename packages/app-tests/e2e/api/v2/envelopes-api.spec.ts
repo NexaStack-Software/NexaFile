@@ -25,7 +25,10 @@ import type {
   TCreateEnvelopeResponse,
 } from '@nexasign/trpc/server/envelope-router/create-envelope.types';
 import type { TDistributeEnvelopeRequest } from '@nexasign/trpc/server/envelope-router/distribute-envelope.types';
-import type { TCreateEnvelopeRecipientsRequest } from '@nexasign/trpc/server/envelope-router/envelope-recipients/create-envelope-recipients.types';
+import type {
+  TCreateEnvelopeRecipientsRequest,
+  TCreateEnvelopeRecipientsResponse,
+} from '@nexasign/trpc/server/envelope-router/envelope-recipients/create-envelope-recipients.types';
 import type { TUpdateEnvelopeRecipientsRequest } from '@nexasign/trpc/server/envelope-router/envelope-recipients/update-envelope-recipients.types';
 import type { TFindEnvelopesResponse } from '@nexasign/trpc/server/envelope-router/find-envelopes.types';
 import type { TGetEnvelopeResponse } from '@nexasign/trpc/server/envelope-router/get-envelope.types';
@@ -1048,7 +1051,8 @@ test.describe('API V2 Envelopes', () => {
       });
 
       expect(createRecipientsRes.ok()).toBeTruthy();
-      const recipientsResponse = await createRecipientsRes.json();
+      const recipientsResponse =
+        (await createRecipientsRes.json()) as TCreateEnvelopeRecipientsResponse;
       const recipients = recipientsResponse.data;
 
       expect(recipients.length).toBe(4);
@@ -1143,7 +1147,8 @@ test.describe('API V2 Envelopes', () => {
       });
 
       expect(createRecipientsRes.ok()).toBeTruthy();
-      const recipientsResponse = await createRecipientsRes.json();
+      const recipientsResponse =
+        (await createRecipientsRes.json()) as TCreateEnvelopeRecipientsResponse;
       const recipients = recipientsResponse.data;
 
       // Get envelope to assign fields

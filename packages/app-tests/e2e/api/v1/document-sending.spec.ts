@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import { NEXT_PUBLIC_WEBAPP_URL } from '@nexasign/lib/constants/app';
 import { createApiToken } from '@nexasign/lib/server-only/public-api/create-api-token';
+import { DEFAULT_DOCUMENT_EMAIL_SETTINGS } from '@nexasign/lib/types/document-email';
 import { mapSecondaryIdToDocumentId } from '@nexasign/lib/utils/envelope';
 import { prisma } from '@nexasign/prisma';
 import { FieldType, RecipientRole } from '@nexasign/prisma/client';
@@ -102,6 +103,7 @@ test.describe('Document API', () => {
       create: {
         id: document.documentMetaId,
         emailSettings: {
+          ...DEFAULT_DOCUMENT_EMAIL_SETTINGS,
           documentCompleted: true,
           ownerDocumentCompleted: false,
         },
@@ -109,6 +111,7 @@ test.describe('Document API', () => {
       update: {
         id: document.documentMetaId,
         emailSettings: {
+          ...DEFAULT_DOCUMENT_EMAIL_SETTINGS,
           documentCompleted: true,
           ownerDocumentCompleted: false,
         },

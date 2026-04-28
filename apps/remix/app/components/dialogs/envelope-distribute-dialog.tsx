@@ -14,6 +14,7 @@ import * as z from 'zod';
 import { useCurrentEnvelopeEditor } from '@nexasign/lib/client-only/providers/envelope-editor-provider';
 import { useCurrentOrganisation } from '@nexasign/lib/client-only/providers/organisation';
 import { DO_NOT_INVALIDATE_QUERY_ON_MUTATION } from '@nexasign/lib/constants/trpc';
+import { AppError } from '@nexasign/lib/errors/app-error';
 import { extractDocumentAuthMethods } from '@nexasign/lib/utils/document-auth';
 import { getRecipientsWithMissingFields } from '@nexasign/lib/utils/recipients';
 import { zEmail } from '@nexasign/lib/utils/zod';
@@ -197,9 +198,13 @@ export const EnvelopeDistributeDialog = ({
 
       setIsOpen(false);
     } catch (err) {
+      const error = AppError.parseError(err);
+
       toast({
         title: t`Something went wrong`,
-        description: t`This envelope could not be distributed at this time. Please try again.`,
+        description:
+          error.userMessage ||
+          t`This envelope could not be distributed at this time. Please try again.`,
         variant: 'destructive',
         duration: 7500,
       });

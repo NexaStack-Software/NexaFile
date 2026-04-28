@@ -44,6 +44,7 @@ import {
   getRecipientsWithMissingFields,
   isRecipientEmailValidForSending,
 } from '../../utils/recipients';
+import { assertSigningCertificateConfigured } from '../cert/cert-status';
 import { getEnvelopeWhereInput } from '../envelope/get-envelope-by-id';
 import { insertFormValuesInPdf } from '../pdf/insert-form-values-in-pdf';
 import { triggerWebhook } from '../webhooks/trigger/trigger-webhook';
@@ -105,6 +106,8 @@ export const sendDocument = async ({
   if (isDocumentCompleted(envelope.status)) {
     throw new Error('Can not send completed document');
   }
+
+  assertSigningCertificateConfigured();
 
   const legacyDocumentId = mapSecondaryIdToDocumentId(envelope.secondaryId);
 

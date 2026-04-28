@@ -274,5 +274,5 @@ try {
 
 } catch (\Throwable $e) {
     error_log('[nexasign/x-rechnung] Fehler: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
-    bail('Technischer Fehler bei der Erzeugung: ' . $e->getMessage());
+    bail("Technischer Fehler bei der Erzeugung. Bitte spaeter erneut versuchen.");
 }

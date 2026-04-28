@@ -12,6 +12,7 @@ import {
   DO_NOT_INVALIDATE_QUERY_ON_MUTATION,
   SKIP_QUERY_BATCH_META,
 } from '@nexasign/lib/constants/trpc';
+import { AppError } from '@nexasign/lib/errors/app-error';
 import type { TDocument } from '@nexasign/lib/types/document';
 import { ZDocumentAccessAuthTypesSchema } from '@nexasign/lib/types/document-auth';
 import { getDocumentDataUrlForPdfViewer } from '@nexasign/lib/utils/envelope-download';
@@ -400,9 +401,11 @@ export const DocumentEditForm = ({
     } catch (err) {
       console.error(err);
 
+      const error = AppError.parseError(err);
+
       toast({
         title: _(msg`Error`),
-        description: _(msg`An error occurred while sending the document.`),
+        description: error.userMessage || _(msg`An error occurred while sending the document.`),
         variant: 'destructive',
       });
     }

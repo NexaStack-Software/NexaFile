@@ -16,21 +16,18 @@ export const ensureFontLibrary = () => {
   const fontPath = path.join(process.cwd(), 'public/fonts');
 
   if (!FontLibrary.has('Caveat')) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     FontLibrary.use({
       ['Caveat']: [path.join(fontPath, 'caveat.ttf')],
     });
   }
 
   if (!FontLibrary.has('Inter')) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     FontLibrary.use({
       ['Inter']: [path.join(fontPath, 'inter-variablefont_opsz,wght.ttf')],
     });
   }
 
   if (!FontLibrary.has('Noto Sans')) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     FontLibrary.use({
       ['Noto Sans']: [path.join(fontPath, 'noto-sans.ttf')],
       ['Noto Sans Japanese']: [path.join(fontPath, 'noto-sans-japanese.ttf')],

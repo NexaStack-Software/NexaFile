@@ -116,6 +116,7 @@ test.describe('Template Field Prefill API v1', () => {
         fieldMeta: {
           type: 'radio',
           label: 'Radio Field',
+          direction: 'vertical',
           values: [
             { id: 1, value: 'Option A', checked: false },
             { id: 2, value: 'Option B', checked: false },
@@ -141,6 +142,7 @@ test.describe('Template Field Prefill API v1', () => {
         fieldMeta: {
           type: 'checkbox',
           label: 'Checkbox Field',
+          direction: 'vertical',
           values: [
             { id: 1, value: 'Check A', checked: false },
             { id: 2, value: 'Check B', checked: false },
@@ -636,6 +638,7 @@ test.describe('Template Field Prefill API v1', () => {
         fieldMeta: {
           type: 'radio',
           label: 'Radio Field',
+          direction: 'vertical',
           values: [
             { id: 1, value: 'Option A', checked: false },
             { id: 2, value: 'Option B', checked: false },

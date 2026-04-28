@@ -21,6 +21,7 @@ import { signPdf } from '@nexasign/signing';
 
 import { NEXT_PRIVATE_USE_PLAYWRIGHT_PDF } from '../../../constants/app';
 import { AppError, AppErrorCode } from '../../../errors/app-error';
+import { assertSigningCertificateConfigured } from '../../../server-only/cert/cert-status';
 import { sendCompletedEmail } from '../../../server-only/document/send-completed-email';
 import { getAuditLogsPdf } from '../../../server-only/htmltopdf/get-audit-logs-pdf';
 import { getCertificatePdf } from '../../../server-only/htmltopdf/get-certificate-pdf';
@@ -55,6 +56,8 @@ export const run = async ({
   io: JobRunIO;
 }) => {
   const { documentId, sendEmail = true, isResealing = false, requestMetadata } = payload;
+
+  assertSigningCertificateConfigured();
 
   const { envelopeId, envelopeStatus, isRejected } = await io.runTask('seal-document', async () => {
     const envelope = await prisma.envelope.findFirstOrThrow({

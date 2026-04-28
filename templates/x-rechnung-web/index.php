@@ -204,6 +204,19 @@ h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 2.75rem);
   padding: 0.85rem 1.1rem; border-radius: var(--radius);
   margin-bottom: 1.25rem; color: var(--error); font-size: 0.95rem;
 }
+
+.beta-banner {
+  background: #fff8e1; border: 1px solid #f0d97a; border-left: 4px solid #d49619;
+  padding: 0.95rem 1.2rem; border-radius: var(--radius);
+  margin-bottom: 1.5rem; color: #5b4708; font-size: 0.95rem; line-height: 1.55;
+}
+.beta-banner .tag {
+  display: inline-block; background: #d49619; color: #fff;
+  padding: 0.1rem 0.55rem; border-radius: 0.25rem;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; margin-right: 0.5rem; vertical-align: middle;
+}
+.beta-banner strong { color: #3d2f05; }
 </style>
 </head>
 <body>
@@ -214,6 +227,20 @@ h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 2.75rem);
   <a href="/vorlagen/" class="back">← zurück zur Vorlagen-Übersicht</a>
 
   <h1>X-Rechnung / ZUGFeRD-Generator</h1>
+
+  <div class="beta-banner">
+    <span class="tag">Beta</span>
+    <strong>Noch nicht für produktive Buchhaltung.</strong>
+    Der Generator erzeugt valides EN&nbsp;16931-XML im PDF/A-3, ist aber
+    <strong>noch nicht gegen den offiziellen KoSIT-Validator</strong> des
+    Bundesministeriums der Finanzen geprüft. Für interne Tests, Onboarding
+    und Format-Vorschau geeignet — vor dem produktiven Versand an Behörden
+    oder als steuerlich relevantes Dokument bitte mit dem KoSIT-Validator
+    (<a href="https://github.com/itplr-kosit/validator" target="_blank" rel="noopener">itplr-kosit/validator</a>)
+    gegenprüfen. Status verfolgen:
+    <a href="https://github.com/NexaStack-Software/NexaSign/issues" target="_blank" rel="noopener">GitHub-Issues</a>.
+  </div>
+
   <p class="lead">
     Seit 1. Januar 2025 sind deutsche B2B-Unternehmen verpflichtet, elektronische Rechnungen
     im Format <strong>X-Rechnung</strong> oder <strong>ZUGFeRD (≥ 2.0.1)</strong> empfangen zu können.

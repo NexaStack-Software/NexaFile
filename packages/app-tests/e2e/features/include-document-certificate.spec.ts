@@ -10,7 +10,23 @@ import { seedTeam } from '@nexasign/prisma/seed/teams';
 import { seedUser } from '@nexasign/prisma/seed/users';
 
 import { apiSignin } from '../fixtures/authentication';
-import { signSignaturePad } from '../fixtures/signature';
+
+const insertSignatureFields = async (recipient: { id: number; fields: { id: number }[] }) => {
+  for (const field of recipient.fields) {
+    await prisma.field.update({
+      where: { id: field.id },
+      data: {
+        inserted: true,
+        signature: {
+          create: {
+            recipientId: recipient.id,
+            typedSignature: 'Signature',
+          },
+        },
+      },
+    });
+  }
+};
 
 test.describe('Signing Certificate Tests', () => {
   test('individual document should always include signing certificate', async ({ page }) => {
@@ -45,16 +61,9 @@ test.describe('Signing Certificate Tests', () => {
 
     const originalPdf = await PDF.load(new Uint8Array(documentData));
 
-    // Sign the document
+    await insertSignatureFields(recipient);
+
     await page.goto(`/sign/${recipient.token}`);
-
-    await signSignaturePad(page);
-
-    for (const field of recipient.fields) {
-      await page.locator(`#field-${field.id}`).getByRole('button').click();
-
-      await expect(page.locator(`#field-${field.id}`)).toHaveAttribute('data-inserted', 'true');
-    }
 
     await page.getByRole('button', { name: 'Complete' }).click();
 
@@ -155,16 +164,9 @@ test.describe('Signing Certificate Tests', () => {
 
     const originalPdf = await PDF.load(new Uint8Array(documentData));
 
-    // Sign the document
+    await insertSignatureFields(recipient);
+
     await page.goto(`/sign/${recipient.token}`);
-
-    await signSignaturePad(page);
-
-    for (const field of recipient.fields) {
-      await page.locator(`#field-${field.id}`).getByRole('button').click();
-
-      await expect(page.locator(`#field-${field.id}`)).toHaveAttribute('data-inserted', 'true');
-    }
 
     await page.getByRole('button', { name: 'Complete' }).click();
     await page.getByRole('button', { name: 'Sign' }).click();
@@ -260,16 +262,9 @@ test.describe('Signing Certificate Tests', () => {
 
     const originalPdf = await PDF.load(new Uint8Array(documentData));
 
-    // Sign the document
+    await insertSignatureFields(recipient);
+
     await page.goto(`/sign/${recipient.token}`);
-
-    await signSignaturePad(page);
-
-    for (const field of recipient.fields) {
-      await page.locator(`#field-${field.id}`).getByRole('button').click();
-
-      await expect(page.locator(`#field-${field.id}`)).toHaveAttribute('data-inserted', 'true');
-    }
 
     await page.getByRole('button', { name: 'Complete' }).click();
     await page.getByRole('button', { name: 'Sign' }).click();

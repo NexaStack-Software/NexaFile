@@ -55,7 +55,8 @@ try {
     $pdf    = $parser->parseFile($_FILES['pdf']['tmp_name']);
     $text   = $pdf->getText();
 } catch (\Throwable $e) {
-    fail(422, 'PDF konnte nicht gelesen werden: ' . $e->getMessage());
+    error_log("[nexasign/x-rechnung/extract] " . $e->getMessage());
+    fail(422, "PDF konnte nicht gelesen werden. Bitte Datei pruefen oder manuell ausfuellen.");
 }
 
 // Zeilen-normalisiert + alle-Text

@@ -6,6 +6,10 @@ export const loader = () => {
 
     return Response.json({
       isAvailable: certStatus.isAvailable,
+      transport: certStatus.transport,
+      source: certStatus.source,
+      filePath: certStatus.filePath,
+      reason: certStatus.isAvailable ? undefined : certStatus.reason,
       timestamp: new Date().toISOString(),
     });
   } catch {

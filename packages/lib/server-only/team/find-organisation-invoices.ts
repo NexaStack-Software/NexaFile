@@ -3,33 +3,36 @@ import { TEAM_MEMBER_ROLE_PERMISSIONS_MAP } from '@nexasign/lib/constants/teams'
 import { AppError, AppErrorCode } from '@nexasign/lib/errors/app-error';
 import { prisma } from '@nexasign/prisma';
 
+import { buildTeamWhereQuery } from '../../utils/teams';
+
 export interface FindTeamInvoicesOptions {
   userId: number;
   teamId: number;
 }
 
 export const findOrganisationInvoices = async ({ userId, teamId }: FindTeamInvoicesOptions) => {
-  const team = await prisma.team.findUniqueOrThrow({
-    where: {
-      id: teamId,
-      members: {
-        some: {
-          userId,
-          role: {
-            in: TEAM_MEMBER_ROLE_PERMISSIONS_MAP['MANAGE_TEAM'],
-          },
+  const team = await prisma.team.findFirstOrThrow({
+    where: buildTeamWhereQuery({
+      teamId,
+      userId,
+      roles: TEAM_MEMBER_ROLE_PERMISSIONS_MAP['MANAGE_TEAM'],
+    }),
+    include: {
+      organisation: {
+        select: {
+          customerId: true,
         },
       },
     },
   });
 
-  if (!team.customerId) {
+  if (!team.organisation.customerId) {
     throw new AppError(AppErrorCode.NOT_FOUND, {
-      message: 'Team has no customer ID.',
+      message: 'Organisation has no customer ID.',
     });
   }
 
-  const results = await getInvoices({ customerId: team.customerId });
+  const results = await getInvoices({ customerId: team.organisation.customerId });
 
   if (!results) {
     return null;

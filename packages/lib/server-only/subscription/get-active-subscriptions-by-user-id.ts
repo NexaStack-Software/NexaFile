@@ -11,7 +11,20 @@ export const getActiveSubscriptionsByUserId = async ({
 }: GetActiveSubscriptionsByUserIdOptions) => {
   return await prisma.subscription.findMany({
     where: {
-      userId,
+      organisation: {
+        OR: [
+          {
+            ownerUserId: userId,
+          },
+          {
+            members: {
+              some: {
+                userId,
+              },
+            },
+          },
+        ],
+      },
       status: {
         not: SubscriptionStatus.INACTIVE,
       },

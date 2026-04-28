@@ -29,6 +29,10 @@ import { apiSignin } from '../fixtures/authentication';
 const WEBAPP_BASE_URL = NEXT_PUBLIC_WEBAPP_URL();
 const baseUrl = `${WEBAPP_BASE_URL}/api/v2`;
 
+type EnvelopeRecipientFields = NonNullable<
+  NonNullable<TCreateEnvelopePayload['recipients']>[number]['fields']
+>;
+
 test.describe.configure({ mode: 'parallel', timeout: 60000 });
 
 test.skip('seed alignment test document', async ({ page }) => {
@@ -86,7 +90,7 @@ test('field placement visual regression', async ({ page, request }, testInfo) =>
     width: field.width,
     height: field.height,
     fieldMeta: field.fieldMeta,
-  }));
+  })) as EnvelopeRecipientFields;
 
   const alignmentFields = ALIGNMENT_TEST_FIELDS.map((field) => ({
     identifier: 'alignment-pdf',
@@ -97,7 +101,7 @@ test('field placement visual regression', async ({ page, request }, testInfo) =>
     width: field.width,
     height: field.height,
     fieldMeta: field.fieldMeta,
-  }));
+  })) as EnvelopeRecipientFields;
 
   const createEnvelopePayload: TCreateEnvelopePayload = {
     type: EnvelopeType.DOCUMENT,

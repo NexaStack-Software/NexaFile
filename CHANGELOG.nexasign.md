@@ -17,7 +17,7 @@ Erste öffentliche Beta-Version.
 **Deutsche Compliance-Module**
 - GoBD-Tooling: WORM-Strict-Mode, 10-Jahres-Retention, Export-CLI mit
   SHA-256-Manifest (Z2/Z3-Finanzamt-Prüfzugriff)
-- X-Rechnung / ZUGFeRD-Generator (EN 16931, Comfort-Profile) mit
+- X-Rechnung / ZUGFeRD-Generator (EN 16931, Comfort-Profile) — **Beta** — mit
   lokaler PDF-Extraktion, ohne Cloud-API
 - AV-Vertrag-Generator (DSGVO Art. 28) mit TOM-Anhang
 - 11 deutsche Vertragsvorlagen als Markdown
