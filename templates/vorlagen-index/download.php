@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-const MD_DIR = '/var/www/nexasign/vorlagen/source-md/';
+const MD_DIR = __DIR__ . '/source-md/';
 
 $file = (string)($_GET['file'] ?? '');
 if (!preg_match('/^[0-9a-z][0-9a-z-]*\.md$/', $file)) {

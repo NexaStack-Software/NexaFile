@@ -18,7 +18,7 @@ ohne Vorlagen-Hub betreiben willst.
 | Komponente | Ausführung | Quelle im Repo |
 |---|---|---|
 | Remix-App (Signatur-UI, tRPC, Worker-Jobs) | Docker-Container auf Port 3060 | `apps/remix/` |
-| `/vorlagen/` — Hub + Markdown-Download | PHP 8.1+ via PHP-FPM | `templates/vorlagen-index/` |
+| `/vorlagen/` — Hub + Vertragsgeneratoren + Markdown-Download | PHP 8.1+ via PHP-FPM + WeasyPrint | `templates/vorlagen-index/` |
 | `/vorlagen/av-vertrag/` — Form-Generator | PHP + WeasyPrint (Python-venv) | `templates/av-vertrag-web/` |
 | `/vorlagen/x-rechnung/` — ZUGFeRD-Generator | PHP + Composer (`horstoeko/zugferd`) | `templates/x-rechnung-web/` |
 | `/vorlagen/gobd/` — Info-Hub | PHP | `templates/vorlagen-index/gobd/` |
@@ -72,8 +72,9 @@ sudo find /var/www/nexasign/vorlagen -type f -exec chmod 640 {} \;
 ```
 
 Die 11 Vorlagen (NDA, Arbeitsvertrag, AV-Vertrag, Verfahrensdokumentation, …)
-liegen jetzt unter `/var/www/nexasign/vorlagen/source-md/` und werden vom
-`download.php`-Handler per strenger Filename-Whitelist ausgeliefert.
+liegen jetzt unter `/var/www/nexasign/vorlagen/source-md/`. Die operativen
+Vertragsvorlagen werden vom `generator.php`-Handler als Formular + PDF
+ausgeliefert; die Roh-Markdown-Dateien bleiben über `download.php` verfügbar.
 
 ---
 
@@ -170,6 +171,19 @@ server {
         fastcgi_param QUERY_STRING file=$1;
     }
     location ^~ /vorlagen/source-md/ { return 404; }
+
+    # ── Generische Vertragsgeneratoren aus Markdown-Vorlagen ──
+    location ~ ^/vorlagen/(nda-einseitig|nda-gegenseitig|freelancer-werkvertrag|arbeitsvertrag-unbefristet|arbeitsvertrag-befristet|beratungsvertrag|aufhebungsvertrag|angebotsannahme|agb-zustimmung)$ {
+        return 301 /vorlagen/$1/;
+    }
+    location ~ ^/vorlagen/(nda-einseitig|nda-gegenseitig|freelancer-werkvertrag|arbeitsvertrag-unbefristet|arbeitsvertrag-befristet|beratungsvertrag|aufhebungsvertrag|angebotsannahme|agb-zustimmung)/$ {
+        include snippets/nexasign-php-headers.conf;
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME /var/www/nexasign/vorlagen/generator.php;
+        fastcgi_param QUERY_STRING slug=$1;
+        fastcgi_read_timeout 90s;
+    }
 
     # ── GoBD-Hub ──
     location = /vorlagen/gobd/ {

@@ -3,9 +3,8 @@
 // © 2026 NexaStack, NexaSign contributors. Based on NexaSign (AGPL-3.0).
 /**
  * Vorlagen-Übersicht für NexaSign.
- * Zeigt alle 10 Vertragsvorlagen als Kacheln.
- * AV-Vertrag hat einen Generator; die übrigen 9 werden aktuell als Markdown
- * zum Download angeboten (PDF-Generatoren folgen).
+ * Zeigt alle Vertragsvorlagen als Kacheln. Jede Kachel führt zu einem
+ * Formular-Generator; die Roh-Markdown-Vorlagen bleiben als Download erhalten.
  */
 declare(strict_types=1);
 
@@ -30,75 +29,75 @@ $vorlagen = [
   ],
   [
     'slug'  => 'nda-einseitig',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'NDA — einseitig',
     'desc'  => 'Vertraulichkeitsvereinbarung, wenn nur eine Partei offenlegt (Bewerbungen, Partnergespräche).',
-    'href'  => '/vorlagen/download/01-nda-einseitig.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/nda-einseitig/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'nda-gegenseitig',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'NDA — gegenseitig',
     'desc'  => 'Wechselseitige Vertraulichkeit für echte B2B-Verhandlungen.',
-    'href'  => '/vorlagen/download/02-nda-gegenseitig.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/nda-gegenseitig/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'freelancer-werkvertrag',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'Freelancer- / Werkvertrag',
     'desc'  => 'Projektarbeit mit freien Mitarbeitenden — inkl. Nutzungsrechte und Abnahme.',
-    'href'  => '/vorlagen/download/03-freelancer-werkvertrag.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/freelancer-werkvertrag/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'arbeitsvertrag-unbefristet',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'Arbeitsvertrag — unbefristet',
     'desc'  => 'Festanstellung nach deutschem Arbeitsrecht. Nachweisgesetz-konform.',
-    'href'  => '/vorlagen/download/04-arbeitsvertrag-unbefristet.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/arbeitsvertrag-unbefristet/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'arbeitsvertrag-befristet',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'Arbeitsvertrag — befristet',
     'desc'  => 'Befristung nach TzBfG, mit oder ohne Sachgrund.',
-    'href'  => '/vorlagen/download/05-arbeitsvertrag-befristet.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/arbeitsvertrag-befristet/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'beratungsvertrag',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'Beratungsvertrag',
     'desc'  => 'Consulting, Coaching, Strategieberatung — inkl. Vergütung und Vertraulichkeit.',
-    'href'  => '/vorlagen/download/07-beratungsvertrag.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/beratungsvertrag/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'aufhebungsvertrag',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'Aufhebungsvertrag',
     'desc'  => 'Einvernehmliche Beendigung eines Arbeitsverhältnisses inkl. Abfindungs-Platzhalter.',
-    'href'  => '/vorlagen/download/08-aufhebungsvertrag.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/aufhebungsvertrag/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'angebotsannahme',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'Angebotsannahme / Auftragsbestätigung',
     'desc'  => 'Standard-Geschäftsabschluss nach BGB-Angebotsannahme.',
-    'href'  => '/vorlagen/download/09-angebotsannahme.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/angebotsannahme/',
+    'cta'   => 'Generator starten',
   ],
   [
     'slug'  => 'agb-zustimmung',
-    'badge' => 'Markdown',
+    'badge' => 'Generator',
     'titel' => 'AGB-Zustimmung',
     'desc'  => 'Für Online-Registrierung oder Software-Rollout im Unternehmen.',
-    'href'  => '/vorlagen/download/10-agb-zustimmung.md',
-    'cta'   => 'Markdown laden',
+    'href'  => '/vorlagen/agb-zustimmung/',
+    'cta'   => 'Generator starten',
   ],
 ];
 ?><!DOCTYPE html>
@@ -174,9 +173,9 @@ h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem);
   <h1>Vertragsvorlagen für deutsche Unternehmen</h1>
   <p class="lead">
     10 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO.
-    Alles als Markdown mit klaren Platzhaltern — direkt zur Nutzung in NexaSign oder
-    im Texteditor Deiner Wahl. Der <strong>AV-Vertrag-Generator</strong> erzeugt
-    zusätzlich ein fertiges PDF in unter einer Minute.
+    Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen,
+    in NexaSign hochladen und signieren. Die Markdown-Rohvorlagen bleiben
+    zusätzlich auf den Generator-Seiten verlinkt.
   </p>
 
   <div class="grid">
