@@ -52,9 +52,9 @@ export const AppNavDesktop = ({
       return [];
     }
 
-    // Reihenfolge spiegelt den Document-Lifecycle: Erstellen → Finden →
-    // Unterzeichnen → Archivieren. „Erstellen" und „Archivieren" sind
-    // externe PHP-Bereiche (siehe unten in der Render-Funktion).
+    // NexaFILE-Hauptnavigation: Finden → Erstellen → Signieren → Archivieren.
+    // Erstellen und Archivieren sind PHP-Bereiche, bleiben aber Teil derselben
+    // Nutzerführung.
     return [
       {
         href: `/t/${teamUrl}/find-documents`,
@@ -62,7 +62,7 @@ export const AppNavDesktop = ({
       },
       {
         href: `/t/${teamUrl}/documents`,
-        label: msg`Dokumente unterzeichnen`,
+        label: msg`Dokumente signieren`,
       },
     ];
   }, [currentTeam, organisations]);
@@ -84,7 +84,23 @@ export const AppNavDesktop = ({
               exit={{ opacity: 0 }}
               className="flex items-baseline gap-x-6"
             >
-              {/* 1. Erstellen — externer PHP-Bereich /vorlagen/ */}
+              {/* 1. Finden — interne Remix-Route */}
+              {menuNavigationLinks.slice(0, 1).map(({ href, label }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  className={cn(
+                    'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
+                    {
+                      'text-foreground dark:text-muted-foreground': pathname?.startsWith(href),
+                    },
+                  )}
+                >
+                  {_(label)}
+                </Link>
+              ))}
+
+              {/* 2. Erstellen — externer PHP-Bereich /vorlagen/ */}
               <a
                 href="/vorlagen/"
                 data-tour="nav-vorlagen"
@@ -98,12 +114,13 @@ export const AppNavDesktop = ({
               >
                 <Trans>Dokumente erstellen</Trans>
               </a>
-              {/* 2. + 3. Finden + Unterzeichnen — interne Remix-Routen */}
-              {menuNavigationLinks.map(({ href, label }) => (
+
+              {/* 3. Signieren — interne Remix-Route */}
+              {menuNavigationLinks.slice(1).map(({ href, label }) => (
                 <Link
                   key={href}
                   to={href}
-                  data-tour={href.includes('/documents') ? 'nav-documents' : undefined}
+                  data-tour="nav-documents"
                   className={cn(
                     'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
                     {
@@ -114,6 +131,7 @@ export const AppNavDesktop = ({
                   {_(label)}
                 </Link>
               ))}
+
               {/* 4. Archivieren — externer PHP-Bereich /vorlagen/gobd/ */}
               <a
                 href="/vorlagen/gobd/"

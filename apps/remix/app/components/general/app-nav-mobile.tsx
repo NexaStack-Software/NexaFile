@@ -60,22 +60,22 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       ];
     }
 
-    // Document-Lifecycle in 4 Schritten: Erstellen → Finden → Unterzeichnen
-    // → Archivieren. Templates (Signier-Vorlagen) bleiben per Direkt-URL
+    // NexaFILE-Hauptnavigation in 4 Schritten: Finden → Erstellen →
+    // Signieren → Archivieren. Templates (Signier-Vorlagen) bleiben per Direkt-URL
     // /t/<team>/templates erreichbar, stehen aber nicht in der Haupt-Nav.
     return [
+      {
+        href: `/t/${teamUrl}/find-documents`,
+        text: t`Dokumente finden`,
+      },
       {
         href: '/vorlagen/',
         text: t`Dokumente erstellen`,
         external: true,
       },
       {
-        href: `/t/${teamUrl}/find-documents`,
-        text: t`Dokumente finden`,
-      },
-      {
         href: `/t/${teamUrl}/documents`,
-        text: t`Dokumente unterzeichnen`,
+        text: t`Dokumente signieren`,
       },
       {
         href: '/vorlagen/gobd/',

@@ -4450,7 +4450,7 @@ msgstr ""
 
 #: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
-msgid "Dokumente unterzeichnen"
+msgid "Dokumente signieren"
 msgstr ""
 
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx

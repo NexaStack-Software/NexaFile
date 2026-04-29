@@ -4445,8 +4445,8 @@ msgstr "Dokumente finden"
 
 #: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
-msgid "Dokumente unterzeichnen"
-msgstr "Dokumente unterzeichnen"
+msgid "Dokumente signieren"
+msgstr "Dokumente signieren"
 
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx

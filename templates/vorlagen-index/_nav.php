@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors. Based on NexaSign (AGPL-3.0).
 /**
- * Gemeinsamer Header/Nav für alle NexaSign-Vorlagen-Seiten.
+ * Gemeinsamer Header/Nav für alle NexaFILE-/Vorlagen-Seiten.
  * Layout-gleich zur Remix-App (app-header.tsx + app-nav-desktop.tsx): Logo,
  * Nav-Links, Search-Button, Inbox-Icon, Avatar-Slot. Auf den PHP-Seiten gibt es
  * keinen Login-State — Search/Inbox/Avatar sind daher reine Portal-Links in
@@ -103,11 +103,13 @@ $nx_app_base  = $nx_is_demo
   }
   @media (min-width: 768px) { .nx-nav-wrapper { display: flex; } }
 
-  .nx-primary-nav {
+  .nx-primary-nav,
+  .nx-mobile-primary-nav {
     display: flex; align-items: baseline;
     gap: 1.5rem;                              /* gap-x-6 */
   }
-  .nx-primary-nav a {
+  .nx-primary-nav a,
+  .nx-mobile-primary-nav a {
     color: var(--nx-muted-foreground);
     text-decoration: none;
     font-weight: 500;                         /* font-medium */
@@ -115,8 +117,23 @@ $nx_app_base  = $nx_is_demo
     border-radius: 0.375rem;                  /* rounded-md */
     transition: opacity 0.15s;
   }
-  .nx-primary-nav a:hover { opacity: 0.8; }
-  .nx-primary-nav a.nx-nav-active { color: var(--nx-foreground); }
+  .nx-primary-nav a:hover,
+  .nx-mobile-primary-nav a:hover { opacity: 0.8; }
+  .nx-primary-nav a.nx-nav-active,
+  .nx-mobile-primary-nav a.nx-nav-active { color: var(--nx-foreground); }
+
+  .nx-mobile-primary-nav {
+    width: 100%;
+    padding: 0.75rem 1rem 0;
+    overflow-x: auto;
+    border-top: 1px solid var(--nx-border);
+    background: rgba(253, 249, 243, 0.95);
+  }
+  .nx-mobile-primary-nav a {
+    white-space: nowrap;
+    font-size: 0.9375rem;
+  }
+  @media (min-width: 768px) { .nx-mobile-primary-nav { display: none; } }
 
   /* ─────── Search-Button (Portal-Link ins App-Command-Menu) ─────── */
   .nx-search-btn {
@@ -192,9 +209,10 @@ $nx_app_base  = $nx_is_demo
     <!-- Nav-Wrapper (equivalent zu AppNavDesktop) -->
     <div class="nx-nav-wrapper">
       <nav class="nx-primary-nav">
-        <a href="<?= htmlspecialchars($nx_app_base) ?>/">Dokumente</a>
-        <a href="/vorlagen/" class="<?= nx_active('vorlagen', $section) ?>">Vorlagen</a>
-        <a href="/vorlagen/gobd/" class="<?= nx_active('gobd', $section) ?>">GoBD</a>
+        <a href="<?= htmlspecialchars($nx_app_base) ?>/find-documents">Dokumente finden</a>
+        <a href="/vorlagen/" class="<?= nx_active('vorlagen', $section) ?>">Dokumente erstellen</a>
+        <a href="<?= htmlspecialchars($nx_app_base) ?>/documents">Dokumente signieren</a>
+        <a href="/vorlagen/gobd/" class="<?= nx_active('gobd', $section) ?>">Dokumente archivieren</a>
       </nav>
 
       <!-- Search-Button — Portal ins App-Command-Menu -->
@@ -226,3 +244,9 @@ $nx_app_base  = $nx_is_demo
 
   </div>
 </header>
+<nav class="nx-mobile-primary-nav" aria-label="Hauptnavigation">
+  <a href="<?= htmlspecialchars($nx_app_base) ?>/find-documents">Dokumente finden</a>
+  <a href="/vorlagen/" class="<?= nx_active('vorlagen', $section) ?>">Dokumente erstellen</a>
+  <a href="<?= htmlspecialchars($nx_app_base) ?>/documents">Dokumente signieren</a>
+  <a href="/vorlagen/gobd/" class="<?= nx_active('gobd', $section) ?>">Dokumente archivieren</a>
+</nav>
