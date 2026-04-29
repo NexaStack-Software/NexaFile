@@ -19,53 +19,47 @@ type SpotlightRect = {
   height: number;
 };
 
-const STORAGE_KEY = 'nexasign-demo-tour-v1';
+const STORAGE_KEY = 'nexasign-product-tour-v1';
+const START_TOUR_EVENT = 'nexasign:start-product-tour';
 
 const TOUR_STEPS: TourStep[] = [
   {
     selector: '[data-tour="document-list"]',
-    title: 'Deine Dokumentenzentrale',
-    body: 'Hier findest du alle Dokumente: Entwürfe, laufende Signaturen und abgeschlossene Vorgänge. In der Demo sind bereits Beispiele vorbereitet.',
+    title: 'Ihre Dokumentenzentrale',
+    body: 'Hier finden Sie alle Dokumente: Entwürfe, laufende Signaturen und abgeschlossene Vorgänge.',
   },
   {
     selector: '[data-tour="upload-document"]',
     title: 'Neues Dokument starten',
-    body: 'Über diesen Button lädst du ein PDF hoch und startest daraus einen Signaturprozess. Danach setzt du Empfänger und Felder.',
+    body: 'Über diesen Button laden Sie ein PDF hoch und starten daraus einen Signaturprozess. Danach legen Sie Empfänger und Felder fest.',
   },
   {
     selector: '[data-tour="document-filters"]',
     title: 'Status, Suche und Zeitraum',
-    body: 'Mit diesen Filtern findest du schnell, was offen, abgeschlossen oder noch als Entwurf gespeichert ist.',
+    body: 'Mit diesen Filtern finden Sie schnell, was offen, abgeschlossen oder noch als Entwurf gespeichert ist.',
   },
   {
     selector: '[data-tour="nav-documents"]',
     title: 'Zurück zu Dokumenten',
-    body: 'Dieser Bereich bringt dich jederzeit zurück in deine Arbeitsliste. Das ist der zentrale Startpunkt für die tägliche Nutzung.',
+    body: 'Dieser Bereich bringt Sie jederzeit zurück in Ihre Arbeitsliste. Das ist der zentrale Startpunkt für die tägliche Nutzung.',
   },
   {
     selector: '[data-tour="nav-vorlagen"]',
     title: 'Deutsche Vorlagen und Generatoren',
-    body: 'Hier liegen NDA, Arbeitsvertrag, AV-Vertrag, X-Rechnung und weitere Generatoren. PDF erzeugen, in NexaSign hochladen, unterschreiben lassen.',
+    body: 'Hier liegen NDA, Arbeitsvertrag, AV-Vertrag, X-Rechnung und weitere Generatoren. Sie erzeugen ein PDF, laden es in NexaSign hoch und lassen es unterschreiben.',
   },
 ];
 
-const isDemoHost = () =>
-  typeof window !== 'undefined' && window.location.hostname === 'nexasign-demo.nexastack.co';
-
 const shouldForceTour = (search: string) => new URLSearchParams(search).get('tour') === '1';
 
-export const DemoProductTour = () => {
+export const ProductTour = () => {
   const location = useLocation();
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [spotlight, setSpotlight] = useState<SpotlightRect | null>(null);
 
   const enabled = useMemo(() => {
-    return (
-      typeof window !== 'undefined' &&
-      location.pathname.includes('/documents') &&
-      (isDemoHost() || shouldForceTour(location.search))
-    );
+    return typeof window !== 'undefined' && location.pathname.includes('/documents');
   }, [location.pathname, location.search]);
 
   const activeStep = activeIndex === null ? null : TOUR_STEPS[activeIndex];
@@ -82,6 +76,23 @@ export const DemoProductTour = () => {
       setActiveIndex(0);
     }
   }, [enabled, location.search]);
+
+  useEffect(() => {
+    const startTour = () => {
+      if (!enabled) {
+        return;
+      }
+
+      window.localStorage.removeItem(STORAGE_KEY);
+      setActiveIndex(0);
+    };
+
+    window.addEventListener(START_TOUR_EVENT, startTour);
+
+    return () => {
+      window.removeEventListener(START_TOUR_EVENT, startTour);
+    };
+  }, [enabled]);
 
   useEffect(() => {
     if (!activeStep) {
@@ -187,14 +198,14 @@ export const DemoProductTour = () => {
         style={popoverStyle}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="nexasign-demo-tour-title"
+        aria-labelledby="nexasign-product-tour-title"
       >
         <div className="mb-3 flex items-start justify-between gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Schritt {currentIndex + 1} von {TOUR_STEPS.length}
             </div>
-            <h2 id="nexasign-demo-tour-title" className="mt-1 text-lg font-semibold">
+            <h2 id="nexasign-product-tour-title" className="mt-1 text-lg font-semibold">
               {activeStep.title}
             </h2>
           </div>

@@ -4,6 +4,7 @@ import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { EnvelopeType } from '@prisma/client';
 import { FolderType, OrganisationType } from '@prisma/client';
+import { CircleHelpIcon } from 'lucide-react';
 import { useParams, useSearchParams } from 'react-router';
 import { Link } from 'react-router';
 import { z } from 'zod';
@@ -20,6 +21,7 @@ import { trpc } from '@nexasign/trpc/react';
 import type { TFindDocumentsInternalResponse } from '@nexasign/trpc/server/document-router/find-documents-internal.types';
 import { ZFindDocumentsInternalRequestSchema } from '@nexasign/trpc/server/document-router/find-documents-internal.types';
 import { Avatar, AvatarFallback, AvatarImage } from '@nexasign/ui/primitives/avatar';
+import { Button } from '@nexasign/ui/primitives/button';
 import type { RowSelectionState } from '@nexasign/ui/primitives/data-table';
 import { Tabs, TabsList, TabsTrigger } from '@nexasign/ui/primitives/tabs';
 
@@ -133,6 +135,10 @@ export default function DocumentsPage() {
     }
   }, [data?.stats]);
 
+  const startProductTour = () => {
+    window.dispatchEvent(new Event('nexasign:start-product-tour'));
+  };
+
   return (
     <EnvelopeDropZoneWrapper type={EnvelopeType.DOCUMENT}>
       <div className="mx-auto w-full max-w-screen-xl px-4 md:px-8">
@@ -150,6 +156,16 @@ export default function DocumentsPage() {
             <h2 className="text-4xl font-semibold">
               <Trans>Documents</Trans>
             </h2>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="ml-4 gap-2"
+              onClick={startProductTour}
+            >
+              <CircleHelpIcon className="h-4 w-4" />
+              Tour starten
+            </Button>
           </div>
 
           <div
