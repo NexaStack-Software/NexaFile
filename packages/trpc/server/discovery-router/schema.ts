@@ -2,7 +2,14 @@
 // © 2026 NexaStack, NexaSign contributors
 import { z } from 'zod';
 
-export const ZDiscoveryDocumentStatusSchema = z.enum(['inbox', 'pending-manual', 'processed']);
+export const ZDiscoveryDocumentStatusSchema = z.enum([
+  'inbox',
+  'pending-manual',
+  'accepted',
+  'archived',
+  'ignored',
+  'processed',
+]);
 
 export const ZDiscoveryDocumentSchema = z.object({
   id: z.string(),
@@ -14,6 +21,11 @@ export const ZDiscoveryDocumentSchema = z.object({
   documentDate: z.coerce.date().nullable(),
   capturedAt: z.coerce.date(),
   status: ZDiscoveryDocumentStatusSchema,
+  // Optional in Listenansicht (vor allem akzeptierte Belege).
+  detectedAmount: z.string().nullable().optional(),
+  detectedInvoiceNumber: z.string().nullable().optional(),
+  acceptedAt: z.coerce.date().nullable().optional(),
+  acceptedByName: z.string().nullable().optional(),
 });
 
 export const ZSourceKindSchema = z.enum(['IMAP']);
@@ -68,9 +80,57 @@ export const ZUpdateDiscoveryDocumentStatusResponseSchema = z.object({
   ok: z.boolean(),
 });
 
+export const ZDiscoveryArtifactKindSchema = z.enum([
+  'MAIL_EML',
+  'MAIL_BODY_TEXT',
+  'MAIL_BODY_HTML',
+  'MAIL_METADATA',
+  'ATTACHMENT',
+]);
+
+export const ZDiscoveryArtifactSchema = z.object({
+  id: z.string(),
+  kind: ZDiscoveryArtifactKindSchema,
+  fileName: z.string(),
+  contentType: z.string(),
+  fileSize: z.number().int().nonnegative(),
+  sha256: z.string().length(64),
+  relativePath: z.string(),
+});
+
+export const ZGetDocumentDetailRequestSchema = z.object({
+  id: z.string(),
+});
+
+export const ZGetDocumentDetailResponseSchema = z
+  .object({
+    document: ZDiscoveryDocumentSchema.extend({
+      bodyText: z.string().nullable(),
+      bodyHasHtml: z.boolean(),
+      archivePath: z.string().nullable(),
+      detectedAmount: z.string().nullable(),
+      detectedInvoiceNumber: z.string().nullable(),
+      portalHint: z.string().nullable(),
+      messageIdHash: z.string().nullable(),
+      providerSource: z.string(),
+      providerNativeId: z.string().nullable(),
+      acceptedAt: z.coerce.date().nullable(),
+      acceptedByName: z.string().nullable(),
+      sourceLabel: z.string().nullable(),
+    }),
+    artifacts: z.array(ZDiscoveryArtifactSchema),
+    /** Absoluter Pfad auf dem Server zum Mail-Ordner (für FTP/SCP-Hinweis). */
+    absoluteArchivePath: z.string().nullable(),
+    /** Deep-Link zur Mail in Gmail, falls messageId vorhanden und Provider Gmail. */
+    gmailDeepLink: z.string().nullable(),
+  })
+  .nullable();
+
 export type TDiscoveryDocument = z.infer<typeof ZDiscoveryDocumentSchema>;
 export type TSourceSummary = z.infer<typeof ZSourceSummarySchema>;
 export type TDiscoveryDocumentAction = z.infer<typeof ZDiscoveryDocumentActionSchema>;
+export type TDiscoveryArtifact = z.infer<typeof ZDiscoveryArtifactSchema>;
+export type TGetDocumentDetailResponse = z.infer<typeof ZGetDocumentDetailResponseSchema>;
 
 export type TFindDiscoveryDocumentsRequest = z.infer<typeof ZFindDiscoveryDocumentsRequestSchema>;
 export type TFindDiscoveryDocumentsResponse = z.infer<typeof ZFindDiscoveryDocumentsResponseSchema>;

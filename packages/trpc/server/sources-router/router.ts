@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
+import { Prisma } from '@prisma/client';
+
 import { AppError, AppErrorCode } from '@nexasign/lib/errors/app-error';
 import { jobs } from '@nexasign/lib/jobs/client';
 import {
@@ -12,17 +14,21 @@ import { prisma } from '@nexasign/prisma';
 
 import { authenticatedProcedure, router } from '../trpc';
 import {
+  ZCancelSyncRunRequestSchema,
+  ZCancelSyncRunResponseSchema,
   ZCreateImapSourceRequestSchema,
   ZDeleteSourceRequestSchema,
   ZDeleteSourceResponseSchema,
   ZListSourcesResponseSchema,
+  ZListSyncRunsRequestSchema,
+  ZListSyncRunsResponseSchema,
   ZReactivateSourceRequestSchema,
   ZReactivateSourceResponseSchema,
   ZSourceCapabilitiesResponseSchema,
+  ZStartSyncRunRequestSchema,
+  ZStartSyncRunResponseSchema,
   ZTestSourceRequestSchema,
   ZTestSourceResponseSchema,
-  ZTriggerSyncRequestSchema,
-  ZTriggerSyncResponseSchema,
   ZUpdateImapSourceRequestSchema,
 } from './schema';
 
@@ -87,7 +93,6 @@ export const sourcesRouter = router({
         teamId: true,
         team: { select: { name: true } },
         lastSyncAt: true,
-        lastSyncAttemptedAt: true,
         lastSyncStatus: true,
         lastSyncError: true,
         consecutiveFailures: true,
@@ -105,6 +110,24 @@ export const sourcesRouter = router({
     .output(ZDeleteSourceResponseSchema)
     .mutation(async ({ input, ctx }) => {
       const source = await requireOwnSource(input.sourceId, ctx.user.id);
+
+      // WORM-Guard: solange noch akzeptierte Belege an dieser Quelle hängen,
+      // bleibt sie aus GoBD-Gründen unlöschbar — Discovery-Dokumente würden
+      // sonst per Cascade verschwinden und damit ihre Audit-Spur zerreißen.
+      const acceptedCount = await prisma.discoveryDocument.count({
+        where: {
+          sourceId: source.id,
+          acceptedAt: { not: null },
+        },
+      });
+      if (acceptedCount > 0) {
+        throw new AppError(AppErrorCode.UNAUTHORIZED, {
+          message:
+            `An dieser Quelle hängen ${acceptedCount} akzeptierte Belege, die der ` +
+            `10-jährigen Aufbewahrung unterliegen. Quelle kann erst gelöscht werden, ` +
+            `nachdem die Belege archiviert oder die Aufbewahrungsfrist abgelaufen ist.`,
+        });
+      }
 
       await prisma.$transaction([
         prisma.source.delete({ where: { id: source.id } }),
@@ -134,7 +157,6 @@ export const sourcesRouter = router({
         });
       }
 
-      // Verifizieren: User ist Mitglied der Organisation, zu der das Team gehört.
       const team = await prisma.team.findFirst({
         where: {
           id: input.teamId,
@@ -191,8 +213,9 @@ export const sourcesRouter = router({
           id: true,
           kind: true,
           label: true,
+          teamId: true,
+          team: { select: { name: true } },
           lastSyncAt: true,
-          lastSyncAttemptedAt: true,
           lastSyncStatus: true,
           lastSyncError: true,
           consecutiveFailures: true,
@@ -227,13 +250,9 @@ export const sourcesRouter = router({
         });
       }
 
-      // Sofort einen ersten Sync anstoßen, damit die UI nicht endlos auf Cron wartet.
-      await jobs.triggerJob({
-        name: 'internal.sync-source',
-        payload: { sourceId: created.id, triggeredBy: 'manual' },
-      });
-
-      return created;
+      // Kein Auto-Sync mehr — User triggert in der Settings-UI mit Zeitraum.
+      const { team: teamRel, ...rest } = created;
+      return { ...rest, teamName: teamRel.name };
     }),
 
   updateImapSource: authenticatedProcedure
@@ -248,72 +267,51 @@ export const sourcesRouter = router({
         });
       }
 
-      // Wenn kein neues Passwort: bestehendes weiter benutzen — wir entschlüsseln
-      // und reichen es durch. Keine Klartext-Rückgabe, keine Rückfrage an UI.
       const password = input.password ?? '';
+      let merged: Parameters<typeof encryptImapConfig>[0];
+
       if (!password) {
-        // Alt-Konfig holen, nur Passwort übernehmen, Rest aus Input.
         const { decryptImapConfig } = await import('@nexasign/lib/server-only/sources/imap');
         const oldConfig = decryptImapConfig({
           ciphertext: source.encryptedConfig,
           keyVersion: source.encryptedConfigKeyVersion,
         });
-        // overrides aus Input, Passwort aus Bestand.
-        const merged = {
+        merged = {
           host: input.host,
           port: input.port,
           username: input.username,
           password: oldConfig.password,
           tlsVerify: input.tlsVerify,
         };
-
-        const test = await adapter.testConnection({ config: merged });
-        if (!test.ok) {
-          throw new AppError(AppErrorCode.UNAUTHORIZED, {
-            message: test.error ?? 'Verbindung fehlgeschlagen.',
-          });
-        }
-        const encrypted = encryptImapConfig(merged);
-
-        await prisma.source.update({
-          where: { id: source.id },
-          data: {
-            label: input.label,
-            encryptedConfig: encrypted.ciphertext,
-            encryptedConfigKeyVersion: encrypted.keyVersion,
-            lastSyncStatus: 'PENDING',
-            lastSyncError: null,
-            consecutiveFailures: 0,
-          },
-        });
       } else {
-        const merged = {
+        merged = {
           host: input.host,
           port: input.port,
           username: input.username,
           password,
           tlsVerify: input.tlsVerify,
         };
-        const test = await adapter.testConnection({ config: merged });
-        if (!test.ok) {
-          throw new AppError(AppErrorCode.UNAUTHORIZED, {
-            message: test.error ?? 'Verbindung fehlgeschlagen.',
-          });
-        }
-        const encrypted = encryptImapConfig(merged);
+      }
 
-        await prisma.source.update({
-          where: { id: source.id },
-          data: {
-            label: input.label,
-            encryptedConfig: encrypted.ciphertext,
-            encryptedConfigKeyVersion: encrypted.keyVersion,
-            lastSyncStatus: 'PENDING',
-            lastSyncError: null,
-            consecutiveFailures: 0,
-          },
+      const test = await adapter.testConnection({ config: merged });
+      if (!test.ok) {
+        throw new AppError(AppErrorCode.UNAUTHORIZED, {
+          message: test.error ?? 'Verbindung fehlgeschlagen.',
         });
       }
+      const encrypted = encryptImapConfig(merged);
+
+      await prisma.source.update({
+        where: { id: source.id },
+        data: {
+          label: input.label,
+          encryptedConfig: encrypted.ciphertext,
+          encryptedConfigKeyVersion: encrypted.keyVersion,
+          lastSyncStatus: 'PENDING',
+          lastSyncError: null,
+          consecutiveFailures: 0,
+        },
+      });
 
       await prisma.discoveryAuditLog.create({
         data: {
@@ -349,12 +347,10 @@ export const sourcesRouter = router({
         return { ok: false, error: 'IMAP-Adapter ist nicht initialisiert.' };
       }
 
-      // Variante 1: Test mit Inline-Config (vor dem Speichern).
       if (input.config) {
         return adapter.testConnection({ config: input.config });
       }
 
-      // Variante 2: Test mit gespeicherter Source.
       if (input.sourceId) {
         const source = await requireOwnSource(input.sourceId, ctx.user.id);
         const { decryptImapConfig } = await import('@nexasign/lib/server-only/sources/imap');
@@ -366,26 +362,6 @@ export const sourcesRouter = router({
       }
 
       return { ok: false, error: 'Weder sourceId noch config übergeben.' };
-    }),
-
-  triggerSync: authenticatedProcedure
-    .input(ZTriggerSyncRequestSchema)
-    .output(ZTriggerSyncResponseSchema)
-    .mutation(async ({ input, ctx }) => {
-      const source = await requireOwnSource(input.sourceId, ctx.user.id);
-
-      if (source.lastSyncStatus === 'SUSPENDED') {
-        throw new AppError(AppErrorCode.UNAUTHORIZED, {
-          message: 'Quelle ist gesperrt. Bitte zuerst reaktivieren.',
-        });
-      }
-
-      await jobs.triggerJob({
-        name: 'internal.sync-source',
-        payload: { sourceId: source.id, triggeredBy: 'manual' },
-      });
-
-      return { triggered: true };
     }),
 
   reactivateSource: authenticatedProcedure
@@ -400,15 +376,99 @@ export const sourcesRouter = router({
           lastSyncStatus: 'PENDING',
           lastSyncError: null,
           consecutiveFailures: 0,
-          syncLockUntil: null,
         },
       });
 
+      return { reactivated: true };
+    }),
+
+  // ---------------- SyncRun-Endpunkte ----------------
+
+  startSyncRun: authenticatedProcedure
+    .input(ZStartSyncRunRequestSchema)
+    .output(ZStartSyncRunResponseSchema)
+    .mutation(async ({ input, ctx }) => {
+      const source = await requireOwnSource(input.sourceId, ctx.user.id);
+
+      if (source.lastSyncStatus === 'SUSPENDED') {
+        throw new AppError(AppErrorCode.UNAUTHORIZED, {
+          message: 'Quelle ist gesperrt. Bitte zuerst reaktivieren.',
+        });
+      }
+
+      // Lock: nur ein laufender SyncRun pro Source.
+      const active = await prisma.syncRun.findFirst({
+        where: {
+          sourceId: source.id,
+          status: { in: ['PENDING', 'RUNNING'] },
+        },
+        select: { id: true },
+      });
+      if (active) {
+        throw new AppError(AppErrorCode.UNAUTHORIZED, {
+          message: 'Es läuft bereits ein Sync für diese Quelle. Bitte warten oder abbrechen.',
+        });
+      }
+
+      let created;
+      try {
+        created = await prisma.syncRun.create({
+          data: {
+            sourceId: source.id,
+            triggeredById: ctx.user.id,
+            rangeFrom: input.from,
+            rangeTo: input.to,
+          },
+        });
+      } catch (err) {
+        if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+          throw new AppError(AppErrorCode.UNAUTHORIZED, {
+            message: 'Es läuft bereits ein Sync für diese Quelle. Bitte warten oder abbrechen.',
+          });
+        }
+        throw err;
+      }
+
       await jobs.triggerJob({
-        name: 'internal.sync-source',
-        payload: { sourceId: source.id, triggeredBy: 'manual' },
+        name: 'internal.run-sync-range',
+        payload: { syncRunId: created.id },
       });
 
-      return { reactivated: true };
+      return created;
+    }),
+
+  listSyncRuns: authenticatedProcedure
+    .input(ZListSyncRunsRequestSchema)
+    .output(ZListSyncRunsResponseSchema)
+    .query(async ({ input, ctx }) => {
+      // Auth-Check via requireOwnSource (wirft NOT_FOUND wenn fremde Source).
+      await requireOwnSource(input.sourceId, ctx.user.id);
+
+      return prisma.syncRun.findMany({
+        where: { sourceId: input.sourceId },
+        orderBy: { startedAt: 'desc' },
+        take: input.limit,
+      });
+    }),
+
+  cancelSyncRun: authenticatedProcedure
+    .input(ZCancelSyncRunRequestSchema)
+    .output(ZCancelSyncRunResponseSchema)
+    .mutation(async ({ input, ctx }) => {
+      const syncRun = await prisma.syncRun.findUnique({
+        where: { id: input.syncRunId },
+        include: { source: { select: { userId: true } } },
+      });
+      if (!syncRun || syncRun.source.userId !== ctx.user.id) {
+        throw new AppError(AppErrorCode.NOT_FOUND, { message: 'Sync-Lauf nicht gefunden.' });
+      }
+      if (syncRun.status !== 'PENDING' && syncRun.status !== 'RUNNING') {
+        return { cancelRequested: false };
+      }
+      await prisma.syncRun.update({
+        where: { id: syncRun.id },
+        data: { cancelRequested: true },
+      });
+      return { cancelRequested: true };
     }),
 });

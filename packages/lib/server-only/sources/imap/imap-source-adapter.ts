@@ -7,11 +7,13 @@ import { prisma } from '@nexasign/prisma';
 
 import { putFileServerSide } from '../../../universal/upload/put-file.server';
 import { createDocumentData } from '../../document-data/create-document-data';
+import { writeArchive } from '../archive';
 import { registerSourceAdapter } from '../registry';
 import type {
   SourceAdapter,
-  SourceSyncContext,
-  SourceSyncResult,
+  SyncRangeContext,
+  SyncRangeProgress,
+  SyncRangeResult,
   TestConnectionInput,
   TestConnectionResult,
 } from '../types';
@@ -26,14 +28,22 @@ import { type ImapAccountConfig, ZImapAccountConfigSchema } from './types';
  * Härtungen aus dem Threat-Model:
  *   - Host-Allowlist + DNS-Resolution-Check (`validateImapHost`)
  *   - Connect-Timeout 10 s, Greeting-Timeout 30 s
- *   - Hard-Limit pro Run: max. 500 Mails / 20 MB Bytes
  *   - Idempotenz via `messageIdHash` (sha256 vom Message-ID-Header)
  *   - Kein Body-Speichern: Klassifizierung läuft in-memory, persistiert wird
  *     nur was in `DiscoveryDocument` als strukturiertes Feld steht
+ *
+ * Sync-Modell: User-getriggert mit expliziter Datums-Range. Cancel wird
+ * pro Mail geprüft; Progress-Reporting alle 25 Mails.
  */
 
 const CONNECT_TIMEOUT_MS = 10_000;
 const GREETING_TIMEOUT_MS = 30_000;
+
+// Mailbox-Auswahl: Default ist Gmail-typisch. rechnungen.py nutzt das genauso.
+// Falls die Mailbox nicht existiert (z.B. Outlook, Fastmail), fallback INBOX.
+const PREFERRED_MAILBOXES = ['[Gmail]/Alle Nachrichten', '[Gmail]/All Mail', 'INBOX'];
+
+const PROGRESS_REPORT_EVERY = 25;
 const MAX_MAILS_PER_SYNC = 500;
 const MAX_BYTES_PER_SYNC = 20 * 1024 * 1024;
 
@@ -64,11 +74,24 @@ const buildClient = (config: ImapAccountConfig): ImapFlow => {
   });
 };
 
+/**
+ * Versucht die Mailboxen aus PREFERRED_MAILBOXES nacheinander. Erste, die
+ * existiert, wird zurückgegeben. Ohne Treffer → null (Adapter wirft).
+ */
+const pickMailbox = async (client: ImapFlow): Promise<string | null> => {
+  const list = await client.list();
+  const known = new Set(list.map((entry) => entry.path));
+  for (const candidate of PREFERRED_MAILBOXES) {
+    if (known.has(candidate)) return candidate;
+  }
+  return null;
+};
+
 const testConnection = async (input: TestConnectionInput): Promise<TestConnectionResult> => {
   let config: ImapAccountConfig;
   try {
     config = parseConfig(input.config);
-  } catch (err) {
+  } catch {
     return { ok: false, error: 'Konfiguration ungültig.' };
   }
 
@@ -80,7 +103,6 @@ const testConnection = async (input: TestConnectionInput): Promise<TestConnectio
   const client = buildClient(config);
   try {
     await client.connect();
-    await client.logout();
     return { ok: true };
   } catch (err) {
     return {
@@ -99,13 +121,11 @@ const testConnection = async (input: TestConnectionInput): Promise<TestConnectio
 };
 
 /**
- * Connection-Fehler werden als Exception geworfen, nicht als `failed`-Counter
- * zurückgegeben — der Job-Handler entscheidet anhand des Wurfs, ob der ganze
- * Sync FAILED ist (und Suspend-Counter erhöht). Das Result `{ failed > 0 }`
- * meint ausschließlich pro-Mail-Probleme bei einem grundsätzlich erfolgreichen
- * Login.
+ * User-getriggerter Sync über einen expliziten Zeitraum. Connection-Fehler
+ * werden geworfen — der Job-Handler entscheidet anhand des Wurfs, ob der
+ * SyncRun FAILED ist (und Suspend-Counter erhöht).
  */
-const sync = async (ctx: SourceSyncContext): Promise<SourceSyncResult> => {
+const syncRange = async (ctx: SyncRangeContext): Promise<SyncRangeResult> => {
   const config = parseConfig(ctx.decryptedConfig);
 
   const hostCheck = await validateImapHost(config.host, config.port);
@@ -113,51 +133,82 @@ const sync = async (ctx: SourceSyncContext): Promise<SourceSyncResult> => {
     throw new Error(hostCheck.reason ?? 'Host-Validierung fehlgeschlagen.');
   }
 
+  const counters: SyncRangeProgress = {
+    mailsChecked: 0,
+    documentsAuto: 0,
+    documentsManual: 0,
+    documentsIgnored: 0,
+    documentsFailed: 0,
+  };
+
   const client = buildClient(config);
-  let imported = 0;
-  let failed = 0;
-  const errors: string[] = [];
-  let bytesProcessed = 0;
 
   try {
     await client.connect();
-    const lock = await client.getMailboxLock('INBOX');
+
+    const mailbox = await pickMailbox(client);
+    if (!mailbox) {
+      throw new Error(
+        'Keine geeignete Mailbox gefunden (weder „[Gmail]/Alle Nachrichten" noch „INBOX").',
+      );
+    }
+
+    const lock = await client.getMailboxLock(mailbox);
     try {
-      const search: Parameters<typeof client.search>[0] = ctx.since
-        ? { since: ctx.since }
-        : { all: true };
-      const searchResult = await client.search(search, { uid: true });
+      const searchResult = await client.search(
+        { since: ctx.from, before: ctx.to },
+        { uid: true },
+      );
       const uids: number[] = Array.isArray(searchResult) ? searchResult : [];
 
-      // Neueste zuerst — Backfill bricht früh, wenn Limits erreicht.
+      // Neueste zuerst — ergibt sinnvolle Progress-Reihenfolge im UI.
       const orderedUids = uids
         .slice()
         .sort((a, b) => b - a)
         .slice(0, MAX_MAILS_PER_SYNC);
+      let bytesProcessed = 0;
 
-      for (const uid of orderedUids) {
-        if (bytesProcessed >= MAX_BYTES_PER_SYNC) break;
+      for (let i = 0; i < orderedUids.length; i += 1) {
+        // Cancel alle 10 Mails prüfen (DB-Roundtrip), nicht jedes Mal.
+        if (i % 10 === 0 && (await ctx.isCancelled())) {
+          break;
+        }
 
+        const uid = orderedUids[i];
         try {
           const message = await client.fetchOne(String(uid), { source: true }, { uid: true });
-          if (!message || !message.source) continue;
+          if (!message || !message.source) {
+            counters.mailsChecked += 1;
+            continue;
+          }
 
           const raw = Buffer.isBuffer(message.source)
             ? message.source
             : Buffer.from(message.source);
+          if (bytesProcessed + raw.length > MAX_BYTES_PER_SYNC) {
+            break;
+          }
           bytesProcessed += raw.length;
 
           const parsed = await parseRawMail(raw);
-          if (!parsed.messageId) continue;
+          counters.mailsChecked += 1;
+
+          if (!parsed.messageId) {
+            counters.documentsIgnored += 1;
+            continue;
+          }
 
           const messageIdHash = hashMessageId(parsed.messageId);
 
-          // Idempotenz: bereits gesehen → überspringen.
+          // Idempotenz: bereits gesehen → überspringen, zählt nicht als Treffer.
           const existing = await prisma.discoveryDocument.findFirst({
             where: { messageIdHash, sourceId: ctx.sourceId },
             select: { id: true },
           });
-          if (existing) continue;
+          if (existing) {
+            counters.documentsIgnored += 1;
+            continue;
+          }
 
           const result = classifyAndExtract({
             senderDomain: parsed.fromDomain,
@@ -166,71 +217,126 @@ const sync = async (ctx: SourceSyncContext): Promise<SourceSyncResult> => {
             hasPdfAttachment: parsed.pdfAttachments.length > 0,
           });
 
-          if (result.verdict === 'IGNORE') continue;
+          if (result.verdict === 'IGNORE') {
+            counters.documentsIgnored += 1;
+            continue;
+          }
+
+          // Archive-Write: schreibt mail.eml + body.txt + body.html (optional) +
+          // metadata.json + attachments idempotent ins Filesystem mit sha256.
+          const metadata = {
+            sourceId: ctx.sourceId,
+            messageIdHash,
+            messageId: parsed.messageId,
+            fromName: parsed.fromName,
+            fromAddress: parsed.fromAddress,
+            fromDomain: parsed.fromDomain,
+            subject: parsed.subject,
+            date: parsed.date.toISOString(),
+            classification: result.verdict,
+            detectedAmount: result.detectedAmount,
+            detectedInvoiceNumber: result.detectedInvoiceNumber,
+            portalHint: result.portalHint,
+            providerSource: 'imap',
+            providerNativeId: String(uid),
+            attachmentsOriginalNames: parsed.pdfAttachments.map((a) => a.fileName),
+          };
+
+          const archive = await writeArchive({
+            sourceId: ctx.sourceId,
+            messageIdHash,
+            receivedAt: parsed.date,
+            rawEml: raw,
+            bodyText: parsed.bodyText,
+            bodyHtml: parsed.bodyHtml,
+            metadata,
+            attachments: parsed.pdfAttachments.map((att) => ({
+              fileName: att.fileName,
+              contentType: att.contentType || 'application/pdf',
+              bytes: att.bytes,
+            })),
+          });
 
           if (result.verdict === 'AUTO') {
-            for (const attachment of parsed.pdfAttachments) {
-              const arrayBuffer = attachment.bytes.buffer.slice(
-                attachment.bytes.byteOffset,
-                attachment.bytes.byteOffset + attachment.bytes.byteLength,
-              );
-              const file = {
-                name: attachment.fileName,
-                type: 'application/pdf',
-                arrayBuffer: async () => Promise.resolve(arrayBuffer),
-              };
-              const stored = await putFileServerSide(file);
-              const dataRecord = await createDocumentData({
-                type: stored.type,
-                data: stored.data,
+            // Erstes PDF-Attachment ist das primäre DocumentData (für Sign-Flow später).
+            // Weitere Attachments liegen nur als Artifacts auf disk.
+            const primary = parsed.pdfAttachments[0];
+            const arrayBuffer = primary.bytes.buffer.slice(
+              primary.bytes.byteOffset,
+              primary.bytes.byteOffset + primary.bytes.byteLength,
+            );
+            const file = {
+              name: primary.fileName,
+              type: 'application/pdf',
+              arrayBuffer: async () => Promise.resolve(arrayBuffer),
+            };
+            const stored = await putFileServerSide(file);
+            const dataRecord = await createDocumentData({
+              type: stored.type,
+              data: stored.data,
+            });
+
+            await prisma.$transaction(async (tx) => {
+              const created = await tx.discoveryDocument.create({
+                data: {
+                  teamId: ctx.teamId,
+                  uploadedById: ctx.userId,
+                  sourceId: ctx.sourceId,
+                  title: parsed.subject || primary.fileName,
+                  correspondent: parsed.fromName || parsed.fromAddress,
+                  documentDate: parsed.date,
+                  capturedAt: new Date(),
+                  status: 'INBOX',
+                  providerSource: 'imap',
+                  providerNativeId: String(uid),
+                  contentType: 'application/pdf',
+                  fileSize: primary.bytes.byteLength,
+                  tags: [],
+                  detectedAmount: result.detectedAmount,
+                  detectedInvoiceNumber: result.detectedInvoiceNumber,
+                  portalHint: null,
+                  messageIdHash,
+                  bodyText: parsed.bodyText,
+                  bodyHasHtml: parsed.bodyHtml !== null,
+                  archivePath: archive.archivePath,
+                  dataId: dataRecord.id,
+                },
+                select: { id: true },
               });
-
-              await prisma.$transaction([
-                prisma.discoveryDocument.create({
-                  data: {
-                    teamId: ctx.teamId,
-                    uploadedById: ctx.userId,
-                    sourceId: ctx.sourceId,
-                    title: parsed.subject || attachment.fileName,
-                    correspondent: parsed.fromName || parsed.fromAddress,
-                    documentDate: parsed.date,
-                    capturedAt: new Date(),
-                    status: 'INBOX',
-                    providerSource: 'imap',
-                    providerNativeId: String(uid),
-                    contentType: 'application/pdf',
-                    fileSize: attachment.bytes.byteLength,
-                    tags: [],
-                    detectedAmount: result.detectedAmount,
-                    detectedInvoiceNumber: result.detectedInvoiceNumber,
-                    portalHint: null,
+              await tx.discoveryArtifact.createMany({
+                data: archive.artifacts.map((art) => ({
+                  discoveryDocumentId: created.id,
+                  kind: art.kind,
+                  fileName: art.fileName,
+                  contentType: art.contentType,
+                  fileSize: art.fileSize,
+                  sha256: art.sha256,
+                  relativePath: art.relativePath,
+                })),
+              });
+              await tx.discoveryAuditLog.create({
+                data: {
+                  event: 'IMAP_DOCUMENT_IMPORTED',
+                  sourceId: ctx.sourceId,
+                  userId: ctx.userId,
+                  teamId: ctx.teamId,
+                  discoveryDocumentId: created.id,
+                  metadata: {
                     messageIdHash,
-                    dataId: dataRecord.id,
+                    fromDomain: parsed.fromDomain,
+                    classification: result.verdict,
+                    archivePath: archive.archivePath,
+                    artifactCount: archive.artifacts.length,
                   },
-                }),
-                prisma.discoveryAuditLog.create({
-                  data: {
-                    event: 'IMAP_DOCUMENT_IMPORTED',
-                    sourceId: ctx.sourceId,
-                    userId: ctx.userId,
-                    teamId: ctx.teamId,
-                    metadata: {
-                      messageIdHash,
-                      fromDomain: parsed.fromDomain,
-                      classification: result.verdict,
-                    },
-                  },
-                }),
-              ]);
-
-              imported += 1;
-            }
+                },
+              });
+            });
+            counters.documentsAuto += 1;
           } else {
-            // MANUAL — Beleg-Hinweis ohne PDF (User muss im Portal nachziehen).
-            // Wir schreiben einen DiscoveryDocument-Eintrag ohne dataId, damit
-            // er im UI-Tab „Manuell zu ziehen" auftaucht.
-            await prisma.$transaction([
-              prisma.discoveryDocument.create({
+            // MANUAL — Beleg-Hinweis ohne PDF. DiscoveryDocument mit dataId=null,
+            // aber Body + Archive werden trotzdem geschrieben.
+            await prisma.$transaction(async (tx) => {
+              const created = await tx.discoveryDocument.create({
                 data: {
                   teamId: ctx.teamId,
                   uploadedById: ctx.userId,
@@ -249,15 +355,31 @@ const sync = async (ctx: SourceSyncContext): Promise<SourceSyncResult> => {
                   detectedInvoiceNumber: result.detectedInvoiceNumber,
                   portalHint: result.portalHint,
                   messageIdHash,
+                  bodyText: parsed.bodyText,
+                  bodyHasHtml: parsed.bodyHtml !== null,
+                  archivePath: archive.archivePath,
                   dataId: null,
                 },
-              }),
-              prisma.discoveryAuditLog.create({
+                select: { id: true },
+              });
+              await tx.discoveryArtifact.createMany({
+                data: archive.artifacts.map((art) => ({
+                  discoveryDocumentId: created.id,
+                  kind: art.kind,
+                  fileName: art.fileName,
+                  contentType: art.contentType,
+                  fileSize: art.fileSize,
+                  sha256: art.sha256,
+                  relativePath: art.relativePath,
+                })),
+              });
+              await tx.discoveryAuditLog.create({
                 data: {
                   event: 'IMAP_DOCUMENT_IMPORTED',
                   sourceId: ctx.sourceId,
                   userId: ctx.userId,
                   teamId: ctx.teamId,
+                  discoveryDocumentId: created.id,
                   metadata: {
                     messageIdHash,
                     fromDomain: parsed.fromDomain,
@@ -265,15 +387,21 @@ const sync = async (ctx: SourceSyncContext): Promise<SourceSyncResult> => {
                     portalHint: result.portalHint,
                     detectedAmount: result.detectedAmount,
                     detectedInvoiceNumber: result.detectedInvoiceNumber,
+                    archivePath: archive.archivePath,
+                    artifactCount: archive.artifacts.length,
                   },
                 },
-              }),
-            ]);
-            imported += 1;
+              });
+            });
+            counters.documentsManual += 1;
           }
-        } catch (err) {
-          failed += 1;
-          errors.push(err instanceof Error ? err.message : String(err));
+        } catch {
+          counters.documentsFailed += 1;
+        }
+
+        // Progress alle PROGRESS_REPORT_EVERY Mails persistieren.
+        if ((i + 1) % PROGRESS_REPORT_EVERY === 0) {
+          await ctx.onProgress({ ...counters });
         }
       }
     } finally {
@@ -289,17 +417,16 @@ const sync = async (ctx: SourceSyncContext): Promise<SourceSyncResult> => {
     }
   }
 
-  return {
-    imported,
-    failed,
-    errors: errors.length > 0 ? errors : undefined,
-  };
+  // Final-Progress-Report.
+  await ctx.onProgress({ ...counters });
+
+  return counters;
 };
 
 export const imapSourceAdapter: SourceAdapter = {
   kind: 'IMAP',
   testConnection,
-  sync,
+  syncRange,
 };
 
 // Selbst-Registrierung beim Import. Der Job-Handler / Sources-Router muss

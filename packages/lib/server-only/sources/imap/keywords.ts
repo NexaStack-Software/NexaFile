@@ -90,6 +90,7 @@ export const PORTAL_HINTS: ReadonlyArray<string> = [
   'in ihrem konto',
   'im kundenlogin',
   'in ihrem account',
+  'einloggen unter',
   'log in to',
   'anmelden unter',
   'rechnung abrufen',

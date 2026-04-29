@@ -14,7 +14,10 @@
 export type DiscoveryDocumentStatus =
   | 'inbox' // Neu eingegangen, noch nicht gesichtet
   | 'pending-manual' // Hinweis erkannt, Beleg muss manuell beschafft werden
-  | 'processed'; // Bereits verarbeitet (übernommen, signiert, archiviert oder ignoriert)
+  | 'accepted' // User hat als Geschäftsbeleg akzeptiert (GoBD-WORM aktiv)
+  | 'archived' // Akzeptiert + archiviert (10-Jahres-Aufbewahrung läuft weiter)
+  | 'ignored' // User hat als irrelevant markiert
+  | 'processed'; // Sammel-Filter: accepted ∪ archived ∪ ignored ∪ signed
 
 export type DiscoveryDocument = {
   /** Stabile, readerunabhängige ID */
@@ -35,6 +38,11 @@ export type DiscoveryDocument = {
   capturedAt: Date;
   /** Lifecycle-Status aus Sicht des NexaSign-Nutzers */
   status: DiscoveryDocumentStatus;
+  /** Optional in Listenansicht (vor allem bei akzeptierten Belegen). */
+  detectedAmount?: string | null;
+  detectedInvoiceNumber?: string | null;
+  acceptedAt?: Date | null;
+  acceptedByName?: string | null;
 };
 
 export type DiscoveryFilter = {

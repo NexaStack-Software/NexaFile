@@ -19,10 +19,9 @@ import { PROCESS_RECIPIENT_EXPIRED_JOB_DEFINITION } from './definitions/internal
 import { PROCESS_SIGNING_REMINDER_JOB_DEFINITION } from './definitions/internal/process-signing-reminder';
 import { SEAL_DOCUMENT_JOB_DEFINITION } from './definitions/internal/seal-document';
 import { SEAL_DOCUMENT_SWEEP_JOB_DEFINITION } from './definitions/internal/seal-document-sweep';
+import { RUN_SYNC_RANGE_JOB_DEFINITION } from './definitions/internal/run-sync-range';
 import { SEND_SIGNING_REMINDERS_SWEEP_JOB_DEFINITION } from './definitions/internal/send-signing-reminders-sweep';
 import { SYNC_EMAIL_DOMAINS_JOB_DEFINITION } from './definitions/internal/sync-email-domains';
-import { SYNC_SOURCE_JOB_DEFINITION } from './definitions/internal/sync-source';
-import { SYNC_SOURCES_SWEEP_JOB_DEFINITION } from './definitions/internal/sync-sources-sweep';
 
 /**
  * The `as const` assertion is load bearing as it provides the correct level of type inference for
@@ -51,8 +50,7 @@ export const jobsClient = new JobClient([
   PROCESS_SIGNING_REMINDER_JOB_DEFINITION,
   CLEANUP_RATE_LIMITS_JOB_DEFINITION,
   SYNC_EMAIL_DOMAINS_JOB_DEFINITION,
-  SYNC_SOURCE_JOB_DEFINITION,
-  SYNC_SOURCES_SWEEP_JOB_DEFINITION,
+  RUN_SYNC_RANGE_JOB_DEFINITION,
 ] as const);
 
 export const jobs = jobsClient;

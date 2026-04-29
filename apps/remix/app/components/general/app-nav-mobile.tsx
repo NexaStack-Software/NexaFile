@@ -60,27 +60,26 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       ];
     }
 
-    // Reihenfolge spiegelt die Desktop-Nav: Documents → Dokumente finden →
-    // Vorlagen (extern) → GoBD (extern). Templates (Signier-Vorlagen) sind
-    // im Desktop bewusst nicht in der Haupt-Nav und sind hier ebenfalls weg —
-    // sie bleiben per Direkt-URL `/t/<team>/templates` erreichbar.
+    // Document-Lifecycle in 4 Schritten: Erstellen → Finden → Unterzeichnen
+    // → Archivieren. Templates (Signier-Vorlagen) bleiben per Direkt-URL
+    // /t/<team>/templates erreichbar, stehen aber nicht in der Haupt-Nav.
     return [
       {
-        href: `/t/${teamUrl}/documents`,
-        text: t`Documents`,
+        href: '/vorlagen/',
+        text: t`Dokumente erstellen`,
+        external: true,
       },
       {
         href: `/t/${teamUrl}/find-documents`,
         text: t`Dokumente finden`,
       },
       {
-        href: '/vorlagen/',
-        text: t`Vorlagen`,
-        external: true,
+        href: `/t/${teamUrl}/documents`,
+        text: t`Dokumente unterzeichnen`,
       },
       {
         href: '/vorlagen/gobd/',
-        text: t`GoBD`,
+        text: t`Dokumente archivieren`,
         external: true,
       },
       {

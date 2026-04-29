@@ -24,9 +24,27 @@ export type ParsedMail = {
   fromAddress: string;
   fromDomain: string;
   date: Date;
+  /** Klartext-Body, max 1 MB. UI-Anzeige & DiscoveryDocument.bodyText. */
   bodyText: string;
+  /** Roh-HTML-Body (falls vorhanden) — wird NUR als Datei abgelegt, nie inline gerendert. */
+  bodyHtml: string | null;
   messageId: string;
   pdfAttachments: ExtractedAttachment[];
+};
+
+/**
+ * Hard-Limit für `bodyText`: alles über 1 MB wird abgeschnitten + Marker.
+ * Begründung: DB-Spalte ist TEXT (unbegrenzt), aber wir wollen nicht ein
+ * 50-MB-HTML-Newsletter in jeder Listenansicht laden. Das vollständige
+ * Original liegt eh in der `.eml`/`body.html`-Datei.
+ */
+const MAX_BODY_TEXT_BYTES = 1024 * 1024;
+const truncateBody = (text: string): string => {
+  const buf = Buffer.from(text, 'utf-8');
+  if (buf.length <= MAX_BODY_TEXT_BYTES) return text;
+  // Auf Byte-Grenze schneiden, ohne UTF-8-Multibyte mittendrin zu zerhacken.
+  const cut = buf.subarray(0, MAX_BODY_TEXT_BYTES).toString('utf-8');
+  return `${cut}\n\n[…gekürzt — vollständiger Inhalt in mail.eml]`;
 };
 
 const stripHtml = (html: string): string =>
@@ -113,7 +131,8 @@ export const parseRawMail = async (raw: Buffer): Promise<ParsedMail> => {
     fromAddress,
     fromDomain: domainFromAddress(fromAddress),
     date: parsed.date ?? new Date(),
-    bodyText: text,
+    bodyText: truncateBody(text),
+    bodyHtml: parsed.html ? parsed.html : null,
     messageId: parsed.messageId ?? '',
     pdfAttachments,
   };

@@ -10,13 +10,13 @@ import {
   ArchiveIcon,
   CheckCircleIcon,
   ClockIcon,
+  DownloadIcon,
   FileTextIcon,
   InboxIcon,
-  Loader2Icon,
   MoreHorizontalIcon,
   PlugIcon,
-  RefreshCwIcon,
   SearchIcon,
+  Settings2Icon,
   XCircleIcon,
 } from 'lucide-react';
 import { Link } from 'react-router';
@@ -40,29 +40,33 @@ import { Skeleton } from '@nexasign/ui/primitives/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@nexasign/ui/primitives/tabs';
 import { useToast } from '@nexasign/ui/primitives/use-toast';
 
-type DiscoveryStatus = 'inbox' | 'pending-manual' | 'processed';
+// Vollständiger Status-Enum (matcht das tRPC-Schema). Tabs zeigen aber nur
+// die 4 Hauptzustände — IGNORED ist via Filter erreichbar, PROCESSED ist eine
+// Sammel-Kategorie.
+type DiscoveryStatus =
+  | 'inbox'
+  | 'pending-manual'
+  | 'accepted'
+  | 'archived'
+  | 'ignored'
+  | 'processed';
+type DiscoveryTab = 'inbox' | 'pending-manual' | 'accepted' | 'archived';
 type Document = TFindDiscoveryDocumentsResponse['documents'][number];
 type Source = TFindDiscoveryDocumentsResponse['sources'][number];
 
-const toDiscoveryStatus = (value: string): DiscoveryStatus => {
-  if (value === 'pending-manual' || value === 'processed') return value;
-  return 'inbox';
-};
-
-const STATUS_TABS: ReadonlyArray<{ value: DiscoveryStatus; label: ReturnType<typeof msg> }> = [
+const STATUS_TABS: ReadonlyArray<{ value: DiscoveryTab; label: ReturnType<typeof msg> }> = [
   { value: 'inbox', label: msg`Eingang` },
   { value: 'pending-manual', label: msg`Manuell zu ziehen` },
-  { value: 'processed', label: msg`Verarbeitet` },
+  { value: 'accepted', label: msg`Akzeptiert` },
+  { value: 'archived', label: msg`Archiv` },
 ];
 
-// Relative Zeit ohne externe Abhängigkeit — Intl.RelativeTimeFormat reicht.
 const formatRelativeTime = (date: Date, locale: string): string => {
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   const diffSeconds = Math.round((date.getTime() - Date.now()) / 1000);
   const diffMinutes = Math.round(diffSeconds / 60);
   const diffHours = Math.round(diffMinutes / 60);
   const diffDays = Math.round(diffHours / 24);
-
   if (Math.abs(diffSeconds) < 60) return rtf.format(diffSeconds, 'second');
   if (Math.abs(diffMinutes) < 60) return rtf.format(diffMinutes, 'minute');
   if (Math.abs(diffHours) < 24) return rtf.format(diffHours, 'hour');
@@ -184,7 +188,6 @@ const LoadingList = () => (
   </div>
 );
 
-// Zustand 1: Keine Quelle verbunden
 const NoSourceEmptyState = () => (
   <Card className="flex flex-col items-center gap-5 p-12 text-center">
     <PlugIcon className="h-12 w-12 text-muted-foreground" aria-hidden />
@@ -194,8 +197,8 @@ const NoSourceEmptyState = () => (
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
         <Trans>
-          Belege werden danach automatisch hier auftauchen — aus Ihrem Postfach, später auch aus
-          Cloud-Speicher und anderen Quellen.
+          Belege erscheinen hier, sobald Sie eine Quelle verbunden und einen Sync-Lauf gestartet
+          haben.
         </Trans>
       </p>
     </div>
@@ -204,35 +207,10 @@ const NoSourceEmptyState = () => (
         <Trans>Quelle verbinden</Trans>
       </Link>
     </Button>
-    <p className="text-xs text-muted-foreground">
-      <Trans>Quellen werden pro Konto konfiguriert und sind nur für Sie sichtbar.</Trans>
-    </p>
   </Card>
 );
 
-// Zustand 2: Quelle verbunden, erster Sync noch nicht abgeschlossen
-const FirstSyncPendingBanner = () => (
-  <Card className="flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground">
-    <Loader2Icon className="h-4 w-4 flex-shrink-0 animate-spin text-primary" aria-hidden />
-    <span>
-      <Trans>Erster Sync läuft — kann ein paar Minuten dauern.</Trans>
-    </span>
-  </Card>
-);
-
-// Wiederverwendbar in Zustand 3 und 4: Sync-Status mit relativem Zeitstempel und manuellem Trigger
-const SourcesStatusBar = ({
-  sources,
-  isSyncing,
-  onSync,
-  locale,
-}: {
-  sources: Source[];
-  isSyncing: boolean;
-  onSync: () => void;
-  locale: string;
-}) => {
-  // Jüngsten lastSyncAt über alle Quellen bestimmen
+const SourcesStatusBar = ({ sources, locale }: { sources: Source[]; locale: string }) => {
   const latestSync =
     sources
       .map((s) => s.lastSyncAt)
@@ -253,43 +231,24 @@ const SourcesStatusBar = ({
           <>
             <AlertCircleIcon className="h-4 w-4 text-amber-500" aria-hidden />
             <span>
-              <Trans>Noch kein Sync abgeschlossen</Trans>
+              <Trans>Noch kein Sync gestartet</Trans>
             </span>
           </>
         )}
       </div>
-      <Button
-        variant="ghost"
-        size="sm"
-        disabled={isSyncing}
-        onClick={onSync}
-        className="h-7 gap-1.5 px-2"
-      >
-        {isSyncing ? (
-          <Loader2Icon className="h-3.5 w-3.5 animate-spin" aria-hidden />
-        ) : (
-          <RefreshCwIcon className="h-3.5 w-3.5" aria-hidden />
-        )}
-        <Trans>Jetzt synchronisieren</Trans>
+      <Button asChild variant="ghost" size="sm" className="h-7 gap-1.5 px-2">
+        <Link to="/settings/sources">
+          <Settings2Icon className="h-3.5 w-3.5" aria-hidden />
+          <Trans>Quellen verwalten</Trans>
+        </Link>
       </Button>
     </div>
   );
 };
 
-// Zustand 3: Sync fertig, aber keine Treffer im gewählten Tab
-const NoResultsEmptyState = ({
-  sources,
-  isSyncing,
-  onSync,
-  locale,
-}: {
-  sources: Source[];
-  isSyncing: boolean;
-  onSync: () => void;
-  locale: string;
-}) => (
+const NoResultsCard = ({ sources, locale }: { sources: Source[]; locale: string }) => (
   <div className="flex flex-col gap-4">
-    <SourcesStatusBar sources={sources} isSyncing={isSyncing} onSync={onSync} locale={locale} />
+    <SourcesStatusBar sources={sources} locale={locale} />
     <Card className="flex flex-col items-center gap-3 p-12 text-center">
       <InboxIcon className="h-12 w-12 text-muted-foreground" aria-hidden />
       <div>
@@ -297,47 +256,197 @@ const NoResultsEmptyState = ({
           <Trans>Keine Belege im aktuellen Bereich</Trans>
         </h2>
         <p className="mt-1 max-w-md text-sm text-muted-foreground">
-          <Trans>Sobald neue Belege einlaufen, erscheinen sie hier automatisch.</Trans>
+          <Trans>
+            Starten Sie in den Quellen-Einstellungen einen Sync-Lauf für einen bestimmten
+            Zeitraum, um Belege aus Ihrem Postfach einzulesen.
+          </Trans>
         </p>
       </div>
+      <Button asChild variant="outline" size="sm">
+        <Link to="/settings/sources">
+          <Settings2Icon className="mr-2 h-4 w-4" aria-hidden />
+          <Trans>Sync-Lauf starten</Trans>
+        </Link>
+      </Button>
     </Card>
   </div>
 );
 
+// Tabellen-Ansicht für „Akzeptiert" und „Archiv". Im Gegensatz zur Card-Liste
+// (die für Eingang+Manuell wegen der Aktions-Buttons sinnvoller ist) brauchen
+// wir hier Lese-Übersicht über viele Belege + Export.
+const csvEscape = (val: string | null | undefined): string => {
+  if (val == null) return '';
+  if (/[",\n;]/.test(val)) return `"${val.replace(/"/g, '""')}"`;
+  return val;
+};
+
+const downloadCsv = (filename: string, rows: string[][]): void => {
+  const csv = rows.map((row) => row.map(csvEscape).join(';')).join('\n');
+  // BOM für Excel-Kompatibilität auf deutschen Systemen.
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = window.document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  window.document.body.appendChild(link);
+  link.click();
+  window.document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+const DocumentTable = ({
+  documents,
+  locale,
+  onAction,
+  isPending,
+  showAcceptedColumn,
+}: {
+  documents: Document[];
+  locale: string;
+  onAction: (id: string, action: TDiscoveryDocumentAction) => void;
+  isPending: boolean;
+  showAcceptedColumn: boolean;
+}) => {
+  const intlDate = new Intl.DateTimeFormat(locale, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+
+  const handleExport = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const header = [
+      'Datum',
+      'Korrespondent',
+      'Betreff',
+      'Betrag',
+      'Rechnungs-Nr',
+      ...(showAcceptedColumn ? ['Akzeptiert am', 'Akzeptiert von'] : []),
+      'Status',
+    ];
+    const rows = documents.map((d) => [
+      d.documentDate ? intlDate.format(d.documentDate) : intlDate.format(d.capturedAt),
+      d.correspondent ?? '',
+      d.title,
+      d.detectedAmount ?? '',
+      d.detectedInvoiceNumber ?? '',
+      ...(showAcceptedColumn
+        ? [d.acceptedAt ? intlDate.format(d.acceptedAt) : '', d.acceptedByName ?? '']
+        : []),
+      d.status,
+    ]);
+    downloadCsv(`belege-${today}.csv`, [header, ...rows]);
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex justify-end">
+        <Button variant="outline" size="sm" onClick={handleExport} disabled={documents.length === 0}>
+          <DownloadIcon className="mr-2 h-4 w-4" aria-hidden />
+          <Trans>CSV exportieren</Trans>
+        </Button>
+      </div>
+      <div className="overflow-x-auto rounded-md border">
+        <table className="w-full text-sm">
+          <thead className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
+            <tr>
+              <th className="px-3 py-2 font-medium">
+                <Trans>Datum</Trans>
+              </th>
+              <th className="px-3 py-2 font-medium">
+                <Trans>Korrespondent</Trans>
+              </th>
+              <th className="px-3 py-2 font-medium">
+                <Trans>Betreff</Trans>
+              </th>
+              <th className="px-3 py-2 font-medium">
+                <Trans>Betrag</Trans>
+              </th>
+              <th className="px-3 py-2 font-medium">
+                <Trans>Rechnungs-Nr.</Trans>
+              </th>
+              {showAcceptedColumn && (
+                <th className="px-3 py-2 font-medium">
+                  <Trans>Akzeptiert</Trans>
+                </th>
+              )}
+              <th className="px-3 py-2 text-right font-medium">
+                <Trans>Aktion</Trans>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {documents.map((doc) => (
+              <tr key={doc.id} className="border-t hover:bg-muted/30">
+                <td className="whitespace-nowrap px-3 py-2 text-muted-foreground">
+                  {intlDate.format(doc.documentDate ?? doc.capturedAt)}
+                </td>
+                <td className="px-3 py-2">{doc.correspondent ?? '–'}</td>
+                <td className="max-w-md truncate px-3 py-2">
+                  <Link to={doc.id} className="hover:underline">
+                    {doc.title}
+                  </Link>
+                </td>
+                <td className="whitespace-nowrap px-3 py-2 font-medium">
+                  {doc.detectedAmount ?? '–'}
+                </td>
+                <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">
+                  {doc.detectedInvoiceNumber ?? '–'}
+                </td>
+                {showAcceptedColumn && (
+                  <td className="whitespace-nowrap px-3 py-2 text-muted-foreground">
+                    {doc.acceptedAt ? (
+                      <>
+                        {intlDate.format(doc.acceptedAt)}
+                        {doc.acceptedByName && (
+                          <span className="ml-1 text-xs">· {doc.acceptedByName}</span>
+                        )}
+                      </>
+                    ) : (
+                      '–'
+                    )}
+                  </td>
+                )}
+                <td className="whitespace-nowrap px-3 py-2 text-right">
+                  {doc.status === 'accepted' && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-7 px-2"
+                      disabled={isPending}
+                      onClick={() => onAction(doc.id, 'archive')}
+                    >
+                      <ArchiveIcon className="mr-1.5 h-3.5 w-3.5" aria-hidden />
+                      <Trans>Archivieren</Trans>
+                    </Button>
+                  )}
+                  <Button asChild size="sm" variant="ghost" className="h-7 px-2">
+                    <Link to={doc.id}>
+                      <Trans>Details</Trans>
+                    </Link>
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 export default function FindDocumentsPage() {
   const { _, i18n } = useLingui();
   const { toast } = useToast();
-  const [status, setStatus] = useState<DiscoveryStatus>('inbox');
+  const [status, setStatus] = useState<DiscoveryTab>('inbox');
   const [query, setQuery] = useState('');
 
   const utils = trpc.useUtils();
 
-  const { data, isLoading } = trpc.discovery.findDocuments.useQuery(
-    { status, query: query.trim() || undefined },
-    {
-      // Pollt alle 5 Sekunden, solange noch kein Sync für eine der Quellen stattgefunden hat.
-      refetchInterval: (query) => {
-        const sources = query.state.data?.sources ?? [];
-        return sources.length > 0 && sources.every((s) => s.lastSyncAt === null) ? 5000 : false;
-      },
-    },
-  );
-
-  const syncMutation = trpc.sources.triggerSync.useMutation({
-    onSuccess: () => {
-      void utils.discovery.findDocuments.invalidate();
-      toast({
-        title: _(msg`Sync angestoßen`),
-        description: _(msg`Neue Belege erscheinen in Kürze.`),
-      });
-    },
-    onError: (err) => {
-      toast({
-        title: _(msg`Sync fehlgeschlagen`),
-        description: err.message,
-        variant: 'destructive',
-      });
-    },
+  const { data, isLoading } = trpc.discovery.findDocuments.useQuery({
+    status,
+    query: query.trim() || undefined,
   });
 
   const updateStatusMutation = trpc.discovery.updateStatus.useMutation({
@@ -357,18 +466,8 @@ export default function FindDocumentsPage() {
     updateStatusMutation.mutate({ id, action });
   };
 
-  const handleSync = () => {
-    if (!data?.sources) return;
-    // Jede konfigurierte Quelle einzeln triggern — das Backend entscheidet, ob ein Sync gerade läuft.
-    for (const source of data.sources) {
-      syncMutation.mutate({ sourceId: source.id });
-    }
-  };
-
   const hasAnySource = data?.hasAnySource ?? false;
   const sources = data?.sources ?? [];
-  const firstSyncPending = hasAnySource && sources.every((s) => s.lastSyncAt === null);
-  const syncDone = hasAnySource && sources.some((s) => s.lastSyncAt !== null);
 
   return (
     <div className="mx-auto w-full max-w-screen-xl px-4 py-8 md:px-8">
@@ -385,7 +484,7 @@ export default function FindDocumentsPage() {
       </header>
 
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <Tabs value={status} onValueChange={(v) => setStatus(toDiscoveryStatus(v))}>
+        <Tabs value={status} onValueChange={(v) => setStatus(v as DiscoveryTab)}>
           <TabsList>
             {STATUS_TABS.map((tab) => (
               <TabsTrigger key={tab.value} value={tab.value}>
@@ -410,57 +509,45 @@ export default function FindDocumentsPage() {
       </div>
 
       <section aria-live="polite">
-        {/* Lade-Skeleton solange der erste Request läuft */}
         {isLoading && <LoadingList />}
 
-        {/* Zustand 1: Keine Quelle verbunden */}
         {!isLoading && data && !hasAnySource && <NoSourceEmptyState />}
 
-        {/* Zustand 2: Quelle verbunden, erster Sync noch offen — Skeleton + Banner */}
-        {!isLoading && data && firstSyncPending && (
-          <div className="flex flex-col gap-4">
-            <FirstSyncPendingBanner />
-            <LoadingList />
-          </div>
+        {!isLoading && data && hasAnySource && data.documents.length === 0 && (
+          <NoResultsCard sources={sources} locale={i18n.locale} />
         )}
 
-        {/* Zustand 3: Sync fertig, aber keine Treffer im gewählten Tab */}
-        {!isLoading && data && syncDone && data.documents.length === 0 && (
-          <NoResultsEmptyState
-            sources={sources}
-            isSyncing={syncMutation.isPending}
-            onSync={handleSync}
-            locale={i18n.locale}
-          />
-        )}
-
-        {/* Zustand 4: Dokumente vorhanden */}
         {!isLoading && data && data.documents.length > 0 && (
           <div className="flex flex-col gap-4">
-            <SourcesStatusBar
-              sources={sources}
-              isSyncing={syncMutation.isPending}
-              onSync={handleSync}
-              locale={i18n.locale}
-            />
-            <div className="flex flex-col gap-3">
-              {data.documents.map((doc) => (
-                <DocumentRow
-                  key={doc.id}
-                  doc={doc}
-                  locale={i18n.locale}
-                  onAction={handleAction}
-                  isPending={updateStatusMutation.isPending}
-                />
-              ))}
-              {data.total > data.documents.length && (
-                <p className="mt-2 text-center text-sm text-muted-foreground">
-                  <Trans>
-                    {data.documents.length} von {data.total} angezeigt
-                  </Trans>
-                </p>
-              )}
-            </div>
+            <SourcesStatusBar sources={sources} locale={i18n.locale} />
+            {status === 'accepted' || status === 'archived' ? (
+              <DocumentTable
+                documents={data.documents}
+                locale={i18n.locale}
+                onAction={handleAction}
+                isPending={updateStatusMutation.isPending}
+                showAcceptedColumn
+              />
+            ) : (
+              <div className="flex flex-col gap-3">
+                {data.documents.map((doc) => (
+                  <DocumentRow
+                    key={doc.id}
+                    doc={doc}
+                    locale={i18n.locale}
+                    onAction={handleAction}
+                    isPending={updateStatusMutation.isPending}
+                  />
+                ))}
+              </div>
+            )}
+            {data.total > data.documents.length && (
+              <p className="mt-2 text-center text-sm text-muted-foreground">
+                <Trans>
+                  {data.documents.length} von {data.total} angezeigt
+                </Trans>
+              </p>
+            )}
           </div>
         )}
       </section>

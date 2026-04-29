@@ -11,7 +11,6 @@ export const ZSourceListItemSchema = z.object({
   teamId: z.number().int().positive(),
   teamName: z.string(),
   lastSyncAt: z.coerce.date().nullable(),
-  lastSyncAttemptedAt: z.coerce.date().nullable(),
   lastSyncStatus: ZSourceSyncStatusSchema,
   lastSyncError: z.string().nullable(),
   consecutiveFailures: z.number().int().nonnegative(),
@@ -56,20 +55,66 @@ export const ZTestSourceResponseSchema = z.object({
   error: z.string().optional(),
 });
 
-export const ZTriggerSyncRequestSchema = z.object({
-  sourceId: z.string(),
-});
-
-export const ZTriggerSyncResponseSchema = z.object({
-  triggered: z.boolean(),
-});
-
 export const ZReactivateSourceRequestSchema = z.object({
   sourceId: z.string(),
 });
 
 export const ZReactivateSourceResponseSchema = z.object({
   reactivated: z.boolean(),
+});
+
+// SyncRun-Modell — User triggert pro Lauf einen expliziten Zeitraum.
+export const ZSyncRunStatusSchema = z.enum([
+  'PENDING',
+  'RUNNING',
+  'SUCCESS',
+  'FAILED',
+  'CANCELLED',
+]);
+
+export const ZSyncRunSchema = z.object({
+  id: z.string(),
+  sourceId: z.string(),
+  rangeFrom: z.coerce.date(),
+  rangeTo: z.coerce.date(),
+  status: ZSyncRunStatusSchema,
+  mailsChecked: z.number().int().nonnegative(),
+  documentsAuto: z.number().int().nonnegative(),
+  documentsManual: z.number().int().nonnegative(),
+  documentsIgnored: z.number().int().nonnegative(),
+  documentsFailed: z.number().int().nonnegative(),
+  errorMessage: z.string().nullable(),
+  cancelRequested: z.boolean(),
+  startedAt: z.coerce.date(),
+  finishedAt: z.coerce.date().nullable(),
+});
+
+export const ZStartSyncRunRequestSchema = z
+  .object({
+    sourceId: z.string(),
+    from: z.coerce.date(),
+    to: z.coerce.date(),
+  })
+  .refine((data) => data.from < data.to, {
+    message: '„Von"-Datum muss vor „Bis"-Datum liegen.',
+    path: ['from'],
+  });
+
+export const ZStartSyncRunResponseSchema = ZSyncRunSchema;
+
+export const ZListSyncRunsRequestSchema = z.object({
+  sourceId: z.string(),
+  limit: z.number().int().min(1).max(50).default(10),
+});
+
+export const ZListSyncRunsResponseSchema = z.array(ZSyncRunSchema);
+
+export const ZCancelSyncRunRequestSchema = z.object({
+  syncRunId: z.string(),
+});
+
+export const ZCancelSyncRunResponseSchema = z.object({
+  cancelRequested: z.boolean(),
 });
 
 export const ZSourceCapabilitiesResponseSchema = z.object({
@@ -95,5 +140,10 @@ export type TCreateImapSourceRequest = z.infer<typeof ZCreateImapSourceRequestSc
 export type TUpdateImapSourceRequest = z.infer<typeof ZUpdateImapSourceRequestSchema>;
 export type TTestSourceRequest = z.infer<typeof ZTestSourceRequestSchema>;
 export type TTestSourceResponse = z.infer<typeof ZTestSourceResponseSchema>;
-export type TTriggerSyncRequest = z.infer<typeof ZTriggerSyncRequestSchema>;
 export type TReactivateSourceRequest = z.infer<typeof ZReactivateSourceRequestSchema>;
+
+export type TSyncRun = z.infer<typeof ZSyncRunSchema>;
+export type TSyncRunStatus = z.infer<typeof ZSyncRunStatusSchema>;
+export type TStartSyncRunRequest = z.infer<typeof ZStartSyncRunRequestSchema>;
+export type TListSyncRunsRequest = z.infer<typeof ZListSyncRunsRequestSchema>;
+export type TCancelSyncRunRequest = z.infer<typeof ZCancelSyncRunRequestSchema>;

@@ -33,15 +33,18 @@ const PAGE_SIZE = 25;
 const NATIVE_TO_UI_STATUS: Record<string, DiscoveryDocumentStatus> = {
   INBOX: 'inbox',
   PENDING_MANUAL: 'pending-manual',
-  ACCEPTED: 'processed',
-  SIGNED: 'processed',
-  ARCHIVED: 'processed',
-  IGNORED: 'processed',
+  ACCEPTED: 'accepted',
+  SIGNED: 'accepted', // signed ist eine Spezialform von akzeptiert
+  ARCHIVED: 'archived',
+  IGNORED: 'ignored',
 };
 
 const UI_TO_NATIVE_STATUS: Record<DiscoveryDocumentStatus, PrismaDiscoveryDocumentStatus[]> = {
   inbox: ['INBOX'],
   'pending-manual': ['PENDING_MANUAL'],
+  accepted: ['ACCEPTED', 'SIGNED'],
+  archived: ['ARCHIVED'],
+  ignored: ['IGNORED'],
   processed: ['ACCEPTED', 'SIGNED', 'ARCHIVED', 'IGNORED'],
 };
 
@@ -64,6 +67,10 @@ type DbDiscoveryDocument = {
   status: PrismaDiscoveryDocumentStatus;
   contentType: string | null;
   tags: string[];
+  detectedAmount: string | null;
+  detectedInvoiceNumber: string | null;
+  acceptedAt: Date | null;
+  acceptedBy: { name: string | null } | null;
 };
 
 const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => ({
@@ -76,6 +83,10 @@ const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => ({
   documentDate: doc.documentDate,
   capturedAt: doc.capturedAt,
   status: NATIVE_TO_UI_STATUS[doc.status] ?? 'inbox',
+  detectedAmount: doc.detectedAmount,
+  detectedInvoiceNumber: doc.detectedInvoiceNumber,
+  acceptedAt: doc.acceptedAt,
+  acceptedByName: doc.acceptedBy?.name ?? null,
 });
 
 const buildWhere = (
@@ -136,6 +147,7 @@ export const dbDiscoveryReader: DiscoveryReader = {
         orderBy: { capturedAt: 'desc' },
         take: PAGE_SIZE + 1,
         ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+        include: { acceptedBy: { select: { name: true } } },
       }),
     ]);
 
@@ -154,6 +166,7 @@ export const dbDiscoveryReader: DiscoveryReader = {
     const where = buildWhere(teamId, ctx?.userId, {});
     const doc = await prisma.discoveryDocument.findFirst({
       where: { ...where, id },
+      include: { acceptedBy: { select: { name: true } } },
     });
     return doc ? toDiscoveryDocument(doc) : null;
   },

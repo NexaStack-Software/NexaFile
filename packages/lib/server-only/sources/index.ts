@@ -4,8 +4,9 @@
 export { getSourceAdapter, listRegisteredKinds, registerSourceAdapter } from './registry';
 export type {
   SourceAdapter,
-  SourceSyncContext,
-  SourceSyncResult,
+  SyncRangeContext,
+  SyncRangeProgress,
+  SyncRangeResult,
   TestConnectionInput,
   TestConnectionResult,
 } from './types';

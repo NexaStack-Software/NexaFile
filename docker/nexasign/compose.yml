@@ -87,6 +87,12 @@ services:
       NEXT_PRIVATE_IMAP_ALLOW_CUSTOM_HOSTS: ${NEXT_PRIVATE_IMAP_ALLOW_CUSTOM_HOSTS:-false}
       # Optional: zusätzliche Hostnames zur Allowlist (komma-getrennt).
       NEXT_PRIVATE_IMAP_HOST_ALLOWLIST: ${NEXT_PRIVATE_IMAP_HOST_ALLOWLIST:-}
+
+      # Discovery-Archiv-Pfad — pro Mail wird ein Ordner mit eml + body +
+      # Anhängen + metadata.json + sha256-Hashes angelegt. Default ist im
+      # Container /var/lib/nexasign/sources, gemounted vom Host als
+      # /var/lib/nexasign-archive (siehe volumes unten).
+      NEXT_PRIVATE_DISCOVERY_ARCHIVE_PATH: ${NEXT_PRIVATE_DISCOVERY_ARCHIVE_PATH:-/var/lib/nexasign/sources}
     healthcheck:
       test: ['CMD-SHELL', 'wget -qO- http://localhost:3000/api/health >/dev/null || exit 1']
       interval: 30s
@@ -97,6 +103,9 @@ services:
       - '127.0.0.1:3060:3000' # Host-Port 3060 → Container-Port 3000, nur auf localhost
     volumes:
       - nexasign-cert:/opt/nexasign
+      # Discovery-Archiv: Mails + Anhänge per FTP/SCP vom Host aus erreichbar.
+      # Default-Host-Pfad /var/lib/nexasign-archive — anpassbar via ARCHIVE_HOST_PATH.
+      - ${ARCHIVE_HOST_PATH:-/var/lib/nexasign-archive}:/var/lib/nexasign/sources
     networks:
       - nexasign-net
 

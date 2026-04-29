@@ -52,19 +52,18 @@ export const AppNavDesktop = ({
       return [];
     }
 
+    // Reihenfolge spiegelt den Document-Lifecycle: Erstellen → Finden →
+    // Unterzeichnen → Archivieren. „Erstellen" und „Archivieren" sind
+    // externe PHP-Bereiche (siehe unten in der Render-Funktion).
     return [
-      {
-        href: `/t/${teamUrl}/documents`,
-        label: msg`Documents`,
-      },
       {
         href: `/t/${teamUrl}/find-documents`,
         label: msg`Dokumente finden`,
       },
-      // NexaSign-Templates (interne Signier-Vorlagen) sind weiter per URL
-      // erreichbar (/t/<team>/templates), stehen aber nicht in der Haupt-Nav —
-      // dort führt der Eintrag „Vorlagen" rechts daneben auf die öffentliche
-      // Vorlagen-Bibliothek /vorlagen/.
+      {
+        href: `/t/${teamUrl}/documents`,
+        label: msg`Dokumente unterzeichnen`,
+      },
     ];
   }, [currentTeam, organisations]);
 
@@ -85,6 +84,21 @@ export const AppNavDesktop = ({
               exit={{ opacity: 0 }}
               className="flex items-baseline gap-x-6"
             >
+              {/* 1. Erstellen — externer PHP-Bereich /vorlagen/ */}
+              <a
+                href="/vorlagen/"
+                data-tour="nav-vorlagen"
+                className={cn(
+                  'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
+                  {
+                    'text-foreground dark:text-muted-foreground':
+                      pathname?.startsWith('/vorlagen') && !pathname?.startsWith('/vorlagen/gobd'),
+                  },
+                )}
+              >
+                <Trans>Dokumente erstellen</Trans>
+              </a>
+              {/* 2. + 3. Finden + Unterzeichnen — interne Remix-Routen */}
               {menuNavigationLinks.map(({ href, label }) => (
                 <Link
                   key={href}
@@ -100,20 +114,7 @@ export const AppNavDesktop = ({
                   {_(label)}
                 </Link>
               ))}
-              {/* NexaSign: „Vorlagen" und „GoBD" — externe Bereiche, gleicher Stil wie die Remix-Links */}
-              <a
-                href="/vorlagen/"
-                data-tour="nav-vorlagen"
-                className={cn(
-                  'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
-                  {
-                    'text-foreground dark:text-muted-foreground':
-                      pathname?.startsWith('/vorlagen') && !pathname?.startsWith('/vorlagen/gobd'),
-                  },
-                )}
-              >
-                Vorlagen
-              </a>
+              {/* 4. Archivieren — externer PHP-Bereich /vorlagen/gobd/ */}
               <a
                 href="/vorlagen/gobd/"
                 className={cn(
@@ -124,7 +125,7 @@ export const AppNavDesktop = ({
                   },
                 )}
               >
-                GoBD
+                <Trans>Dokumente archivieren</Trans>
               </a>
             </motion.div>
           )}
