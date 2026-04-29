@@ -57,6 +57,10 @@ export const AppNavDesktop = ({
         href: `/t/${teamUrl}/documents`,
         label: msg`Documents`,
       },
+      {
+        href: `/t/${teamUrl}/find-documents`,
+        label: msg`Dokumente finden`,
+      },
       // NexaSign-Templates (interne Signier-Vorlagen) sind weiter per URL
       // erreichbar (/t/<team>/templates), stehen aber nicht in der Haupt-Nav —
       // dort führt der Eintrag „Vorlagen" rechts daneben auf die öffentliche

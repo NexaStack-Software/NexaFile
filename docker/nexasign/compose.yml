@@ -73,6 +73,20 @@ services:
       NEXT_PRIVATE_SIGNING_PASSPHRASE: ${NEXT_PRIVATE_SIGNING_PASSPHRASE}
 
       NEXT_PUBLIC_DISABLE_SIGNUP: ${NEXT_PUBLIC_DISABLE_SIGNUP:-false}
+
+      # Discovery — „Dokumente finden". Default 'db' liest aus DiscoveryDocument-
+      # Tabelle (Source-Sync schreibt dort hinein). Optional 'paperless' oder 'null'.
+      NEXT_PRIVATE_DISCOVERY_TRANSPORT: ${NEXT_PRIVATE_DISCOVERY_TRANSPORT:-db}
+      NEXT_PRIVATE_DISCOVERY_PAPERLESS_URL: ${NEXT_PRIVATE_DISCOVERY_PAPERLESS_URL:-}
+      NEXT_PRIVATE_DISCOVERY_PAPERLESS_TOKEN: ${NEXT_PRIVATE_DISCOVERY_PAPERLESS_TOKEN:-}
+
+      # IMAP-Credential-Encryption. Eigener Key dringend empfohlen (mind. 32 Zeichen).
+      # Falls leer, fällt der Code auf NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY zurück.
+      NEXT_PRIVATE_IMAP_CREDENTIAL_KEY: ${NEXT_PRIVATE_IMAP_CREDENTIAL_KEY:-}
+      # Custom-Hosts erlauben? Default false — nur Mainstream-Provider zulassen.
+      NEXT_PRIVATE_IMAP_ALLOW_CUSTOM_HOSTS: ${NEXT_PRIVATE_IMAP_ALLOW_CUSTOM_HOSTS:-false}
+      # Optional: zusätzliche Hostnames zur Allowlist (komma-getrennt).
+      NEXT_PRIVATE_IMAP_HOST_ALLOWLIST: ${NEXT_PRIVATE_IMAP_HOST_ALLOWLIST:-}
     healthcheck:
       test: ['CMD-SHELL', 'wget -qO- http://localhost:3000/api/health >/dev/null || exit 1']
       interval: 30s

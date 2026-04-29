@@ -60,14 +60,28 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       ];
     }
 
+    // Reihenfolge spiegelt die Desktop-Nav: Documents → Dokumente finden →
+    // Vorlagen (extern) → GoBD (extern). Templates (Signier-Vorlagen) sind
+    // im Desktop bewusst nicht in der Haupt-Nav und sind hier ebenfalls weg —
+    // sie bleiben per Direkt-URL `/t/<team>/templates` erreichbar.
     return [
       {
         href: `/t/${teamUrl}/documents`,
         text: t`Documents`,
       },
       {
-        href: `/t/${teamUrl}/templates`,
-        text: t`Templates`,
+        href: `/t/${teamUrl}/find-documents`,
+        text: t`Dokumente finden`,
+      },
+      {
+        href: '/vorlagen/',
+        text: t`Vorlagen`,
+        external: true,
+      },
+      {
+        href: '/vorlagen/gobd/',
+        text: t`GoBD`,
+        external: true,
       },
       {
         href: '/inbox',
@@ -94,21 +108,32 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
         </Link>
 
         <div className="mt-8 flex w-full flex-col items-start gap-y-4">
-          {menuNavigationLinks.map(({ href, text }) => (
-            <Link
-              key={href}
-              className="flex items-center gap-2 text-2xl font-semibold text-foreground hover:text-foreground/80"
-              to={href}
-              onClick={() => handleMenuItemClick()}
-            >
-              {text}
-              {href === '/inbox' && unreadCountData && unreadCountData.count > 0 && (
-                <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">
-                  {unreadCountData.count > 99 ? '99+' : unreadCountData.count}
-                </span>
-              )}
-            </Link>
-          ))}
+          {menuNavigationLinks.map((link) =>
+            'external' in link && link.external ? (
+              <a
+                key={link.href}
+                className="flex items-center gap-2 text-2xl font-semibold text-foreground hover:text-foreground/80"
+                href={link.href}
+                onClick={() => handleMenuItemClick()}
+              >
+                {link.text}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                className="flex items-center gap-2 text-2xl font-semibold text-foreground hover:text-foreground/80"
+                to={link.href}
+                onClick={() => handleMenuItemClick()}
+              >
+                {link.text}
+                {link.href === '/inbox' && unreadCountData && unreadCountData.count > 0 && (
+                  <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">
+                    {unreadCountData.count > 99 ? '99+' : unreadCountData.count}
+                  </span>
+                )}
+              </Link>
+            ),
+          )}
 
           <button
             className="text-2xl font-semibold text-foreground hover:text-foreground/80"

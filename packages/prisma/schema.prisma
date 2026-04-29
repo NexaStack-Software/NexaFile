@@ -66,6 +66,10 @@ model User {
   folders   Folder[]
   envelopes Envelope[]
 
+  uploadedDiscoveryDocuments DiscoveryDocument[]
+  sources                    Source[]
+  discoveryAuditLogs         DiscoveryAuditLog[]
+
   verificationTokens VerificationToken[]
   apiTokens          ApiToken[]
   securityAuditLogs  UserSecurityAuditLog[]
@@ -495,11 +499,12 @@ enum DocumentSigningOrder {
 }
 
 model DocumentData {
-  id           String           @id @default(cuid())
-  type         DocumentDataType
-  data         String
-  initialData  String
-  envelopeItem EnvelopeItem?
+  id                String             @id @default(cuid())
+  type              DocumentDataType
+  data              String
+  initialData       String
+  envelopeItem      EnvelopeItem?
+  discoveryDocument DiscoveryDocument?
 }
 
 enum DocumentDistributionMethod {
@@ -930,6 +935,9 @@ model Team {
   apiTokens  ApiToken[]
   webhooks   Webhook[]
   teamGroups TeamGroup[]
+  discoveryDocuments DiscoveryDocument[]
+  discoveryAuditLogs DiscoveryAuditLog[]
+  sources            Source[]
 
   organisationId String
   organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
@@ -1119,5 +1127,152 @@ model RateLimit {
   createdAt DateTime @default(now())
 
   @@id([key, action, bucket])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// Discovery — Schritt 1 des Lifecycles („Dokumente finden")
+// -----------------------------------------------------------------------------
+// Ein DiscoveryDocument ist ein im System aufgetauchter Beleg, bevor er in den
+// Lifecycle übernommen wird (Schritt 3 = signieren). Pro Team isoliert.
+// Die Bytes liegen in DocumentData (Reuse des bestehenden Storage-Providers).
+
+enum DiscoveryDocumentStatus {
+  INBOX
+  PENDING_MANUAL
+  ACCEPTED
+  SIGNED
+  ARCHIVED
+  IGNORED
+}
+
+model DiscoveryDocument {
+  id             String                  @id @default(cuid())
+  teamId         Int
+  team           Team                    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  uploadedById   Int?
+  uploadedBy     User?                   @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  sourceId       String?
+  source         Source?                 @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+
+  title          String
+  correspondent  String?
+  documentType   String?
+  documentDate   DateTime?
+  capturedAt     DateTime                @default(now())
+
+  status         DiscoveryDocumentStatus @default(INBOX)
+
+  providerSource   String   // "local", "imap", "paperless", ...
+  providerNativeId String?
+
+  contentType    String?
+  fileSize       Int?
+  tags           String[]
+
+  // Strukturierte Felder aus der Klassifizierung — keine Mail-Body-Speicherung.
+  detectedAmount         String?
+  detectedInvoiceNumber  String?
+  portalHint             String?
+  messageIdHash          String?
+
+  // dataId ist optional, weil MANUAL-Belege (Beleg-Hinweis ohne PDF, User muss
+  // im Portal nachziehen) keine Bytes haben. Lokale Uploads und IMAP-AUTO-
+  // Imports haben weiterhin dataId.
+  dataId         String?       @unique
+  data           DocumentData? @relation(fields: [dataId], references: [id], onDelete: Cascade)
+
+  auditLogs      DiscoveryAuditLog[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([teamId, status])
+  @@index([teamId, capturedAt])
+  @@index([teamId, uploadedById, status])
+  @@index([sourceId])
+  @@index([messageIdHash])
+}
+
+// -----------------------------------------------------------------------------
+// Source — pro User konfigurierte Discovery-Quelle (IMAP, später Cloud).
+// -----------------------------------------------------------------------------
+
+enum SourceKind {
+  IMAP
+}
+
+enum SourceSyncStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  SUSPENDED
+}
+
+model Source {
+  id                        String           @id @default(cuid())
+  userId                    Int
+  user                      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // teamId ist Pflicht: User entscheidet beim Anlegen, in welches Team die
+  // gefundenen Belege fließen. Das verhindert Belege im falschen Team-Kontext
+  // bei Multi-Team-Mitgliedschaft.
+  teamId                    Int
+  team                      Team             @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  kind                      SourceKind
+  label                     String
+  encryptedConfig           String           @db.Text
+  encryptedConfigKeyVersion String           @default("v1")
+  lastSyncAt                DateTime?
+  lastSyncAttemptedAt       DateTime?
+  lastSyncStatus            SourceSyncStatus @default(PENDING)
+  lastSyncError             String?
+  consecutiveFailures       Int              @default(0)
+  syncLockUntil             DateTime?
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+
+  discoveryDocuments DiscoveryDocument[]
+  auditLogs          DiscoveryAuditLog[]
+
+  @@index([userId])
+  @@index([teamId])
+  @@index([lastSyncAt])
+  @@index([lastSyncAttemptedAt])
+}
+
+// -----------------------------------------------------------------------------
+// DiscoveryAuditLog — Audit-Spur für Source-Konfig und Discovery-Lifecycle.
+// -----------------------------------------------------------------------------
+
+enum DiscoveryAuditEvent {
+  IMAP_ACCOUNT_CREATED
+  IMAP_ACCOUNT_DELETED
+  IMAP_ACCOUNT_UPDATED
+  IMAP_SYNC_STARTED
+  IMAP_SYNC_COMPLETED
+  IMAP_SYNC_LOGIN_FAILED
+  IMAP_SYNC_TLS_INSECURE
+  IMAP_DOCUMENT_IMPORTED
+  DISCOVERY_DOCUMENT_ACCEPTED
+  DISCOVERY_DOCUMENT_IGNORED
+}
+
+model DiscoveryAuditLog {
+  id                  String              @id @default(cuid())
+  event               DiscoveryAuditEvent
+  sourceId            String?
+  source              Source?             @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  discoveryDocumentId String?
+  discoveryDocument   DiscoveryDocument?  @relation(fields: [discoveryDocumentId], references: [id], onDelete: SetNull)
+  userId              Int?
+  user                User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  teamId              Int?
+  team                Team?               @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  metadata            Json?
+  createdAt           DateTime            @default(now())
+
+  @@index([sourceId])
+  @@index([discoveryDocumentId])
+  @@index([userId])
   @@index([createdAt])
 }
