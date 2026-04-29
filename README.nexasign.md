@@ -33,6 +33,10 @@ angewiesen zu sein:
 - **DSGVO-konform** durch Self-Hosting
 - **eIDAS-Unterstützung** für einfache und fortgeschrittene elektronische Signaturen
 
+Wenn Sie NexaSign zuerst aus Anwender-Sicht verstehen wollen, lesen Sie
+[ERSTE-SCHRITTE.nexasign.md](ERSTE-SCHRITTE.nexasign.md). Diese Anleitung erklärt
+ohne technische Details, was man mit NexaSign praktisch machen kann.
+
 ## Wichtiger Hinweis zur Schriftform
 
 NexaSign erzeugt **einfache und fortgeschrittene elektronische Signaturen (EES/AES)**.
