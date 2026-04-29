@@ -52,7 +52,7 @@ export const AppNavDesktop = ({
       return [];
     }
 
-    // NexaFILE-Hauptnavigation: Finden → Erstellen → Signieren → Archivieren.
+    // NexaFILE-Hauptnavigation: Erstellen → Finden → Signieren → Archivieren.
     // Erstellen und Archivieren sind PHP-Bereiche, bleiben aber Teil derselben
     // Nutzerführung.
     return [
@@ -84,7 +84,22 @@ export const AppNavDesktop = ({
               exit={{ opacity: 0 }}
               className="flex items-baseline gap-x-6"
             >
-              {/* 1. Finden — interne Remix-Route */}
+              {/* 1. Erstellen — externer PHP-Bereich /vorlagen/ */}
+              <a
+                href="/vorlagen/"
+                data-tour="nav-vorlagen"
+                className={cn(
+                  'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
+                  {
+                    'text-foreground dark:text-muted-foreground':
+                      pathname?.startsWith('/vorlagen') && !pathname?.startsWith('/vorlagen/gobd'),
+                  },
+                )}
+              >
+                <Trans>Dokumente erstellen</Trans>
+              </a>
+
+              {/* 2. Finden — interne Remix-Route */}
               {menuNavigationLinks.slice(0, 1).map(({ href, label }) => (
                 <Link
                   key={href}
@@ -99,21 +114,6 @@ export const AppNavDesktop = ({
                   {_(label)}
                 </Link>
               ))}
-
-              {/* 2. Erstellen — externer PHP-Bereich /vorlagen/ */}
-              <a
-                href="/vorlagen/"
-                data-tour="nav-vorlagen"
-                className={cn(
-                  'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
-                  {
-                    'text-foreground dark:text-muted-foreground':
-                      pathname?.startsWith('/vorlagen') && !pathname?.startsWith('/vorlagen/gobd'),
-                  },
-                )}
-              >
-                <Trans>Dokumente erstellen</Trans>
-              </a>
 
               {/* 3. Signieren — interne Remix-Route */}
               {menuNavigationLinks.slice(1).map(({ href, label }) => (

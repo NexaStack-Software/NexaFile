@@ -60,18 +60,18 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       ];
     }
 
-    // NexaFILE-Hauptnavigation in 4 Schritten: Finden → Erstellen →
+    // NexaFILE-Hauptnavigation in 4 Schritten: Erstellen → Finden →
     // Signieren → Archivieren. Templates (Signier-Vorlagen) bleiben per Direkt-URL
     // /t/<team>/templates erreichbar, stehen aber nicht in der Haupt-Nav.
     return [
       {
-        href: `/t/${teamUrl}/find-documents`,
-        text: t`Dokumente finden`,
-      },
-      {
         href: '/vorlagen/',
         text: t`Dokumente erstellen`,
         external: true,
+      },
+      {
+        href: `/t/${teamUrl}/find-documents`,
+        text: t`Dokumente finden`,
       },
       {
         href: `/t/${teamUrl}/documents`,
