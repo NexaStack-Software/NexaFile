@@ -46,6 +46,7 @@ CREATE TYPE "DiscoveryAuditEvent" AS ENUM (
 CREATE TABLE "Source" (
   "id" TEXT NOT NULL,
   "userId" INTEGER NOT NULL,
+  "teamId" INTEGER NOT NULL,
   "kind" "SourceKind" NOT NULL,
   "label" TEXT NOT NULL,
   "encryptedConfig" TEXT NOT NULL,
@@ -63,6 +64,7 @@ CREATE TABLE "Source" (
 );
 
 CREATE INDEX "Source_userId_idx" ON "Source"("userId");
+CREATE INDEX "Source_teamId_idx" ON "Source"("teamId");
 CREATE INDEX "Source_lastSyncAt_idx" ON "Source"("lastSyncAt");
 CREATE INDEX "Source_lastSyncAttemptedAt_idx" ON "Source"("lastSyncAttemptedAt");
 
@@ -90,7 +92,7 @@ CREATE TABLE "DiscoveryDocument" (
   "detectedInvoiceNumber" TEXT,
   "portalHint" TEXT,
   "messageIdHash" TEXT,
-  "dataId" TEXT NOT NULL,
+  "dataId" TEXT,
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -133,6 +135,11 @@ CREATE INDEX "DiscoveryAuditLog_createdAt_idx" ON "DiscoveryAuditLog"("createdAt
 ALTER TABLE "Source"
   ADD CONSTRAINT "Source_userId_fkey"
   FOREIGN KEY ("userId") REFERENCES "User"("id")
+  ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "Source"
+  ADD CONSTRAINT "Source_teamId_fkey"
+  FOREIGN KEY ("teamId") REFERENCES "Team"("id")
   ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "DiscoveryDocument"
