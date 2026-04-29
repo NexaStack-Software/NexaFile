@@ -152,7 +152,10 @@ export default function DocumentsPage() {
             </h2>
           </div>
 
-          <div className="-m-1 flex flex-wrap gap-x-4 gap-y-6 overflow-hidden p-1">
+          <div
+            className="-m-1 flex flex-wrap gap-x-4 gap-y-6 overflow-hidden p-1"
+            data-tour="document-filters"
+          >
             <Tabs value={findDocumentSearchParams.status || 'ALL'} className="overflow-x-auto">
               <TabsList>
                 {[
@@ -203,7 +206,7 @@ export default function DocumentsPage() {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8" data-tour="document-list">
           <div>
             {data && data.count === 0 ? (
               <DocumentsTableEmptyState

@@ -85,6 +85,7 @@ export const AppNavDesktop = ({
                 <Link
                   key={href}
                   to={href}
+                  data-tour={href.includes('/documents') ? 'nav-documents' : undefined}
                   className={cn(
                     'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
                     {
@@ -98,6 +99,7 @@ export const AppNavDesktop = ({
               {/* NexaSign: „Vorlagen" und „GoBD" — externe Bereiche, gleicher Stil wie die Remix-Links */}
               <a
                 href="/vorlagen/"
+                data-tour="nav-vorlagen"
                 className={cn(
                   'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
                   {

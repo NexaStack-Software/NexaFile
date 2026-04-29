@@ -12,6 +12,7 @@ import { Button } from '@nexasign/ui/primitives/button';
 
 import { AppBanner } from '~/components/general/app-banner';
 import { Header } from '~/components/general/app-header';
+import { DemoProductTour } from '~/components/general/demo-product-tour';
 import { GenericErrorLayout } from '~/components/general/generic-error-layout';
 import { OrganisationBillingBanner } from '~/components/general/organisations/organisation-billing-banner';
 import { VerifyEmailBanner } from '~/components/general/verify-email-banner';
@@ -125,6 +126,8 @@ export default function Layout({ loaderData, params, matches }: Route.ComponentP
         >
           <Outlet />
         </main>
+
+        {!hideHeader && <DemoProductTour />}
       </TeamProvider>
     </OrganisationProvider>
   );
