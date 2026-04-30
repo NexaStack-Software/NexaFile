@@ -247,6 +247,11 @@ msgstr ""
 msgid "{0}"
 msgstr "{0}"
 
+#. placeholder {0}: result.attachmentsAdded
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "{0} Anhang/Anhänge wieder verfügbar."
+msgstr ""
+
 #. placeholder {0}: team.name
 #: apps/remix/app/components/dialogs/public-profile-template-manage-dialog.tsx
 msgid "{0} direct signing templates"
@@ -336,6 +341,10 @@ msgstr "{browserInfo} em {os}"
 #: apps/remix/app/components/general/document-signing/document-signing-text-field.tsx
 msgid "{charactersRemaining, plural, one {1 character remaining} other {{charactersRemaining} characters remaining}}"
 msgstr "{charactersRemaining, plural, one {1 caractere restante} other {{charactersRemaining} caracteres restantes}}"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{downloadableCount} davon mit Anhang — ZIP enthält MANIFEST.txt mit Liste der übersprungenen Mails."
+msgstr ""
 
 #: packages/email/template-components/template-access-auth-2fa.tsx
 msgid "{expiresInMinutes, plural, one {This code will expire in # minute.} other {This code will expire in # minutes.}}"
@@ -442,6 +451,10 @@ msgstr "{recipientReference} assinou {documentName}"
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "{remaningLength, plural, one {# character remaining} other {# characters remaining}}"
 msgstr "{remaningLength, plural, one {# caractere restante} other {# caracteres restantes}}"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{selectedCount} ausgewählt"
+msgstr ""
 
 #: apps/remix/app/components/tables/envelopes-table-bulk-action-bar.tsx
 msgid "{selectedCount} selected"
@@ -715,6 +728,10 @@ msgstr "<0>Todos</0> - Todos podem acessar e visualizar o documento"
 msgid "<0>Full account access:</0> View all your profile information, settings, and activity"
 msgstr "<0>Acesso total à conta:</0> Visualize todas as informações do seu perfil, configurações e atividades"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "<0>Für Z2 und Z3</0> liefert NexaSign das CLI-Tool <1>nexasign-gobd-export</1> — siehe nächster Abschnitt."
+msgstr ""
+
 #: packages/ui/components/recipient/recipient-action-auth-select.tsx
 msgid "<0>Inherit authentication method</0> - Use the global action signing authentication method configured in the \"General Settings\" step"
 msgstr "<0>Herdar método de autenticação</0> - Use o método de autenticação de assinatura de ação global configurado na etapa \"Configurações Gerais\""
@@ -798,6 +815,10 @@ msgstr "1 organização gratuita restante"
 #: apps/remix/app/components/forms/token.tsx
 msgid "1 month"
 msgstr "1 mês"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaSign hochladen und signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt."
+msgstr ""
 
 #: apps/remix/app/components/forms/token.tsx
 msgid "12 months"
@@ -1499,10 +1520,15 @@ msgstr ""
 msgid "Aktiv"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Aktueller Stand (Phase 1): Metadaten- und Audit-Export. PDF-Binary-Export aus der <0>DocumentData</0>-Tabelle und SHA-256-Manifest folgen in Phase 2."
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Akzeptieren"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Akzeptiert"
@@ -1583,6 +1609,10 @@ msgstr "Todos os modelos"
 #: apps/remix/app/components/general/period-selector.tsx
 msgid "All Time"
 msgstr "Todo o Período"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Alle"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
 msgid "Alle Belege"
@@ -1964,6 +1994,11 @@ msgstr ""
 msgid "Anbieter auswählen"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Anhänge + Mail als ZIP"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/inbox.tsx
 msgid "Any documents that you have been invited to will appear here"
 msgstr "Quaisquer documentos para os quais você foi convidado aparecerão aqui"
@@ -2041,6 +2076,7 @@ msgctxt "Recipient role progressive verb"
 msgid "Approving"
 msgstr "Aprovando"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Archiv"
 msgstr ""
@@ -2207,6 +2243,10 @@ msgstr ""
 msgid "Audit Logs"
 msgstr "Logs de Auditoria"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Auswahl aufheben"
+msgstr ""
+
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Authentication Level"
@@ -2274,6 +2314,10 @@ msgstr "Códigos de backup"
 #: apps/remix/app/routes/_authenticated+/admin+/site-settings.tsx
 msgid "Banner Updated"
 msgstr "Banner Atualizado"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Bausteine"
+msgstr ""
 
 #. placeholder {0}: formatDateTime(run.finishedAt, locale)
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
@@ -3857,12 +3901,20 @@ msgstr "Dispositivo"
 msgid "Didn't request a password change? We are here to help you secure your account, just <0>contact us</0>."
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Die Verantwortungs-Teilung"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Diese Quelle existiert nicht oder wurde gelöscht."
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Diese Quelle ist gesperrt."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Diese Vorlagen dienen zur <0>Orientierung</0> und stellen keine Rechtsberatung i.S.d. Rechtsdienstleistungsgesetzes dar. Vor produktiver Verwendung bitte durch zugelassene/n Rechtsanwältin/-anwalt prüfen lassen. Die Nutzung erfolgt auf eigenes Risiko."
 msgstr ""
 
 #: apps/remix/app/components/general/template/template-direct-link-badge.tsx
@@ -5168,6 +5220,10 @@ msgstr "Envelope atualizado"
 msgid "Erkannter Betrag"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Erneut aus IMAP laden"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-user-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-user-disable-dialog.tsx
@@ -5340,6 +5396,10 @@ msgstr "Expira em {0}"
 msgid "Expires on {0}"
 msgstr "Expira em {0}"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Export-CLI — "
+msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 #: packages/ui/primitives/document-flow/add-settings.tsx
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
@@ -5349,6 +5409,10 @@ msgstr "ID Externo"
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
 msgid "Extracting contact details"
 msgstr "Extraindo detalhes de contato"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Fachbegriffe & FAQ"
+msgstr ""
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
@@ -5563,6 +5627,10 @@ msgstr "Preencha os detalhes para criar uma nova reivindicação de assinatura."
 
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
 msgid "Filter by status"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Finanzamt-Zugriff: Z1, Z2, Z3"
 msgstr ""
 
 #: apps/remix/app/components/dialogs/document-move-to-folder-dialog.tsx
@@ -5797,6 +5865,22 @@ msgstr "Ir para a equipe"
 msgid "Go to your <0>public profile settings</0> to add documents."
 msgstr "Vá para suas <0>configurações de perfil público</0> para adicionar documentos."
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD steht für <0>„Grundsätze zur ordnungsmäßigen Führung und Aufbewahrung von Büchern, Aufzeichnungen und Unterlagen in elektronischer Form sowie zum Datenzugriff\"</0> — ein BMF-Schreiben aus dem Jahr 2019, das für alle deutschen Unternehmen verbindlich ist, die Bücher führen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD-Archivierung"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD-konforme Archivierung mit NexaSign"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD-Konformität ist <0>nie</0> die Leistung eines einzelnen Tools. Sie entsteht aus dem Zusammenspiel von drei Elementen:"
+msgstr ""
+
 #: packages/ui/primitives/signature-pad/signature-pad-color-picker.tsx
 msgid "Green"
 msgstr "Verde"
@@ -5927,6 +6011,10 @@ msgstr "Ocultar"
 msgid "Hide license key"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Holt die Mail nochmal vom Mailserver und schreibt Anhänge + .eml ins Archiv."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/folder-move-dialog.tsx
 #: apps/remix/app/components/general/folder/folder-grid.tsx
 #: apps/remix/app/components/general/generic-error-layout.tsx
@@ -6040,6 +6128,10 @@ msgstr "Se seu aplicativo autenticador não suportar códigos QR, você pode usa
 msgid "Ignorieren"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Ignoriert"
+msgstr ""
+
 #. placeholder {0}: source.teamName
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "IMAP-Konto · Belege fließen in Team „{0}\""
@@ -6118,6 +6210,10 @@ msgstr ""
 #: apps/remix/app/components/general/template/template-page-view-information.tsx
 msgid "Information"
 msgstr "Informação"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Inhalt des Export-Pakets"
+msgstr ""
 
 #: packages/ui/components/recipient/recipient-action-auth-select.tsx
 msgid "Inherit authentication method"
@@ -6355,11 +6451,27 @@ msgid "Joined {0}"
 msgstr "Entrou {0}"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Kein Anhang"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Keine Belege im aktuellen Bereich"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Keine Dateien im Archiv. Diese E-Mail wurde entweder vor Aktivierung des Archive-Features importiert oder enthielt keinen herunterladbaren Anhang (z. B. Beleg-Hinweis ohne PDF, der zum Portal verweist)."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Kern: Wenn Sie <0>steuerrelevante Dokumente</0> (Rechnungen, Verträge, Handelsbriefe) digital erzeugen oder ablegen, müssen sie <1>10 Jahre unveränderbar</1> aufbewahrt und im Prüfungsfall dem Finanzamt zugänglich gemacht werden. Unterschriebene Verträge aus NexaSign fallen eindeutig unter diese Pflicht."
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 msgid "Key identifiers and relationships for this team."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten Envelopes und das Audit-Log eines Zeitraums als strukturiertes Paket."
 msgstr ""
 
 #: packages/lib/constants/i18n.ts
@@ -6642,6 +6754,10 @@ msgstr "Procurando campos de formulário"
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
 msgid "Looking for signature fields"
 msgstr "Procurando campos de assinatura"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Mail erneut aus IMAP geladen"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
 msgid "Mail-Inhalt"
@@ -7021,6 +7137,10 @@ msgstr "Minha Pasta"
 msgid "N/A"
 msgstr "N/A"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Nach § 147 Abs. 6 AO kann das Finanzamt drei Arten von Datenzugriff fordern:"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/assistant-confirmation-dialog.tsx
 #: apps/remix/app/components/dialogs/folder-update-dialog.tsx
@@ -7118,8 +7238,16 @@ msgstr ""
 msgid "New Password"
 msgstr "Nova Senha"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "NexaSign ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung."
+msgstr ""
+
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "NexaSign License"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "NexaSign stellt <0>GoBD-orientierte Archivfunktionen</0> zur Verfügung. Die GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit Ihrer/m Steuerberater/in, Datenschutzbeauftragten und — für formale Zertifizierungen — mit einer/m Wirtschaftsprüfer/in."
 msgstr ""
 
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
@@ -7413,6 +7541,10 @@ msgstr "Número de equipes permitidas. 0 = Ilimitado"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Number Settings"
 msgstr "Configurações de Número"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Nutzung"
+msgstr ""
 
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "Off"
@@ -8341,6 +8473,10 @@ msgstr ""
 msgid "Quelle wirklich entfernen?"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Quelle: <0>NexaStack</0> — Open-Source-Vorlagen unter CC-BY 4.0. Feedback und Pull Requests willkommen."
+msgstr ""
+
 #: apps/remix/app/components/general/settings-nav-desktop.tsx
 #: apps/remix/app/components/general/settings-nav-mobile.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
@@ -8381,6 +8517,11 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
 msgid "Re-register Email Domain"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Re-Sync fehlgeschlagen"
 msgstr ""
 
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/checkbox-field.tsx
@@ -10024,6 +10165,7 @@ msgstr "Estatísticas"
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/audit-log.tsx
@@ -11808,6 +11950,10 @@ msgstr "Desafixar"
 msgid "Unsealed Documents"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Unterschriebene Verträge sind <0>steuerrelevante Belege</0> — das Finanzamt darf sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaSign für eine <1>GoBD-orientierte Archivierung</1> mitbringt: Erklärungen, Vorlagen, Tools, FAQ."
+msgstr ""
+
 #: apps/remix/app/components/general/user-profile-timur.tsx
 msgid "Unterzeichnen"
 msgstr ""
@@ -12274,6 +12420,10 @@ msgstr "Vertical"
 msgid "Vertical Align"
 msgstr "Alinhamento Vertical"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Vertragsvorlagen für deutsche Unternehmen"
+msgstr ""
+
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
 #: apps/remix/app/components/forms/2fa/view-recovery-codes-dialog.tsx
 #: apps/remix/app/components/general/document/document-page-view-button.tsx
@@ -12459,6 +12609,10 @@ msgstr "Visibilidade"
 msgid "Von"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Vorlagen"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Vorletztes Jahr"
 msgstr ""
@@ -12511,6 +12665,18 @@ msgstr "Aviso: Assistente como último signatário"
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 msgid "Wartet auf ersten Sync"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Was ist GoBD überhaupt?"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Was NexaSign liefert"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Was Sie selbst regeln"
 msgstr ""
 
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx

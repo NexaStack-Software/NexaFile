@@ -155,10 +155,7 @@ const syncRange = async (ctx: SyncRangeContext): Promise<SyncRangeResult> => {
 
     const lock = await client.getMailboxLock(mailbox);
     try {
-      const searchResult = await client.search(
-        { since: ctx.from, before: ctx.to },
-        { uid: true },
-      );
+      const searchResult = await client.search({ since: ctx.from, before: ctx.to }, { uid: true });
       const uids: number[] = Array.isArray(searchResult) ? searchResult : [];
 
       // Neueste zuerst — ergibt sinnvolle Progress-Reihenfolge im UI.
@@ -209,6 +206,13 @@ const syncRange = async (ctx: SyncRangeContext): Promise<SyncRangeResult> => {
             counters.documentsIgnored += 1;
             continue;
           }
+
+          // Hinweis: der `existing`-Check oben ist KEIN echter Race-Schutz —
+          // bei parallelen Sync-Runs koennen beide den Datensatz noch nicht sehen
+          // und beide schreiben. Der echte Schutz ist der Partial-Unique-Index
+          // (sourceId, messageIdHash) in der DB (Migration 20260430080000_…).
+          // Das innere try/catch unten faengt Prisma-P2002 ab und behandelt es
+          // als „bereits vorhanden, ueberspringen", statt als FAILED zu zaehlen.
 
           const result = classifyAndExtract({
             senderDomain: parsed.fromDomain,
@@ -395,8 +399,20 @@ const syncRange = async (ctx: SyncRangeContext): Promise<SyncRangeResult> => {
             });
             counters.documentsManual += 1;
           }
-        } catch {
-          counters.documentsFailed += 1;
+        } catch (err) {
+          // Prisma P2002 = unique constraint violation. Bei (sourceId, messageIdHash)
+          // bedeutet das: ein paralleler Sync-Run hat den Datensatz zwischen unserem
+          // findFirst() und create() bereits geschrieben. Kein Fehler — Idempotenz
+          // greift, wir zaehlen es als ignored und machen weiter.
+          const code =
+            err && typeof err === 'object' && 'code' in err
+              ? (err as { code?: unknown }).code
+              : undefined;
+          if (code === 'P2002') {
+            counters.documentsIgnored += 1;
+          } else {
+            counters.documentsFailed += 1;
+          }
         }
 
         // Progress alle PROGRESS_REPORT_EVERY Mails persistieren.

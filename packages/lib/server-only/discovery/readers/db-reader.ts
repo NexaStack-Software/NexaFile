@@ -71,23 +71,39 @@ type DbDiscoveryDocument = {
   detectedInvoiceNumber: string | null;
   acceptedAt: Date | null;
   acceptedBy: { name: string | null } | null;
+  archivePath: string | null;
+  _count: { artifacts: number };
 };
 
-const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => ({
-  id: doc.id,
-  nativeId: doc.id,
-  title: doc.title,
-  correspondent: doc.correspondent,
-  documentType: doc.documentType,
-  tags: doc.tags,
-  documentDate: doc.documentDate,
-  capturedAt: doc.capturedAt,
-  status: NATIVE_TO_UI_STATUS[doc.status] ?? 'inbox',
-  detectedAmount: doc.detectedAmount,
-  detectedInvoiceNumber: doc.detectedInvoiceNumber,
-  acceptedAt: doc.acceptedAt,
-  acceptedByName: doc.acceptedBy?.name ?? null,
-});
+const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => {
+  // attachmentCount = Anzahl ATTACHMENT-Artifacts. _count.artifacts liefert
+  // alle Artifacts (inkl. MAIL_EML/BODY/METADATA), wir interessieren uns aber
+  // nur für die User-sichtbaren Anhaenge. Vereinfacht: wenn _count > 1, dann
+  // hat die Mail mind. einen ATTACHMENT (jeder Sync schreibt 3 Standard-
+  // Artifacts: EML+BODY_TEXT+METADATA — alles drueber sind Anhaenge).
+  // Exakt waere ein separater count, aber das ist N+1 — fuer V1 reicht die
+  // Heuristik. Spaeter: dedizierter count via where-Clause auf kind=ATTACHMENT.
+  const attachmentCount = Math.max(0, doc._count.artifacts - 3);
+  const hasArchive = doc.archivePath !== null && doc.archivePath !== '' && doc._count.artifacts > 0;
+
+  return {
+    id: doc.id,
+    nativeId: doc.id,
+    title: doc.title,
+    correspondent: doc.correspondent,
+    documentType: doc.documentType,
+    tags: doc.tags,
+    documentDate: doc.documentDate,
+    capturedAt: doc.capturedAt,
+    status: NATIVE_TO_UI_STATUS[doc.status] ?? 'inbox',
+    detectedAmount: doc.detectedAmount,
+    detectedInvoiceNumber: doc.detectedInvoiceNumber,
+    acceptedAt: doc.acceptedAt,
+    acceptedByName: doc.acceptedBy?.name ?? null,
+    attachmentCount,
+    hasArchive,
+  };
+};
 
 const buildWhere = (
   teamId: number,
@@ -102,7 +118,8 @@ const buildWhere = (
     where.OR = [{ providerSource: 'local' }, { uploadedById: userId }];
   }
 
-  if (filter.status) {
+  // 'all' überspringt den Status-Filter — Hauptanwendungsfall „Überblick".
+  if (filter.status && filter.status !== 'all') {
     where.status = { in: UI_TO_NATIVE_STATUS[filter.status] };
   }
 
@@ -144,10 +161,16 @@ export const dbDiscoveryReader: DiscoveryReader = {
       prisma.discoveryDocument.count({ where }),
       prisma.discoveryDocument.findMany({
         where,
-        orderBy: { capturedAt: 'desc' },
+        // Dokumentdatum vor capturedAt — User will chronologische Sicht über
+        // den Belegzeitraum, nicht über den Sync-Zeitpunkt.
+        orderBy: [{ documentDate: 'desc' }, { capturedAt: 'desc' }],
         take: PAGE_SIZE + 1,
         ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-        include: { acceptedBy: { select: { name: true } } },
+        include: {
+          acceptedBy: { select: { name: true } },
+          // attachmentCount/hasArchive ableiten — siehe toDiscoveryDocument().
+          _count: { select: { artifacts: true } },
+        },
       }),
     ]);
 
@@ -166,7 +189,10 @@ export const dbDiscoveryReader: DiscoveryReader = {
     const where = buildWhere(teamId, ctx?.userId, {});
     const doc = await prisma.discoveryDocument.findFirst({
       where: { ...where, id },
-      include: { acceptedBy: { select: { name: true } } },
+      include: {
+        acceptedBy: { select: { name: true } },
+        _count: { select: { artifacts: true } },
+      },
     });
     return doc ? toDiscoveryDocument(doc) : null;
   },

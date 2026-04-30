@@ -1210,6 +1210,13 @@ model DiscoveryDocument {
   @@index([sourceId])
   @@index([messageIdHash])
   @@index([acceptedAt])
+
+  // Idempotenz-Constraint: pro Source darf jede Message-ID nur einmal vorkommen.
+  // Schliesst die Race-Luecke des App-seitigen findFirst-vor-create-Patterns im
+  // IMAP-Adapter (verifiziert 2026-04-30 nach doppelten Receipts in der Beleg-Inbox).
+  // Implementiert als PARTIAL-Unique-Index (excludes NULL) in der Migration
+  // 20260430080000_dedupe_discovery_documents — Prisma kann partial indexes nicht
+  // per @@unique-Direktive ausdruecken, daher hier nur als Kommentar dokumentiert.
 }
 
 enum DiscoveryArtifactKind {
@@ -1339,6 +1346,7 @@ enum DiscoveryAuditEvent {
   IMAP_SYNC_LOGIN_FAILED
   IMAP_SYNC_TLS_INSECURE
   IMAP_DOCUMENT_IMPORTED
+  IMAP_DOCUMENT_RESYNCED
   DISCOVERY_DOCUMENT_ACCEPTED
   DISCOVERY_DOCUMENT_IGNORED
 }

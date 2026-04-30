@@ -43,11 +43,28 @@ export type DiscoveryDocument = {
   detectedInvoiceNumber?: string | null;
   acceptedAt?: Date | null;
   acceptedByName?: string | null;
+  /**
+   * Anzahl ATTACHMENT-Artifacts mit nicht-leerem archivePath. 0 = nichts
+   * herunterladbar (entweder MANUAL ohne PDF oder vor-Archive-Sync-Datensatz).
+   */
+  attachmentCount: number;
+  /**
+   * Hat das Document einen archivePath gesetzt UND mind. ein Artifact?
+   * Convenience-Flag fuer UI: Download-Button enable/disable.
+   */
+  hasArchive: boolean;
 };
+
+export type DiscoveryListStatusFilter = DiscoveryDocumentStatus | 'all';
 
 export type DiscoveryFilter = {
   query?: string;
-  status?: DiscoveryDocumentStatus;
+  /**
+   * Status-Filter. 'all' bedeutet: alle Status zeigen — der Hauptzweck der
+   * Listenansicht ist „welche Mail mit welcher Rechnung wann" — nicht ein
+   * Workflow-getrennter Tabs-Blick.
+   */
+  status?: DiscoveryListStatusFilter;
   correspondent?: string;
   documentDateFrom?: Date;
   documentDateTo?: Date;

@@ -11,6 +11,14 @@ export const ZDiscoveryDocumentStatusSchema = z.enum([
   'processed',
 ]);
 
+// Filter-Wert für die Listenansicht. „all" zeigt alle Belege unabhängig vom
+// Status — Hauptzweck: Überblick „welche Mail mit welcher Rechnung wann".
+// Der DB-Filter ignoriert dann die status-Spalte komplett.
+export const ZDiscoveryListFilterSchema = z.union([
+  z.literal('all'),
+  ZDiscoveryDocumentStatusSchema,
+]);
+
 export const ZDiscoveryDocumentSchema = z.object({
   id: z.string(),
   nativeId: z.string(),
@@ -26,6 +34,11 @@ export const ZDiscoveryDocumentSchema = z.object({
   detectedInvoiceNumber: z.string().nullable().optional(),
   acceptedAt: z.coerce.date().nullable().optional(),
   acceptedByName: z.string().nullable().optional(),
+  // Anzahl ATTACHMENT-Artifacts mit nicht-leerem archivePath. Wenn 0 → Mail
+  // hat keine herunterladbaren Anhänge (entweder MANUAL ohne PDF, oder vor-
+  // Archive-Sync-Datensatz). Wird im Listen-Loader vorberechnet.
+  attachmentCount: z.number().int().nonnegative(),
+  hasArchive: z.boolean(),
 });
 
 export const ZSourceKindSchema = z.enum(['IMAP']);
@@ -42,7 +55,8 @@ export const ZSourceSummarySchema = z.object({
 
 export const ZFindDiscoveryDocumentsRequestSchema = z.object({
   query: z.string().trim().optional(),
-  status: ZDiscoveryDocumentStatusSchema.optional(),
+  // status entweder ein konkreter Status oder "all" für alle.
+  status: ZDiscoveryListFilterSchema.optional(),
   correspondent: z.string().trim().optional(),
   documentDateFrom: z.coerce.date().optional(),
   documentDateTo: z.coerce.date().optional(),
@@ -136,3 +150,25 @@ export type TFindDiscoveryDocumentsRequest = z.infer<typeof ZFindDiscoveryDocume
 export type TFindDiscoveryDocumentsResponse = z.infer<typeof ZFindDiscoveryDocumentsResponseSchema>;
 export type TGetDiscoveryDocumentRequest = z.infer<typeof ZGetDiscoveryDocumentRequestSchema>;
 export type TGetDiscoveryDocumentResponse = z.infer<typeof ZGetDiscoveryDocumentResponseSchema>;
+
+// Re-Sync einer einzelnen Mail aus IMAP — laedt Archive nach fuer Belege,
+// die vor Aktivierung des Archive-Features importiert wurden.
+export const ZResyncSingleDocumentRequestSchema = z.object({
+  id: z.string(),
+});
+
+export const ZResyncSingleDocumentResponseSchema = z.discriminatedUnion('ok', [
+  z.object({
+    ok: z.literal(true),
+    archivePath: z.string(),
+    attachmentsAdded: z.number().int().nonnegative(),
+    alreadyHadArchive: z.boolean(),
+  }),
+  z.object({
+    ok: z.literal(false),
+    reason: z.string(),
+  }),
+]);
+
+export type TResyncSingleDocumentRequest = z.infer<typeof ZResyncSingleDocumentRequestSchema>;
+export type TResyncSingleDocumentResponse = z.infer<typeof ZResyncSingleDocumentResponseSchema>;

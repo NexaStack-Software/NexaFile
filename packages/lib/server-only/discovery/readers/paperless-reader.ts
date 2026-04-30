@@ -160,6 +160,10 @@ const toDiscoveryDocument = (doc: PaperlessDocument, lookups: LookupCache): Disc
     documentDate: doc.created ? new Date(doc.created) : null,
     capturedAt: doc.added ? new Date(doc.added) : new Date(),
     status: deriveStatus(tagNames),
+    // Paperless-Quellen liefern immer ein Document mit binär-Inhalt — daher
+    // counted: 1 Anhang, hasArchive true. Kein File-System-Archive wie bei IMAP.
+    attachmentCount: 1,
+    hasArchive: true,
   };
 };
 

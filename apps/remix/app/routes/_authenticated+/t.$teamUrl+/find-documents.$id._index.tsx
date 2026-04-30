@@ -17,6 +17,7 @@ import {
   LockIcon,
   MailIcon,
   PaperclipIcon,
+  RefreshCwIcon,
   XCircleIcon,
 } from 'lucide-react';
 import { Link, useNavigate, useParams } from 'react-router';
@@ -82,6 +83,7 @@ const ArtifactRow = ({ artifact }: { artifact: TDiscoveryArtifact }) => {
 export default function FindDocumentsDetail() {
   const params = useParams();
   const id = params.id ?? '';
+  const teamUrl = params.teamUrl ?? '';
   const navigate = useNavigate();
   const { _, i18n } = useLingui();
   const { toast } = useToast();
@@ -108,6 +110,34 @@ export default function FindDocumentsDetail() {
     updateStatusMutation.mutate({ id, action });
   };
 
+  // Re-Sync einer einzelnen Mail aus IMAP — laedt das Archive nach, falls es
+  // beim Erst-Sync noch keine Archive-Funktion gab oder Files verloren gingen.
+  const resyncMutation = trpc.discovery.resyncSingle.useMutation({
+    onSuccess: (result) => {
+      if (result.ok) {
+        toast({
+          title: _(msg`Mail erneut aus IMAP geladen`),
+          description: _(msg`${result.attachmentsAdded} Anhang/Anhänge wieder verfügbar.`),
+        });
+        void utils.discovery.getDocumentDetail.invalidate({ id });
+        void utils.discovery.findDocuments.invalidate();
+      } else {
+        toast({
+          title: _(msg`Re-Sync fehlgeschlagen`),
+          description: result.reason,
+          variant: 'destructive',
+        });
+      }
+    },
+    onError: (err) => {
+      toast({
+        title: _(msg`Re-Sync fehlgeschlagen`),
+        description: err.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="mx-auto w-full max-w-screen-lg px-4 py-8 md:px-8">
@@ -125,7 +155,7 @@ export default function FindDocumentsDetail() {
           <h2 className="text-lg font-semibold">
             <Trans>Beleg nicht gefunden</Trans>
           </h2>
-          <Button asChild variant="outline" onClick={() => navigate(-1)}>
+          <Button asChild variant="outline" onClick={async () => navigate(-1)}>
             <span>
               <ArrowLeftIcon className="mr-2 h-4 w-4" aria-hidden />
               <Trans>Zurück</Trans>
@@ -150,9 +180,7 @@ export default function FindDocumentsDetail() {
               <Trans>Alle Belege</Trans>
             </Link>
           </Button>
-          <h1 className="break-words text-2xl font-bold tracking-tight md:text-3xl">
-            {doc.title}
-          </h1>
+          <h1 className="break-words text-2xl font-bold tracking-tight md:text-3xl">{doc.title}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
             {doc.correspondent && <span>{doc.correspondent}</span>}
             <span>{formatDate(doc.documentDate ?? doc.capturedAt, i18n.locale)}</span>
@@ -259,7 +287,10 @@ export default function FindDocumentsDetail() {
             </h2>
             {doc.bodyHasHtml && (
               <p className="text-xs text-muted-foreground">
-                <Trans>HTML-Variante als Datei verfügbar — wird aus Sicherheitsgründen nicht inline angezeigt.</Trans>
+                <Trans>
+                  HTML-Variante als Datei verfügbar — wird aus Sicherheitsgründen nicht inline
+                  angezeigt.
+                </Trans>
               </p>
             )}
           </div>
@@ -269,18 +300,64 @@ export default function FindDocumentsDetail() {
         </Card>
       )}
 
-      {/* Artifact-Liste */}
-      {artifacts.length > 0 && (
+      {/* Artifact-Liste — nur wenn ueberhaupt Files da sind. Wenn nicht,
+          zeigen wir einen ehrlichen Hinweis statt eines toten Buttons. */}
+      {artifacts.length > 0 ? (
         <div className="mb-6">
-          <h2 className="mb-2 text-sm font-semibold">
-            <Trans>Dateien im Archiv</Trans>
-          </h2>
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <h2 className="text-sm font-semibold">
+              <Trans>Dateien im Archiv</Trans>
+            </h2>
+            {/* Sammel-Download: Anhänge + .eml als ZIP, eigener Ordner-Prefix.
+                Nutzt denselben Endpoint wie Multi-Select aus der Listen-Ansicht.
+                Absoluter Pfad — relative URLs resolven hier ungewollt. */}
+            <Button asChild variant="outline" size="sm">
+              <a href={`/t/${teamUrl}/find-documents/zip-attachments?ids=${id}`} download>
+                <DownloadIcon className="mr-2 h-3.5 w-3.5" aria-hidden />
+                <Trans>Anhänge + Mail als ZIP</Trans>
+              </a>
+            </Button>
+          </div>
           <div className="flex flex-col gap-2">
             {artifacts.map((art) => (
               <ArtifactRow key={art.id} artifact={art} />
             ))}
           </div>
         </div>
+      ) : (
+        <Card className="mb-6 border-dashed bg-muted/30 p-4 text-sm">
+          <p className="text-muted-foreground">
+            <Trans>
+              Keine Dateien im Archiv. Diese E-Mail wurde entweder vor Aktivierung des
+              Archive-Features importiert oder enthielt keinen herunterladbaren Anhang (z. B.
+              Beleg-Hinweis ohne PDF, der zum Portal verweist).
+            </Trans>
+          </p>
+          {/* Re-Sync nur fuer IMAP-Belege anbieten — andere Provider haben
+              keinen Re-Fetch-Pfad. Knopf laedt eml + Anhaenge nach. */}
+          {doc.providerSource === 'imap' && (
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => resyncMutation.mutate({ id })}
+                disabled={resyncMutation.isPending}
+              >
+                {resyncMutation.isPending ? (
+                  <Loader2Icon className="mr-2 h-3.5 w-3.5 animate-spin" aria-hidden />
+                ) : (
+                  <RefreshCwIcon className="mr-2 h-3.5 w-3.5" aria-hidden />
+                )}
+                <Trans>Erneut aus IMAP laden</Trans>
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                <Trans>
+                  Holt die Mail nochmal vom Mailserver und schreibt Anhänge + .eml ins Archiv.
+                </Trans>
+              </span>
+            </div>
+          )}
+        </Card>
       )}
 
       {/* Server-Pfad-Hinweis fürs FTP/SCP-Reingucken */}

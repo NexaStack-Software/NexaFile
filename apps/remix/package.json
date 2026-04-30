@@ -17,6 +17,7 @@
     "@cantoo/pdf-lib": "^2.5.3",
     "@nexasign/api": "*",
     "@nexasign/assets": "*",
+    "jszip": "^3.10.1",
     "@nexasign/auth": "*",
     "@nexasign/ee": "*",
     "@nexasign/lib": "*",

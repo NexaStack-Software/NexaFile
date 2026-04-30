@@ -49,6 +49,12 @@ export const intakeRouter = router({
         documentDate: created.documentDate,
         capturedAt: created.capturedAt,
         status: 'inbox' as const,
+        // Lokal hochgeladene Belege haben ihre Bytes direkt in `DocumentData`
+        // (nicht im IMAP-Archive). Für die Listen-/UI-Logik zaehlen wir das
+        // als "ein Anhang verfügbar", auch wenn es kein DiscoveryArtifact-Record
+        // ist — der Download lauft hier nicht ueber das ZIP-Endpoint.
+        attachmentCount: 1,
+        hasArchive: true,
       };
     }),
 });

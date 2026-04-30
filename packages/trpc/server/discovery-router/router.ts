@@ -3,6 +3,7 @@
 import { AppError, AppErrorCode } from '@nexasign/lib/errors/app-error';
 import { getDiscoveryReader, isDiscoveryConfigured } from '@nexasign/lib/server-only/discovery';
 import { getAbsoluteArchivePath } from '@nexasign/lib/server-only/sources/archive';
+import { resyncSingleDocument } from '@nexasign/lib/server-only/sources/imap';
 import { prisma } from '@nexasign/prisma';
 
 import { authenticatedProcedure, router } from '../trpc';
@@ -13,6 +14,8 @@ import {
   ZGetDiscoveryDocumentResponseSchema,
   ZGetDocumentDetailRequestSchema,
   ZGetDocumentDetailResponseSchema,
+  ZResyncSingleDocumentRequestSchema,
+  ZResyncSingleDocumentResponseSchema,
   ZUpdateDiscoveryDocumentStatusRequestSchema,
   ZUpdateDiscoveryDocumentStatusResponseSchema,
 } from './schema';
@@ -234,6 +237,12 @@ export const discoveryRouter = router({
           ? `https://mail.google.com/mail/u/0/#search/${encodeURIComponent(doc.title)}`
           : null;
 
+      // attachmentCount/hasArchive werden vom Listen-Schema verlangt; in der
+      // Detail-Antwort spiegeln wir sie aus den realen Artifacts wider.
+      const attachmentCount = doc.artifacts.filter((a) => a.kind === 'ATTACHMENT').length;
+      const hasArchive =
+        doc.archivePath !== null && doc.archivePath !== '' && doc.artifacts.length > 0;
+
       return {
         document: {
           id: doc.id,
@@ -257,6 +266,8 @@ export const discoveryRouter = router({
           acceptedAt: doc.acceptedAt,
           acceptedByName: doc.acceptedBy?.name ?? null,
           sourceLabel: doc.source?.label ?? null,
+          attachmentCount,
+          hasArchive,
         },
         artifacts: doc.artifacts.map((a) => ({
           id: a.id,
@@ -270,5 +281,28 @@ export const discoveryRouter = router({
         absoluteArchivePath: doc.archivePath ? getAbsoluteArchivePath(doc.archivePath) : null,
         gmailDeepLink,
       };
+    }),
+
+  /**
+   * Re-Sync einer einzelnen Mail aus IMAP — laedt Archive nach (eml + body +
+   * attachments + metadata) fuer Belege, die vor Aktivierung des Archive-
+   * Features importiert wurden. Idempotent — keine Duplikat-Documents,
+   * kein Status-Verlust. User-Berechtigungs-Check liegt in resyncSingleDocument().
+   */
+  resyncSingle: authenticatedProcedure
+    .input(ZResyncSingleDocumentRequestSchema)
+    .output(ZResyncSingleDocumentResponseSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { teamId, user } = ctx;
+      if (!teamId) {
+        throw new AppError(AppErrorCode.UNAUTHORIZED, {
+          message: 'Re-Sync braucht einen Team-Kontext.',
+        });
+      }
+      return resyncSingleDocument({
+        documentId: input.id,
+        userId: user.id,
+        teamId,
+      });
     }),
 });
