@@ -32,7 +32,7 @@ export default function Layout() {
               srcSet="/logo-1x.png 1x, /logo-2x.png 2x"
               alt="NexaSign"
               height={144}
-              width={380}
+              width={602}
               style={{ height: '144px', width: 'auto', display: 'block' }}
             />
           </picture>

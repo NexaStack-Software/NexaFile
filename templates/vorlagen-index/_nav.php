@@ -90,7 +90,12 @@ $nx_app_base  = $nx_is_demo
     text-decoration: none;
   }
   @media (min-width: 768px) { .nx-logo { display: inline-flex; } } /* md:inline-flex */
-  .nx-logo img { height: 60px; width: auto; display: block; }
+  /* Hoehe identisch zur Remix-AppHeader (apps/remix/app/components/general/app-header.tsx),
+     damit die Logo-Groesse zwischen PHP-Vorlagen-Seiten und der Remix-App nicht springt.
+     80px gewählt, weil ein 120px-hohes Logo (502px breit bei 4.18:1 Aspect) zusammen mit
+     den 4 Nav-Links + Search-Button + Inbox + Avatar-Block die max-w-screen-xl (1280px)
+     Header-Breite sprengt — Logo würde optisch in den Nav-Bereich gequetscht. */
+  .nx-logo img { height: 80px; width: auto; display: block; }
 
   /* ─────── Mittelblock: Nav + Search (=AppNavDesktop) ─────── */
   .nx-nav-wrapper {
@@ -178,21 +183,56 @@ $nx_app_base  = $nx_is_demo
   .nx-inbox-btn:hover { color: var(--nx-foreground); }
   .nx-inbox-btn svg { width: 1.25rem; height: 1.25rem; }
 
-  /* ─────── Avatar-Platz: „Zur App"-Button ─────── */
+  /* ─────── Avatar-Platz: „Zur App"-Button ─────────────────────────────────
+     Visuelles Pendant zur MenuSwitcher-Komponente in Remix
+     (apps/remix/app/components/general/menu-switcher.tsx): h-12, ohne Border,
+     Avatar-Kreis links + Text-Block (auf md+) + Chevron-Icon rechts.
+     PHP hat keinen Server-Session-Kontext, daher kein User-Name — wir zeigen
+     stattdessen das NS-Monogramm und „Zur App" als Sekundärtext. */
   .nx-app-btn {
     margin-left: 1rem;                        /* md:ml-4 */
-    display: flex; align-items: center;
-    height: 2.5rem; padding: 0 1rem;
-    border: 1px solid var(--nx-border);
-    border-radius: 0.5rem;
-    background: var(--nx-background);
+    display: flex; align-items: center; gap: 0.5rem;
+    height: 3rem;                             /* h-12 */
+    padding: 0.5rem 0.5rem;                   /* py-2 md:px-2 */
+    background: transparent;
     color: var(--nx-foreground);
-    font-size: 0.875rem; font-weight: 500;
     text-decoration: none;
     flex-shrink: 0;
-    transition: background 0.15s;
+    border: 0;
+    transition: opacity 0.15s;
   }
-  .nx-app-btn:hover { background: var(--nx-muted); }
+  .nx-app-btn:hover { opacity: 0.85; }
+  .nx-app-avatar {
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    height: 2.25rem; width: 2.25rem;          /* h-9 w-9 — wie AvatarWithText */
+    border-radius: 9999px;                    /* rounded-full */
+    background: var(--nx-primary);
+    color: var(--nx-primary-foreground);
+    font-family: var(--nx-font-serif, 'Newsreader', Georgia, serif);
+    font-size: 0.875rem; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .nx-app-text {
+    display: none;                            /* default hidden */
+    flex-direction: column; align-items: flex-start;
+    line-height: 1.1; gap: 0.125rem;
+  }
+  @media (min-width: 1024px) { .nx-app-text { display: flex; } } /* lg:flex */
+  .nx-app-text-primary {
+    font-size: 0.875rem; font-weight: 600;     /* AvatarWithText primary */
+    color: var(--nx-foreground);
+  }
+  .nx-app-text-secondary {
+    font-size: 0.75rem; font-weight: 400;
+    color: var(--nx-muted-foreground);
+  }
+  .nx-app-chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    height: 1rem; width: 1rem;
+    color: var(--nx-muted-foreground);
+  }
 </style>
 <header class="nx-header">
   <div class="nx-header-inner">
@@ -202,7 +242,7 @@ $nx_app_base  = $nx_is_demo
       <picture>
         <source type="image/webp" srcset="/logo-1x.webp 1x, /logo-2x.webp 2x">
         <img src="/logo-1x.png" srcset="/logo-1x.png 1x, /logo-2x.png 2x"
-             alt="NexaSign" width="251" height="60">
+             alt="NexaSign" width="335" height="80">
       </picture>
     </a>
 
@@ -239,8 +279,23 @@ $nx_app_base  = $nx_is_demo
       </svg>
     </a>
 
-    <!-- Avatar-Platz — „Zur App"-Button -->
-    <a href="<?= htmlspecialchars($nx_app_base) ?>/" class="nx-app-btn">Zur App</a>
+    <!-- Avatar-Platz — pendant zur MenuSwitcher in Remix.
+         PHP kennt keinen Login-State: wir rendern keinen Fake-User, sondern
+         das NS-Monogramm + „Zur App" als generischer App-Einstieg. Layout
+         (Avatar links, Textblock auf lg+, Chevron rechts) entspricht exakt
+         AvatarWithText (packages/ui/primitives/avatar.tsx). -->
+    <a href="<?= htmlspecialchars($nx_app_base) ?>/" class="nx-app-btn" aria-label="Zur NexaSign-App">
+      <span class="nx-app-avatar" aria-hidden="true">NS</span>
+      <span class="nx-app-text">
+        <span class="nx-app-text-primary">Zur App</span>
+        <span class="nx-app-text-secondary">NexaSign</span>
+      </span>
+      <!-- lucide: chevrons-up-down (gleiches Icon wie MenuSwitcher) -->
+      <svg class="nx-app-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>
+      </svg>
+    </a>
 
   </div>
 </header>

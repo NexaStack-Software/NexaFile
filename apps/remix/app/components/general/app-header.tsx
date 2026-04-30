@@ -73,9 +73,9 @@ export const Header = ({ className, ...props }: HeaderProps) => {
               src="/logo-1x.png"
               srcSet="/logo-1x.png 1x, /logo-2x.png 2x"
               alt="NexaSign"
-              height={120}
-              width={316}
-              style={{ height: '120px', width: 'auto', display: 'block' }}
+              height={64}
+              width={268}
+              style={{ height: '64px', width: 'auto', display: 'block' }}
             />
           </picture>
         </Link>
