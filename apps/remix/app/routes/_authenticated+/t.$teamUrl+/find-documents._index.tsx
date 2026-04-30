@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
@@ -8,6 +8,7 @@ import { Trans } from '@lingui/react/macro';
 import {
   AlertCircleIcon,
   ArchiveIcon,
+  CalendarIcon,
   CheckCircleIcon,
   ClockIcon,
   DownloadIcon,
@@ -15,6 +16,7 @@ import {
   InboxIcon,
   MoreHorizontalIcon,
   PaperclipIcon,
+  PlayIcon,
   PlugIcon,
   SearchIcon,
   Settings2Icon,
@@ -85,6 +87,14 @@ const formatDate = (date: Date | null, locale: string): string => {
     month: '2-digit',
     year: 'numeric',
   }).format(date);
+};
+
+const toDateInputValue = (date: Date): string => date.toISOString().slice(0, 10);
+
+const addDays = (value: string, days: number): Date => {
+  const date = new Date(`${value}T00:00:00`);
+  date.setDate(date.getDate() + days);
+  return date;
 };
 
 const StatusIcon = ({ status }: { status: DiscoveryStatus }) => {
@@ -366,6 +376,125 @@ const SourcesStatusBar = ({ sources, locale }: { sources: Source[]; locale: stri
   );
 };
 
+const MailboxSearchPanel = ({
+  sources,
+  sourceId,
+  setSourceId,
+  fromDate,
+  setFromDate,
+  toDate,
+  setToDate,
+  searchTerm,
+  setSearchTerm,
+  onStart,
+  isPending,
+}: {
+  sources: Source[];
+  sourceId: string;
+  setSourceId: (value: string) => void;
+  fromDate: string;
+  setFromDate: (value: string) => void;
+  toDate: string;
+  setToDate: (value: string) => void;
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
+  onStart: () => void;
+  isPending: boolean;
+}) => (
+  <Card className="mb-6 border-neutral-300 bg-white p-4 shadow-sm">
+    <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h2 className="text-base font-semibold">
+          <Trans>Postfach durchsuchen</Trans>
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          <Trans>
+            Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt
+            Mail + Anhänge im Server-Archiv ab.
+          </Trans>
+        </p>
+      </div>
+      <Button asChild variant="outline" size="sm">
+        <Link to="/settings/sources">
+          <Settings2Icon className="mr-2 h-4 w-4" aria-hidden />
+          <Trans>Quellen verwalten</Trans>
+        </Link>
+      </Button>
+    </div>
+
+    <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr_1.2fr_auto] md:items-end">
+      <label className="flex flex-col gap-1.5 text-sm">
+        <span className="font-medium">
+          <Trans>Quelle</Trans>
+        </span>
+        <select
+          className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+          value={sourceId}
+          onChange={(event) => setSourceId(event.target.value)}
+        >
+          {sources.map((source) => (
+            <option key={source.id} value={source.id}>
+              {source.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm">
+        <span className="font-medium">
+          <Trans>Von</Trans>
+        </span>
+        <div className="relative">
+          <CalendarIcon
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden
+          />
+          <Input
+            className="pl-9"
+            type="date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+          />
+        </div>
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm">
+        <span className="font-medium">
+          <Trans>Bis</Trans>
+        </span>
+        <div className="relative">
+          <CalendarIcon
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden
+          />
+          <Input
+            className="pl-9"
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+          />
+        </div>
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm">
+        <span className="font-medium">
+          <Trans>Suchbegriff</Trans>
+        </span>
+        <Input
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          placeholder="Rechnung, invoice, Beleg"
+        />
+      </label>
+
+      <Button onClick={onStart} disabled={isPending || !sourceId || !fromDate || !toDate}>
+        <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
+        <Trans>Durchsuchen</Trans>
+      </Button>
+    </div>
+  </Card>
+);
+
 const NoResultsCard = ({ sources, locale }: { sources: Source[]; locale: string }) => (
   <div className="flex flex-col gap-4">
     <SourcesStatusBar sources={sources} locale={locale} />
@@ -622,6 +751,12 @@ export default function FindDocumentsPage() {
   // Workflow-Tabs (Eingang, Manuell, …) sind weiterhin erreichbar.
   const [status, setStatus] = useState<DiscoveryTab>('all');
   const [query, setQuery] = useState('');
+  const today = toDateInputValue(new Date());
+  const thirtyDaysAgo = toDateInputValue(addDays(today, -30));
+  const [sourceId, setSourceId] = useState('');
+  const [fromDate, setFromDate] = useState(thirtyDaysAgo);
+  const [toDate, setToDate] = useState(today);
+  const [mailSearchTerm, setMailSearchTerm] = useState('Rechnung');
   // Multi-Select-State pro Tab — beim Tab-Wechsel zurueckgesetzt.
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -631,6 +766,12 @@ export default function FindDocumentsPage() {
     status,
     query: query.trim() || undefined,
   });
+
+  useEffect(() => {
+    if (!sourceId && data?.sources[0]?.id) {
+      setSourceId(data.sources[0].id);
+    }
+  }, [data?.sources, sourceId]);
 
   const updateStatusMutation = trpc.discovery.updateStatus.useMutation({
     onSuccess: () => {
@@ -645,8 +786,47 @@ export default function FindDocumentsPage() {
     },
   });
 
+  const startSyncRunMutation = trpc.sources.startSyncRun.useMutation({
+    onSuccess: (run) => {
+      toast({
+        title: _(msg`Postfach-Durchsuchung gestartet`),
+        description: _(msg`Der Lauf ist angelegt. Aktualisieren Sie die Liste in Kürze.`),
+      });
+      void utils.discovery.findDocuments.invalidate();
+      void utils.sources.listSyncRuns.invalidate({ sourceId: run.sourceId, limit: 10 });
+    },
+    onError: (err) => {
+      toast({
+        title: _(msg`Durchsuchung konnte nicht gestartet werden`),
+        description: err.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
   const handleAction = (id: string, action: TDiscoveryDocumentAction) => {
     updateStatusMutation.mutate({ id, action });
+  };
+
+  const handleStartMailboxSearch = () => {
+    const from = new Date(`${fromDate}T00:00:00`);
+    const to = addDays(toDate, 1);
+
+    if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime()) || from >= to) {
+      toast({
+        title: _(msg`Zeitraum prüfen`),
+        description: _(msg`Das Von-Datum muss vor dem Bis-Datum liegen.`),
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    startSyncRunMutation.mutate({
+      sourceId,
+      from,
+      to,
+      searchTerm: mailSearchTerm.trim() || undefined,
+    });
   };
 
   const handleToggleSelect = (id: string) => {
@@ -704,6 +884,22 @@ export default function FindDocumentsPage() {
           </Trans>
         </p>
       </header>
+
+      {hasAnySource && (
+        <MailboxSearchPanel
+          sources={sources}
+          sourceId={sourceId}
+          setSourceId={setSourceId}
+          fromDate={fromDate}
+          setFromDate={setFromDate}
+          toDate={toDate}
+          setToDate={setToDate}
+          searchTerm={mailSearchTerm}
+          setSearchTerm={setMailSearchTerm}
+          onStart={handleStartMailboxSearch}
+          isPending={startSyncRunMutation.isPending}
+        />
+      )}
 
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <Tabs value={status} onValueChange={(v) => handleStatusChange(v as DiscoveryTab)}>

@@ -2391,6 +2391,10 @@ msgstr ""
 msgid "Billing"
 msgstr "Facturación"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Bis"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Bis (exklusiv)"
 msgstr ""
@@ -3535,6 +3539,10 @@ msgstr "Grupos de Organización Personalizados"
 msgid "Dark Mode"
 msgstr "Modo Oscuro"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Das Von-Datum muss vor dem Bis-Datum liegen."
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 msgid "Dashboard"
@@ -3832,6 +3840,10 @@ msgstr "Eliminando cuenta..."
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Der Fortschritt wird unten angezeigt."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Der Lauf ist angelegt. Aktualisieren Sie die Liste in Kürze."
 msgstr ""
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
@@ -4681,6 +4693,14 @@ msgstr "Plantilla Duplicada"
 #: apps/remix/app/components/forms/editor/editor-field-dropdown-form.tsx
 msgid "Duplicate values are not allowed"
 msgstr "No se permiten valores duplicados"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Durchsuchen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Durchsuchung konnte nicht gestartet werden"
+msgstr ""
 
 #: packages/lib/constants/i18n.ts
 msgid "Dutch"
@@ -8320,6 +8340,14 @@ msgstr "Pos. X:"
 msgid "Pos Y:"
 msgstr "Pos. Y:"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach durchsuchen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach-Durchsuchung gestartet"
+msgstr ""
+
 #: apps/remix/app/components/embed/embed-direct-template-client-page.tsx
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-mobile-widget.tsx
@@ -8446,6 +8474,7 @@ msgid "Public templates are connected to your public profile. Any modifications 
 msgstr "Las plantillas públicas están conectadas a tu perfil público. Cualquier modificación a las plantillas públicas también aparecerá en tu perfil público."
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Quelle"
 msgstr ""
 
@@ -8489,6 +8518,7 @@ msgstr ""
 msgid "Quellen"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Quellen verwalten"
 msgstr ""
@@ -9801,6 +9831,22 @@ msgstr "Registrarse con Microsoft"
 msgid "Sign Up with OIDC"
 msgstr "Regístrate con OIDC"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument geöffnet"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument konnte nicht vorbereitet werden"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument öffnen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument vorbereitet"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/embed/embed-direct-template-client-page.tsx
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
@@ -10332,6 +10378,10 @@ msgstr "Clave de acceso creada con éxito"
 #: packages/email/templates/bulk-send-complete.tsx
 msgid "Successfully created: {successCount}"
 msgstr "Creado con éxito: {successCount}"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Suchbegriff"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Suchen…"
@@ -12611,6 +12661,7 @@ msgid "Visibility"
 msgstr "Visibilidad"
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Von"
 msgstr ""
 
@@ -12624,6 +12675,10 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüft und in den Eingang importiert. Bereits importierte Belege werden automatisch übersprungen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
 msgstr ""
 
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
@@ -14263,6 +14318,14 @@ msgstr "Su código de verificación:"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "su-dominio.com otro-dominio.com"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Zeitraum prüfen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Zum Signieren vorbereiten"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
 msgid "Zurück"

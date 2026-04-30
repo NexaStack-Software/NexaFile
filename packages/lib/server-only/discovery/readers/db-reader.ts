@@ -72,6 +72,8 @@ type DbDiscoveryDocument = {
   acceptedAt: Date | null;
   acceptedBy: { name: string | null } | null;
   archivePath: string | null;
+  dataId: string | null;
+  signingEnvelopeId: string | null;
   _count: { artifacts: number };
 };
 
@@ -102,6 +104,8 @@ const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => {
     acceptedByName: doc.acceptedBy?.name ?? null,
     attachmentCount,
     hasArchive,
+    signingEnvelopeId: doc.signingEnvelopeId,
+    canCreateSigningDocument: doc.dataId !== null || hasArchive,
   };
 };
 

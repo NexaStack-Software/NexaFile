@@ -442,6 +442,7 @@ model Envelope {
   documentMeta   DocumentMeta @relation(fields: [documentMetaId], references: [id])
 
   envelopeAttachments EnvelopeAttachment[]
+  discoverySourceDocument DiscoveryDocument? @relation("DiscoveryDocumentSigningEnvelope")
 
   @@index([type])
   @@index([status])
@@ -1198,6 +1199,11 @@ model DiscoveryDocument {
   dataId         String?       @unique
   data           DocumentData? @relation(fields: [dataId], references: [id], onDelete: Cascade)
 
+  // Optionaler Link in Schritt 3 des NexaFILE-Flows: aus einem gefundenen
+  // Beleg wurde ein normales Signatur-Dokument erzeugt.
+  signingEnvelopeId String?   @unique
+  signingEnvelope   Envelope? @relation("DiscoveryDocumentSigningEnvelope", fields: [signingEnvelopeId], references: [id], onDelete: SetNull)
+
   auditLogs      DiscoveryAuditLog[]
   artifacts      DiscoveryArtifact[]
 
@@ -1315,6 +1321,7 @@ model SyncRun {
 
   rangeFrom     DateTime
   rangeTo       DateTime
+  searchTerm    String?
   status        SyncRunStatus @default(PENDING)
 
   mailsChecked      Int @default(0)
@@ -1349,6 +1356,7 @@ enum DiscoveryAuditEvent {
   IMAP_DOCUMENT_RESYNCED
   DISCOVERY_DOCUMENT_ACCEPTED
   DISCOVERY_DOCUMENT_IGNORED
+  DISCOVERY_SIGNING_DOCUMENT_CREATED
 }
 
 model DiscoveryAuditLog {

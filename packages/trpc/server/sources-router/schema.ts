@@ -77,6 +77,7 @@ export const ZSyncRunSchema = z.object({
   sourceId: z.string(),
   rangeFrom: z.coerce.date(),
   rangeTo: z.coerce.date(),
+  searchTerm: z.string().nullable(),
   status: ZSyncRunStatusSchema,
   mailsChecked: z.number().int().nonnegative(),
   documentsAuto: z.number().int().nonnegative(),
@@ -94,6 +95,7 @@ export const ZStartSyncRunRequestSchema = z
     sourceId: z.string(),
     from: z.coerce.date(),
     to: z.coerce.date(),
+    searchTerm: z.string().trim().min(1).max(120).optional(),
   })
   .refine((data) => data.from < data.to, {
     message: '„Von"-Datum muss vor „Bis"-Datum liegen.',

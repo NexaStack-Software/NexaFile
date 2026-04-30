@@ -17,6 +17,7 @@ import {
   LockIcon,
   MailIcon,
   PaperclipIcon,
+  PenLineIcon,
   RefreshCwIcon,
   XCircleIcon,
 } from 'lucide-react';
@@ -138,6 +139,26 @@ export default function FindDocumentsDetail() {
     },
   });
 
+  const createSigningDocumentMutation = trpc.discovery.createSigningDocument.useMutation({
+    onSuccess: (result) => {
+      void utils.discovery.getDocumentDetail.invalidate({ id });
+      void utils.discovery.findDocuments.invalidate();
+      toast({
+        title: result.alreadyExisted
+          ? _(msg`Signatur-Dokument geöffnet`)
+          : _(msg`Signatur-Dokument vorbereitet`),
+      });
+      void navigate(`/t/${teamUrl}/documents/${result.envelopeId}/edit`);
+    },
+    onError: (err) => {
+      toast({
+        title: _(msg`Signatur-Dokument konnte nicht vorbereitet werden`),
+        description: err.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="mx-auto w-full max-w-screen-lg px-4 py-8 md:px-8">
@@ -244,6 +265,30 @@ export default function FindDocumentsDetail() {
               <ExternalLinkIcon className="mr-2 h-4 w-4" aria-hidden />
               <Trans>In Gmail öffnen</Trans>
             </a>
+          </Button>
+        )}
+        {doc.signingEnvelopeId ? (
+          <Button asChild variant="outline">
+            <Link to={`/t/${teamUrl}/documents/${doc.signingEnvelopeId}/edit`}>
+              <PenLineIcon className="mr-2 h-4 w-4" aria-hidden />
+              <Trans>Signatur-Dokument öffnen</Trans>
+            </Link>
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            onClick={() => createSigningDocumentMutation.mutate({ id })}
+            disabled={!doc.canCreateSigningDocument || createSigningDocumentMutation.isPending}
+            title={
+              doc.canCreateSigningDocument ? undefined : 'Dieses Dokument hat noch keine PDF-Datei.'
+            }
+          >
+            {createSigningDocumentMutation.isPending ? (
+              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" aria-hidden />
+            ) : (
+              <PenLineIcon className="mr-2 h-4 w-4" aria-hidden />
+            )}
+            <Trans>Zum Signieren vorbereiten</Trans>
           </Button>
         )}
       </div>

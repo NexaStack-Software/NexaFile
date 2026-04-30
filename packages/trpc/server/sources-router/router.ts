@@ -418,6 +418,7 @@ export const sourcesRouter = router({
             triggeredById: ctx.user.id,
             rangeFrom: input.from,
             rangeTo: input.to,
+            searchTerm: input.searchTerm?.trim() || null,
           },
         });
       } catch (err) {

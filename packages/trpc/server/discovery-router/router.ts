@@ -1,13 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
+import { EnvelopeType } from '@prisma/client';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+
 import { AppError, AppErrorCode } from '@nexasign/lib/errors/app-error';
 import { getDiscoveryReader, isDiscoveryConfigured } from '@nexasign/lib/server-only/discovery';
+import { createEnvelope } from '@nexasign/lib/server-only/envelope/create-envelope';
 import { getAbsoluteArchivePath } from '@nexasign/lib/server-only/sources/archive';
 import { resyncSingleDocument } from '@nexasign/lib/server-only/sources/imap';
+import { putNormalizedPdfFileServerSide } from '@nexasign/lib/universal/upload/put-file.server';
 import { prisma } from '@nexasign/prisma';
 
 import { authenticatedProcedure, router } from '../trpc';
 import {
+  ZCreateSigningDocumentRequestSchema,
+  ZCreateSigningDocumentResponseSchema,
   ZFindDiscoveryDocumentsRequestSchema,
   ZFindDiscoveryDocumentsResponseSchema,
   ZGetDiscoveryDocumentRequestSchema,
@@ -34,6 +42,57 @@ const ACTION_AUDIT_MAP = {
   ignore: 'DISCOVERY_DOCUMENT_IGNORED',
 } as const;
 
+const getPrimaryPdfDocumentDataId = async (doc: {
+  title: string;
+  dataId: string | null;
+  archivePath: string | null;
+  artifacts: Array<{
+    kind: string;
+    relativePath: string;
+    fileName: string;
+    contentType: string;
+  }>;
+}): Promise<string> => {
+  if (doc.dataId) {
+    return doc.dataId;
+  }
+
+  const pdfArtifact = doc.artifacts.find(
+    (artifact) =>
+      artifact.kind === 'ATTACHMENT' &&
+      (artifact.contentType === 'application/pdf' ||
+        artifact.fileName.toLowerCase().endsWith('.pdf')),
+  );
+
+  if (!doc.archivePath || !pdfArtifact) {
+    throw new AppError(AppErrorCode.INVALID_BODY, {
+      message:
+        'Dieses Dokument hat noch keine PDF-Datei. Laden Sie zuerst die Mail erneut aus IMAP oder ziehen Sie den Beleg manuell.',
+      statusCode: 400,
+    });
+  }
+
+  const archiveDir = path.resolve(getAbsoluteArchivePath(doc.archivePath));
+  const filePath = path.resolve(archiveDir, pdfArtifact.relativePath);
+
+  if (!filePath.startsWith(`${archiveDir}${path.sep}`)) {
+    throw new AppError(AppErrorCode.INVALID_BODY, {
+      message: 'Ungültiger Archivpfad.',
+      statusCode: 400,
+    });
+  }
+
+  const bytes = await readFile(filePath);
+  const data = await putNormalizedPdfFileServerSide({
+    name: pdfArtifact.fileName || `${doc.title}.pdf`,
+    type: 'application/pdf',
+    arrayBuffer: async () =>
+      Promise.resolve(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)),
+  });
+
+  return data.id;
+};
+
 export const discoveryRouter = router({
   /**
    * Liste der gefundenen Dokumente für das aktive Team und den aktiven User.
@@ -50,7 +109,7 @@ export const discoveryRouter = router({
       const configured = isDiscoveryConfigured();
 
       const sources = await prisma.source.findMany({
-        where: { userId: ctx.user.id },
+        where: { userId: ctx.user.id, ...(ctx.teamId ? { teamId: ctx.teamId } : {}) },
         orderBy: { createdAt: 'asc' },
         select: {
           id: true,
@@ -266,6 +325,14 @@ export const discoveryRouter = router({
           acceptedAt: doc.acceptedAt,
           acceptedByName: doc.acceptedBy?.name ?? null,
           sourceLabel: doc.source?.label ?? null,
+          signingEnvelopeId: doc.signingEnvelopeId,
+          canCreateSigningDocument:
+            doc.dataId !== null ||
+            doc.artifacts.some(
+              (a) =>
+                a.kind === 'ATTACHMENT' &&
+                (a.contentType === 'application/pdf' || a.fileName.toLowerCase().endsWith('.pdf')),
+            ),
           attachmentCount,
           hasArchive,
         },
@@ -281,6 +348,82 @@ export const discoveryRouter = router({
         absoluteArchivePath: doc.archivePath ? getAbsoluteArchivePath(doc.archivePath) : null,
         gmailDeepLink,
       };
+    }),
+
+  createSigningDocument: authenticatedProcedure
+    .input(ZCreateSigningDocumentRequestSchema)
+    .output(ZCreateSigningDocumentResponseSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { teamId, user } = ctx;
+      if (!teamId) {
+        throw new AppError(AppErrorCode.UNAUTHORIZED, {
+          message: 'Signatur-Vorbereitung braucht einen Team-Kontext.',
+        });
+      }
+
+      const doc = await prisma.discoveryDocument.findFirst({
+        where: {
+          id: input.id,
+          teamId,
+          OR: [{ providerSource: 'local' }, { uploadedById: user.id }],
+        },
+        include: {
+          artifacts: true,
+          signingEnvelope: { select: { id: true } },
+        },
+      });
+
+      if (!doc) {
+        throw new AppError(AppErrorCode.NOT_FOUND, {
+          message: 'Dokument nicht gefunden oder nicht änderbar.',
+        });
+      }
+
+      if (doc.signingEnvelopeId) {
+        return { envelopeId: doc.signingEnvelopeId, alreadyExisted: true };
+      }
+
+      const documentDataId = await getPrimaryPdfDocumentDataId(doc);
+
+      const envelope = await createEnvelope({
+        userId: user.id,
+        teamId,
+        internalVersion: 1,
+        normalizePdf: true,
+        data: {
+          type: EnvelopeType.DOCUMENT,
+          title: doc.title,
+          envelopeItems: [{ documentDataId }],
+        },
+        meta: {
+          timezone: 'Europe/Berlin',
+          distributionMethod: 'NONE',
+        },
+        bypassDefaultRecipients: true,
+        requestMetadata: ctx.metadata,
+      });
+
+      await prisma.$transaction(async (tx) => {
+        await tx.discoveryDocument.update({
+          where: { id: doc.id },
+          data: { signingEnvelopeId: envelope.id },
+        });
+
+        await tx.discoveryAuditLog.create({
+          data: {
+            event: 'DISCOVERY_SIGNING_DOCUMENT_CREATED',
+            discoveryDocumentId: doc.id,
+            userId: user.id,
+            teamId,
+            metadata: {
+              action: 'create-signing-document',
+              envelopeId: envelope.id,
+            },
+          },
+        });
+      });
+
+      return { envelopeId: envelope.id, alreadyExisted: false };
     }),
 
   /**

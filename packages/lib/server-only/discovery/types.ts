@@ -53,6 +53,10 @@ export type DiscoveryDocument = {
    * Convenience-Flag fuer UI: Download-Button enable/disable.
    */
   hasArchive: boolean;
+  /** Vorbereitetes Signatur-Dokument aus Schritt 3, falls bereits erzeugt. */
+  signingEnvelopeId?: string | null;
+  /** Ob aus diesem Fund ein Signatur-Dokument erzeugt werden kann. */
+  canCreateSigningDocument?: boolean;
 };
 
 export type DiscoveryListStatusFilter = DiscoveryDocumentStatus | 'all';

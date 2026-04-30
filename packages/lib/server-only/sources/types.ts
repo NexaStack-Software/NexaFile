@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
-
 import type { SourceKind } from '@prisma/client';
 
 /**
@@ -16,6 +15,8 @@ export type SyncRangeContext = {
   from: Date;
   /** Ende des User-gewählten Suchzeitraums (exklusiv). */
   to: Date;
+  /** Optionaler Suchbegriff für Betreff/Header/Body, z. B. "Rechnung". */
+  searchTerm?: string | null;
   /** Adapter-spezifische Konfig nach Decrypt. Adapter validiert selbst. */
   decryptedConfig: unknown;
   /** Cancel-Polling — Adapter prüft das pro Mail. */

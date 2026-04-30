@@ -2386,6 +2386,10 @@ msgstr "Bezeichnung"
 msgid "Billing"
 msgstr "Billing"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Bis"
+msgstr "Bis"
+
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Bis (exklusiv)"
 msgstr "Bis (exklusiv)"
@@ -3530,6 +3534,10 @@ msgstr "Custom Organisation Groups"
 msgid "Dark Mode"
 msgstr "Dark Mode"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Das Von-Datum muss vor dem Bis-Datum liegen."
+msgstr "Das Von-Datum muss vor dem Bis-Datum liegen."
+
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 msgid "Dashboard"
@@ -3828,6 +3836,10 @@ msgstr "Deleting account..."
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Der Fortschritt wird unten angezeigt."
 msgstr "Der Fortschritt wird unten angezeigt."
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Der Lauf ist angelegt. Aktualisieren Sie die Liste in Kürze."
+msgstr "Der Lauf ist angelegt. Aktualisieren Sie die Liste in Kürze."
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 msgid "Destination"
@@ -4676,6 +4688,14 @@ msgstr "Duplicate Template"
 #: apps/remix/app/components/forms/editor/editor-field-dropdown-form.tsx
 msgid "Duplicate values are not allowed"
 msgstr "Duplicate values are not allowed"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Durchsuchen"
+msgstr "Durchsuchen"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Durchsuchung konnte nicht gestartet werden"
+msgstr "Durchsuchung konnte nicht gestartet werden"
 
 #: packages/lib/constants/i18n.ts
 msgid "Dutch"
@@ -8315,6 +8335,14 @@ msgstr "Pos X:"
 msgid "Pos Y:"
 msgstr "Pos Y:"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach durchsuchen"
+msgstr "Postfach durchsuchen"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach-Durchsuchung gestartet"
+msgstr "Postfach-Durchsuchung gestartet"
+
 #: apps/remix/app/components/embed/embed-direct-template-client-page.tsx
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-mobile-widget.tsx
@@ -8441,6 +8469,7 @@ msgid "Public templates are connected to your public profile. Any modifications 
 msgstr "Public templates are connected to your public profile. Any modifications to public templates will also appear in your public profile."
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Quelle"
 msgstr "Quelle"
 
@@ -8484,6 +8513,7 @@ msgstr "Quelle: <0>NexaStack</0> — Open-Source-Vorlagen unter CC-BY 4.0. Feedb
 msgid "Quellen"
 msgstr "Quellen"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Quellen verwalten"
 msgstr "Quellen verwalten"
@@ -9796,6 +9826,22 @@ msgstr "Sign Up with Microsoft"
 msgid "Sign Up with OIDC"
 msgstr "Sign Up with OIDC"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument geöffnet"
+msgstr "Signatur-Dokument geöffnet"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument konnte nicht vorbereitet werden"
+msgstr "Signatur-Dokument konnte nicht vorbereitet werden"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument öffnen"
+msgstr "Signatur-Dokument öffnen"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument vorbereitet"
+msgstr "Signatur-Dokument vorbereitet"
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/embed/embed-direct-template-client-page.tsx
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
@@ -10327,6 +10373,10 @@ msgstr "Successfully created passkey"
 #: packages/email/templates/bulk-send-complete.tsx
 msgid "Successfully created: {successCount}"
 msgstr "Successfully created: {successCount}"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Suchbegriff"
+msgstr "Suchbegriff"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Suchen…"
@@ -12606,6 +12656,7 @@ msgid "Visibility"
 msgstr "Visibility"
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Von"
 msgstr "Von"
 
@@ -12620,6 +12671,10 @@ msgstr "Vorletztes Jahr"
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüft und in den Eingang importiert. Bereits importierte Belege werden automatisch übersprungen."
 msgstr "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüft und in den Eingang importiert. Bereits importierte Belege werden automatisch übersprungen."
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
+msgstr "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
 
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 msgid "Waiting"
@@ -14258,6 +14313,14 @@ msgstr "Your verification code:"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Zeitraum prüfen"
+msgstr "Zeitraum prüfen"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Zum Signieren vorbereiten"
+msgstr "Zum Signieren vorbereiten"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
 msgid "Zurück"

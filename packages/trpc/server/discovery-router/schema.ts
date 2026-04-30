@@ -39,6 +39,8 @@ export const ZDiscoveryDocumentSchema = z.object({
   // Archive-Sync-Datensatz). Wird im Listen-Loader vorberechnet.
   attachmentCount: z.number().int().nonnegative(),
   hasArchive: z.boolean(),
+  signingEnvelopeId: z.string().nullable().optional(),
+  canCreateSigningDocument: z.boolean().optional(),
 });
 
 export const ZSourceKindSchema = z.enum(['IMAP']);
@@ -131,6 +133,8 @@ export const ZGetDocumentDetailResponseSchema = z
       acceptedAt: z.coerce.date().nullable(),
       acceptedByName: z.string().nullable(),
       sourceLabel: z.string().nullable(),
+      signingEnvelopeId: z.string().nullable(),
+      canCreateSigningDocument: z.boolean(),
     }),
     artifacts: z.array(ZDiscoveryArtifactSchema),
     /** Absoluter Pfad auf dem Server zum Mail-Ordner (für FTP/SCP-Hinweis). */
@@ -172,3 +176,15 @@ export const ZResyncSingleDocumentResponseSchema = z.discriminatedUnion('ok', [
 
 export type TResyncSingleDocumentRequest = z.infer<typeof ZResyncSingleDocumentRequestSchema>;
 export type TResyncSingleDocumentResponse = z.infer<typeof ZResyncSingleDocumentResponseSchema>;
+
+export const ZCreateSigningDocumentRequestSchema = z.object({
+  id: z.string(),
+});
+
+export const ZCreateSigningDocumentResponseSchema = z.object({
+  envelopeId: z.string(),
+  alreadyExisted: z.boolean(),
+});
+
+export type TCreateSigningDocumentRequest = z.infer<typeof ZCreateSigningDocumentRequestSchema>;
+export type TCreateSigningDocumentResponse = z.infer<typeof ZCreateSigningDocumentResponseSchema>;

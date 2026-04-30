@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
-
 import { prisma } from '@nexasign/prisma';
 
 import { decryptImapConfig } from '../../../server-only/sources/imap';
@@ -76,6 +75,7 @@ export const run = async ({
         syncRunId: syncRun.id,
         rangeFrom: syncRun.rangeFrom.toISOString(),
         rangeTo: syncRun.rangeTo.toISOString(),
+        searchTerm: syncRun.searchTerm,
       },
     },
   });
@@ -143,6 +143,7 @@ export const run = async ({
       teamId: source.teamId,
       from: syncRun.rangeFrom,
       to: syncRun.rangeTo,
+      searchTerm: syncRun.searchTerm,
       decryptedConfig,
       isCancelled,
       onProgress,
@@ -182,6 +183,7 @@ export const run = async ({
           metadata: {
             syncRunId: syncRun.id,
             status: finalStatus,
+            searchTerm: syncRun.searchTerm,
             mailsChecked: result.mailsChecked,
             documentsAuto: result.documentsAuto,
             documentsManual: result.documentsManual,

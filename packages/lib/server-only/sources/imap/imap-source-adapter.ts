@@ -155,7 +155,13 @@ const syncRange = async (ctx: SyncRangeContext): Promise<SyncRangeResult> => {
 
     const lock = await client.getMailboxLock(mailbox);
     try {
-      const searchResult = await client.search({ since: ctx.from, before: ctx.to }, { uid: true });
+      const search = {
+        since: ctx.from,
+        before: ctx.to,
+        ...(ctx.searchTerm ? { text: ctx.searchTerm } : {}),
+      };
+
+      const searchResult = await client.search(search, { uid: true });
       const uids: number[] = Array.isArray(searchResult) ? searchResult : [];
 
       // Neueste zuerst — ergibt sinnvolle Progress-Reihenfolge im UI.
