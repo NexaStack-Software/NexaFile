@@ -1,4 +1,8 @@
-# Fresh-Install-Sandbox: eigene Container-Namen + Port 3070 (statt 3060).
+# Fresh-Install-Sandbox: eigene Container-Namen, eigenes Compose-Projekt
+# und Port 3070 (statt 3060), damit Release-Smokes nie den Live-Stack
+# `nexasign` berühren.
+name: nexasign-fresh
+
 services:
   database:
     container_name: nexasign-fresh-db
@@ -16,3 +20,7 @@ volumes:
     name: nexasign-fresh-db
   nexasign-fresh-cert:
     name: nexasign-fresh-cert
+
+networks:
+  nexasign-net:
+    name: nexasign-fresh-net

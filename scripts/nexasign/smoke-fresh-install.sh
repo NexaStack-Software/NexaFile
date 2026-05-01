@@ -35,6 +35,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 COMPOSE_DIR="${REPO_ROOT}/docker/nexasign"
 COMPOSE_FILES=(-f compose.yml -f compose.fresh-install.yml)
+COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-nexasign-fresh}"
 APP_URL="http://127.0.0.1:3070"
 APP_CONTAINER="nexasign-fresh-app"
 DB_CONTAINER="nexasign-fresh-db"
@@ -107,9 +108,11 @@ fi
 
 log "Repo:       ${REPO_ROOT}"
 log "Compose:    ${COMPOSE_DIR}"
+log "Project:    ${COMPOSE_PROJECT_NAME}"
 log "App-URL:    ${APP_URL}"
 log "Container:  ${APP_CONTAINER}, ${DB_CONTAINER}"
 log "Volumes:    ${CERT_VOLUME}, ${DB_VOLUME}"
+export COMPOSE_PROJECT_NAME
 
 # ── Vorhandene Sandbox abräumen ──────────────────────────────────────────────
 step "Vorhandene Sandbox abräumen (idempotent)"
