@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# NexaSign V1 release gate.
+# NexaFile V1 release gate.
 #
 # Runs the checks that must stay green before tagging a release candidate:
 # generated Prisma client, focused TypeScript checks, lint, production build,
@@ -83,6 +83,44 @@ run() {
   "$@"
 }
 
+run_v1_checks() {
+  printf '\n== V1 NexaFile checks ==\n'
+
+  bash -n tools/nexasign-gobd-export.sh
+  bash -n tools/nexasign-retention-check.sh
+
+  local legacy_hits
+  legacy_hits=$(
+    grep -RIn "NexaSign\\|NexaFILE\\|alle 15 Minuten" \
+      apps/remix/app \
+      packages/email \
+      apps/docs/src \
+      README.md \
+      docker/README.md \
+      ARCHITECTURE.md \
+      CONTRIBUTING.md \
+      --exclude-dir=node_modules \
+      --exclude-dir=build \
+      --exclude-dir=.turbo \
+      2>/dev/null \
+      | grep -v "contributors" \
+      | grep -v "github.com" \
+      | grep -v "X-NexaSign-Secret" \
+      || true
+  )
+
+  if [[ -n "${legacy_hits}" ]]; then
+    echo "FEHLER: User-facing Legacy-Branding oder falsche Sync-Kopie gefunden:" >&2
+    echo "${legacy_hits}" >&2
+    exit 1
+  fi
+
+  if [[ ! -f packages/prisma/migrations/20260430130000_backfill_discovery_retention_start/migration.sql ]]; then
+    echo "FEHLER: Discovery-Retention-Backfill-Migration fehlt." >&2
+    exit 1
+  fi
+}
+
 prepare_e2e_environment() {
   printf '\n== prepare E2E environment ==\n'
 
@@ -100,9 +138,10 @@ prepare_e2e_environment() {
   export NEXT_PRIVATE_SMTP_PORT="${NEXT_PRIVATE_SMTP_PORT:-2500}"
   export NEXT_PRIVATE_SMTP_USERNAME="${NEXT_PRIVATE_SMTP_USERNAME:-nexasign}"
   export NEXT_PRIVATE_SMTP_PASSWORD="${NEXT_PRIVATE_SMTP_PASSWORD:-password}"
-  export NEXT_PRIVATE_SMTP_FROM_NAME="${NEXT_PRIVATE_SMTP_FROM_NAME:-NexaSign}"
+  export NEXT_PRIVATE_SMTP_FROM_NAME="${NEXT_PRIVATE_SMTP_FROM_NAME:-NexaFile}"
   export NEXT_PRIVATE_SMTP_FROM_ADDRESS="${NEXT_PRIVATE_SMTP_FROM_ADDRESS:-noreply@nexastack.co}"
   export NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH="${NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH:-${REPO_ROOT}/apps/remix/example/cert.p12}"
+  export NEXT_PRIVATE_SIGNING_PASSPHRASE="${NEXT_PRIVATE_SIGNING_PASSPHRASE:-}"
   export CI="${CI:-1}"
 
   if command -v docker >/dev/null 2>&1; then
@@ -125,7 +164,7 @@ DEFAULT_E2E_TEST_PATH="e2e/release/signing-preflight.spec.ts e2e/envelopes/envel
 
 export NEXT_PRIVATE_SIGNING_TRANSPORT="${NEXT_PRIVATE_SIGNING_TRANSPORT:-local}"
 
-echo "NexaSign V1 Release Gate"
+echo "NexaFile V1 Release Gate"
 echo "Repo: ${REPO_ROOT}"
 echo "E2E mode: ${E2E_MODE}"
 echo
@@ -134,6 +173,7 @@ run npm run prisma:generate
 run npx tsc -p packages/lib/tsconfig.json --noEmit
 run npx tsc -p apps/remix/tsconfig.json --noEmit
 run npx tsc -p packages/app-tests/tsconfig.json --noEmit
+run_v1_checks
 
 if [[ "${RUN_LINT}" -eq 1 ]]; then
   run npx turbo run lint --concurrency=1
@@ -162,4 +202,4 @@ if [[ "${RUN_DRIFT}" -eq 1 ]]; then
 fi
 
 echo
-echo "PASS NexaSign V1 release gate completed."
+echo "PASS NexaFile V1 release gate completed."
