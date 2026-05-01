@@ -16,7 +16,7 @@ services:
       - database:/var/lib/postgresql/data
 
   nexasign:
-    image: nexasign/nexasign:latest
+    image: nexastack/nexafile:latest
     depends_on:
       database:
         condition: service_healthy

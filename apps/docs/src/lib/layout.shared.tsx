@@ -18,6 +18,6 @@ export function baseOptions(): BaseLayoutProps {
         </span>
       ),
     },
-    githubUrl: 'https://github.com/nexastack/nexasign',
+    githubUrl: 'https://github.com/NexaStack-Software/NexaFile',
   };
 }

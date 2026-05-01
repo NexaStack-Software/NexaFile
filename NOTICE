@@ -33,14 +33,14 @@ All original components retain their upstream licenses:
 Attribution requirements:
 
   * AGPL-3.0 Section 5(a) — notices of modification: fulfilled by
-    CHANGELOG.nexasign.md.
+    CHANGELOG.nexafile.md.
   * AGPL-3.0 Section 5(b) — preserve "Appropriate Legal Notices" in
     user-interactive code: the footer link in the Remix app
     ("NexaSign — ein Open-Source-Projekt von NexaStack") and the footer
     on the public Vorlagen/GoBD pages point to the project's origin.
   * AGPL-3.0 Section 13 — source offer for network interaction: the
-    complete source is available at the NexaSign git repository
-    (see README.nexasign.md for the URL).
+    complete source is available at the NexaFile git repository
+    (see README.nexafile.md for the URL).
 
 Documenso branding:
 
@@ -49,6 +49,6 @@ Documenso branding:
   * User-facing strings that were previously "Documenso" have been changed
     to "NexaSign" in the normal course of rebranding a fork. Strings and
     files that identify Documenso as the origin/author of the upstream
-    code (this NOTICE, README.nexasign.md, CHANGELOG.nexasign.md, meta
+    code (this NOTICE, README.nexafile.md, CHANGELOG.nexafile.md, meta
     tags, packages/ee/LICENSE) intentionally preserve the "Documenso"
     attribution.

@@ -35,13 +35,13 @@ Download the production Docker Compose file:
 
 ```bash
 mkdir nexasign && cd nexasign
-curl -O https://raw.githubusercontent.com/NexaStack-Software/NexaSign/release/docker/production/compose.yml
+curl -O https://raw.githubusercontent.com/NexaStack-Software/NexaFile/release/docker/production/compose.yml
 ```
 
 Alternatively, clone the full repository:
 
 ```bash
-git clone https://github.com/NexaStack-Software/NexaSign.git
+git clone https://github.com/NexaStack-Software/NexaFile.git
 cd nexasign/docker/production
 ```
 
@@ -89,7 +89,7 @@ services:
       - database:/var/lib/postgresql/data
 
   nexasign:
-    image: NexaStack-Software/NexaSign:latest
+    image: nexastack/nexafile:latest
     depends_on:
       database:
         condition: service_healthy

@@ -7,7 +7,7 @@ Dieses Dokument beschreibt das vollständige Backup einer NexaSign-Installation
 und die Wiederherstellung aus einem Backup. Es deckt sowohl den
 **App-only-Modus** als auch den **Full-Install-Modus** (mit PHP-Tools) ab.
 
-> **Pflicht vor jedem Upgrade.** Lies [`UPGRADE.nexasign.md`](UPGRADE.nexasign.md)
+> **Pflicht vor jedem Upgrade.** Lies [`UPGRADE.nexafile.md`](UPGRADE.nexafile.md)
 > nicht ohne ein frisches Backup nach dieser Anleitung. Die Reihenfolge ist:
 > Backup → Verifikation des Backups → erst dann Upgrade.
 
@@ -198,7 +198,7 @@ sudo apt install docker.io docker-compose-plugin git jq
 sudo systemctl enable --now docker
 
 # Optional: SSH-Key für Repo-Zugriff einrichten
-git clone git@github-nexastack:NexaStack-Software/NexaSign.git /opt/NexaSign
+git clone git@github-nexastack:NexaStack-Software/NexaFile.git /opt/NexaSign
 cd /opt/NexaSign
 git checkout <Tag-aus-README.txt-im-Backup>
 ```
@@ -299,7 +299,7 @@ docker compose logs -f app
 ### 8. PHP-Tools (nur Full Install)
 
 Folge der Schritt-für-Schritt-Anleitung in
-[`DEPLOY-PHP.nexasign.md`](DEPLOY-PHP.nexasign.md). Diese Tools haben keinen
+[`DEPLOY-PHP.nexafile.md`](DEPLOY-PHP.nexafile.md). Diese Tools haben keinen
 eigenen State — sie werden vom Repo aus neu deployt, nicht restored.
 
 ---

@@ -8,7 +8,7 @@ Liefert die UI für Signatur-Workflows, die REST-/tRPC-APIs unter
 `/api/v1`, `/api/v2`, `/api/trpc` und den Job-Endpoint unter `/api/jobs`.
 
 Dieses Verzeichnis ist eines von mehreren Workspaces — siehe das Repo-Root-
-[README.nexasign.md](../../README.nexasign.md) für den Gesamtüberblick und
+[README.nexafile.md](../../README.nexafile.md) für den Gesamtüberblick und
 [ARCHITECTURE.md](../../ARCHITECTURE.md) für die High-Level-Topologie.
 
 ## Lokale Entwicklung
@@ -57,11 +57,11 @@ apps/remix/
 Das Production-Image für diese App wird über `docker/nexasign/compose.yml`
 gebaut und betrieben. Operator-Anleitungen:
 
-- [README.nexasign.md](../../README.nexasign.md) — Übersicht und Quickstart
-- [SIGNING.nexasign.md](../../SIGNING.nexasign.md) — Signatur-Zertifikat einrichten
-- [BACKUP_RESTORE.nexasign.md](../../BACKUP_RESTORE.nexasign.md) — Postgres und Cert-Volume sichern
-- [UPGRADE.nexasign.md](../../UPGRADE.nexasign.md) — Versionswechsel und Rollback
-- [DEPLOY-PHP.nexasign.md](../../DEPLOY-PHP.nexasign.md) — optionale PHP-Tools für Vorlagen, AV-Vertrag, X-Rechnung
+- [README.nexafile.md](../../README.nexafile.md) — Übersicht und Quickstart
+- [SIGNING.nexafile.md](../../SIGNING.nexafile.md) — Signatur-Zertifikat einrichten
+- [BACKUP_RESTORE.nexafile.md](../../BACKUP_RESTORE.nexafile.md) — Postgres und Cert-Volume sichern
+- [UPGRADE.nexafile.md](../../UPGRADE.nexafile.md) — Versionswechsel und Rollback
+- [DEPLOY-PHP.nexafile.md](../../DEPLOY-PHP.nexafile.md) — optionale PHP-Tools für Vorlagen, AV-Vertrag, X-Rechnung
 
 ## Lizenz
 

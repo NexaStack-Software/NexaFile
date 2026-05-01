@@ -159,7 +159,7 @@ server {
 
 Wenn zusätzlich die PHP-Vorlagen-Tools auf derselben Domain laufen sollen,
 siehe die erweiterte nginx-Konfiguration in
-[DEPLOY-PHP.nexasign.md](DEPLOY-PHP.nexasign.md).
+[DEPLOY-PHP.nexafile.md](DEPLOY-PHP.nexafile.md).
 
 In `.env` muss `NEXT_PUBLIC_WEBAPP_URL` auf die öffentliche HTTPS-URL zeigen
 (`https://sign.beispiel.de`), nicht auf `localhost:3060`.
@@ -178,13 +178,13 @@ Schnell-Setup (Self-signed, 10 Jahre, **nur Dev/Test**):
 ```
 
 Für Produktivbetrieb ein AATL-Cert kaufen — Anleitung, Anbieter-Vergleich und
-Fehlerdiagnose in [SIGNING.nexasign.md](SIGNING.nexasign.md).
+Fehlerdiagnose in [SIGNING.nexafile.md](SIGNING.nexafile.md).
 
 ### Schritt 4 — Vorlagen-Tools (optional)
 
 Nur nötig, wenn Sie die Vorlagen-Bibliothek, AV-Generator, X-Rechnung-Generator
 und GoBD-Tools mitnutzen wollen. Setup-Anleitung in
-[DEPLOY-PHP.nexasign.md](DEPLOY-PHP.nexasign.md).
+[DEPLOY-PHP.nexafile.md](DEPLOY-PHP.nexafile.md).
 
 ---
 
@@ -221,6 +221,6 @@ Details: [.well-known/security.txt](.well-known/security.txt).
 
 ## Support und kommerzielle Begleitung
 
-- **Bugs, Fragen, Feature-Requests:** [GitHub-Issues](https://github.com/NexaStack-Software/NexaSign/issues)
+- **Bugs, Fragen, Feature-Requests:** [GitHub-Issues](https://github.com/NexaStack-Software/NexaFile/issues)
 - **Kommerzielle Unterstützung (Hosting, Setup, Schulung):**
   [NexaStack](https://nexastack.co/) · `info@nexastack.co`

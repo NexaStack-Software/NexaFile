@@ -27,11 +27,11 @@ docker buildx build \
     --progress=plain \
     --build-arg NEXT_PRIVATE_TELEMETRY_KEY="${NEXT_PRIVATE_TELEMETRY_KEY:-}" \
     --build-arg NEXT_PRIVATE_TELEMETRY_HOST="${NEXT_PRIVATE_TELEMETRY_HOST:-}" \
-    -t "nexasign/nexasign:latest" \
-    -t "nexasign/nexasign:$GIT_SHA" \
-    -t "nexasign/nexasign:$APP_VERSION" \
-    -t "ghcr.io/nexasign/nexasign:latest" \
-    -t "ghcr.io/nexasign/nexasign:$GIT_SHA" \
-    -t "ghcr.io/nexasign/nexasign:$APP_VERSION" \
+    -t "nexastack/nexafile:latest" \
+    -t "nexastack/nexafile:$GIT_SHA" \
+    -t "nexastack/nexafile:$APP_VERSION" \
+    -t "ghcr.io/nexastack-software/nexafile:latest" \
+    -t "ghcr.io/nexastack-software/nexafile:$GIT_SHA" \
+    -t "ghcr.io/nexastack-software/nexafile:$APP_VERSION" \
     --push \
     "$MONOREPO_ROOT"

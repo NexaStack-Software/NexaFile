@@ -42,7 +42,7 @@ $nx_app_base  = $nx_is_demo
 <div class="nx-demo-banner" role="status">
   <strong>Öffentliche Demo.</strong>
   Daten werden regelmäßig zurückgesetzt — keine vertraulichen Informationen eingeben.
-  <a href="https://github.com/NexaStack/NexaSign">Selbst hosten</a>
+  <a href="https://github.com/NexaStack-Software/NexaFile">Selbst hosten</a>
 </div>
 <?php endif; ?>
 <style>

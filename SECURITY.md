@@ -39,8 +39,8 @@ In scope:
 
 Out of scope:
 
-- Issues in upstream NexaSign that also affect this fork — please report those
-  to the [NexaSign project](https://github.com/nexasign/nexasign/security)
+- Issues in NexaFile that affect this fork — please report those
+  to the [NexaFile project](https://github.com/NexaStack-Software/NexaFile/security)
   directly; we will sync fixes as part of our upstream-merge cadence.
 - Vulnerabilities in third-party dependencies that are not reachable from any
   code path in this repository.
@@ -49,7 +49,7 @@ Out of scope:
 
 ## Known Limitations
 
-See the [Bekannte offene Punkte](CHANGELOG.nexasign.md#bekannte-offene-punkte-vor-produktivem-einsatz)
+See the [Bekannte offene Punkte](CHANGELOG.nexafile.md#bekannte-offene-punkte-vor-produktivem-einsatz)
 section in the changelog for issues we are aware of and actively tracking,
 including the pending KoSIT-validator check for the X-Rechnung generator and
 the PHP-tool hardening roadmap.

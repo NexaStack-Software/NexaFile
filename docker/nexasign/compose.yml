@@ -3,7 +3,7 @@
 # Isolierter Stack — Port 3060 extern, Postgres intern (nicht exponiert).
 # Der App-Service wird aus dem lokalen Repo gebaut, weil NexaSigns eigene
 # Funktionen (GoBD-WORM-Strict, deutsche Übersetzung, Logo, Nav-Erweiterungen,
-# packages/ee AGPL-Stubs) NICHT im Upstream-Image `nexasign/nexasign:latest`
+# packages/ee AGPL-Stubs) NICHT im Upstream-Image `nexastack/nexafile:latest`
 # enthalten sind.
 #
 # Erster Start (build + run):   docker compose up -d --build
@@ -68,7 +68,7 @@ services:
       # Signing-Cert — NICHT auto-generiert. Vor dem ersten Sign-Versuch entweder
       # ../../scripts/nexasign/generate-dev-cert.sh laufen lassen oder ein echtes Cert
       # ins nexasign-cert-Volume legen. Ohne Cert bleiben signierte Dokumente
-      # auf „Ausstehend" hängen (Seal-Job schlägt fehl). Details: SIGNING.nexasign.md.
+      # auf „Ausstehend" hängen (Seal-Job schlägt fehl). Details: SIGNING.nexafile.md.
       NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH: /opt/nexasign/cert.p12
       NEXT_PRIVATE_SIGNING_PASSPHRASE: ${NEXT_PRIVATE_SIGNING_PASSPHRASE}
 

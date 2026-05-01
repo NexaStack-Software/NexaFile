@@ -35,7 +35,7 @@ export default function HomePage() {
             Get Started
           </Link>
           <a
-            href="https://github.com/nexastack/nexasign"
+            href="https://github.com/NexaStack-Software/NexaFile"
             className="bg-fd-background hover:bg-fd-accent inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium transition-colors"
           >
             <GithubIcon className="size-4" />
@@ -243,14 +243,14 @@ export default function HomePage() {
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <a
-            href="https://github.com/nexastack/nexasign"
+            href="https://github.com/NexaStack-Software/NexaFile"
             className="bg-fd-background hover:bg-fd-accent inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors"
           >
             <GithubIcon className="size-4" />
             GitHub
           </a>
           <a
-            href="https://github.com/nexastack/nexasign/discussions"
+            href="https://github.com/NexaStack-Software/NexaFile/discussions"
             className="bg-fd-background hover:bg-fd-accent inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors"
           >
             <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">

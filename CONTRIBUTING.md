@@ -9,7 +9,7 @@ Danke für Ihr Interesse an NexaFile. Beiträge (Bugfixes, Features, Docs,
 ## Quick links
 
 - **Bug melden / Feature vorschlagen:**
-  [GitHub-Issues](https://github.com/NexaStack-Software/NexaSign/issues)
+  [GitHub-Issues](https://github.com/NexaStack-Software/NexaFile/issues)
 - **Security-sensitive Befunde:** vertraulich per Mail an `security@nexastack.co`
   (siehe [SECURITY.md](SECURITY.md) und
   [apps/remix/public/.well-known/security.txt](apps/remix/public/.well-known/security.txt))

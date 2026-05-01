@@ -1,5 +1,5 @@
 ARG TAG=latest
-FROM nexastack/nexasign:${TAG}
+FROM nexastack/nexafile:${TAG}
 
 # Install @playwright/browser-chromium which bundles Playwright + Chromium
 RUN npm install @playwright/browser-chromium

@@ -40,15 +40,15 @@ else
     echo "Using default repositories: dockerhub and ghcr.io"
     
     # Add tags for both default repositories
-    docker tag "nexasign-base" "nexasign/nexasign:latest"
-    docker tag "nexasign-base" "nexasign/nexasign:$GIT_SHA"
-    docker tag "nexasign-base" "ghcr.io/nexasign/nexasign:latest"
-    docker tag "nexasign-base" "ghcr.io/nexasign/nexasign:$GIT_SHA"
+    docker tag "nexasign-base" "nexastack/nexafile:latest"
+    docker tag "nexasign-base" "nexastack/nexafile:$GIT_SHA"
+    docker tag "nexasign-base" "ghcr.io/nexastack-software/nexafile:latest"
+    docker tag "nexasign-base" "ghcr.io/nexastack-software/nexafile:$GIT_SHA"
 
     # Add version tags if available
     if [ ! -z "$APP_VERSION" ] && [ "$APP_VERSION" != "undefined" ]; then
-        docker tag "nexasign-base" "nexasign/nexasign:$APP_VERSION"
-        docker tag "nexasign-base" "ghcr.io/nexasign/nexasign:$APP_VERSION"
+        docker tag "nexasign-base" "nexastack/nexafile:$APP_VERSION"
+        docker tag "nexasign-base" "ghcr.io/nexastack-software/nexafile:$APP_VERSION"
     fi
 fi
 

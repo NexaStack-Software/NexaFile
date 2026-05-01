@@ -8,7 +8,7 @@ Installation und den Rollback-Pfad, falls etwas schiefgeht. Sie deckt sowohl
 **App-only** als auch **Full Install** (mit PHP-Tools) ab.
 
 > **Pflicht vor jedem Upgrade:** vollständiges Backup nach
-> [`BACKUP_RESTORE.nexasign.md`](BACKUP_RESTORE.nexasign.md). Ohne verifiziertes
+> [`BACKUP_RESTORE.nexafile.md`](BACKUP_RESTORE.nexafile.md). Ohne verifiziertes
 > Backup kein Upgrade.
 
 ---
@@ -27,7 +27,7 @@ die Variable fehlt, fällt der Stack auf `:latest` zurück — für Produktion
 **niemals**.
 
 Veröffentlichte Versionen: GitHub Releases unter
-<https://github.com/NexaStack-Software/NexaSign/releases>. Jede Release-Note
+<https://github.com/NexaStack-Software/NexaFile/releases>. Jede Release-Note
 enthält den Migrationsbedarf, neue Env-Vars und bekannte Breaking Changes.
 
 ---
@@ -47,7 +47,7 @@ Neue Releases können Variablen einführen, die ohne Default-Wert nicht starten.
 ## Pre-Upgrade-Checkliste
 
 ```bash
-# 1. Frisches Backup laufen lassen — siehe BACKUP_RESTORE.nexasign.md
+# 1. Frisches Backup laufen lassen — siehe BACKUP_RESTORE.nexafile.md
 #    Ergebnis liegt z. B. in /var/backups/nexasign/<datum>/
 
 # 2. Aktuellen Zustand notieren
@@ -58,7 +58,7 @@ docker compose -f docker/nexasign/compose.yml ps > /tmp/nx-pre-state.txt
 curl -sS http://localhost:3060/api/health | jq  > /tmp/nx-pre-health.json
 
 # 3. Release-Notes der Ziel-Version lesen
-#    https://github.com/NexaStack-Software/NexaSign/releases/tag/<NEUE_VERSION>
+#    https://github.com/NexaStack-Software/NexaFile/releases/tag/<NEUE_VERSION>
 #    Achte auf:
 #    - Neue/entfernte Env-Variablen
 #    - Migration-Dauer (große Migrations können DB-Locks halten)

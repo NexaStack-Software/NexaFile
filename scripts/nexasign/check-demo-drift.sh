@@ -109,8 +109,8 @@ else
 fi
 
 REMOTE_URL="$(git remote get-url origin 2>/dev/null || true)"
-if [[ "${REMOTE_URL}" == *"NexaStack-Software/NexaSign"* ]]; then
-  pass "origin-url" "origin points to NexaStack-Software/NexaSign."
+if [[ "${REMOTE_URL}" == *"NexaStack-Software/NexaFile"* ]]; then
+  pass "origin-url" "origin points to NexaStack-Software/NexaFile."
 else
   warn "origin-url" "origin URL is unexpected: ${REMOTE_URL:-<missing>}"
 fi

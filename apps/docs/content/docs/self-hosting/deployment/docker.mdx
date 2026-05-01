@@ -27,7 +27,7 @@ docker --version
 ## Pulling the Docker Image
 
 ```bash
-docker pull NexaStack-Software/NexaSign:latest
+docker pull nexastack/nexafile:latest
 ```
 
 ### Available Tags
@@ -128,7 +128,7 @@ docker run -d \
   -e NEXT_PRIVATE_SMTP_PASSWORD="your-smtp-password" \
   -e NEXT_PRIVATE_SMTP_FROM_NAME="NexaFile" \
   -e NEXT_PRIVATE_SMTP_FROM_ADDRESS="noreply@example.com" \
-  NexaStack-Software/NexaSign:latest
+  nexastack/nexafile:latest
 ```
 
 ### Signing Certificate
@@ -180,7 +180,7 @@ docker run -d \
   -p 3000:3000 \
   --env-file .env \
   -v /path/to/cert.p12:/opt/nexasign/cert.p12:ro \
-  NexaStack-Software/NexaSign:latest
+  nexastack/nexafile:latest
 ```
 
 ## Health Checks
@@ -205,7 +205,7 @@ docker run -d \
   --health-timeout=10s \
   --health-retries=3 \
   --env-file .env \
-  NexaStack-Software/NexaSign:latest
+  nexastack/nexafile:latest
 ```
 
 Check container health status:
@@ -225,7 +225,7 @@ To update NexaFile to a new version:
 ### Pull the new image
 
 ```bash
-docker pull NexaStack-Software/NexaSign:latest
+docker pull nexastack/nexafile:latest
 ```
 
 </Step>
@@ -249,7 +249,7 @@ docker run -d \
   -p 3000:3000 \
   --env-file .env \
   -v /path/to/cert.p12:/opt/nexasign/cert.p12:ro \
-  NexaStack-Software/NexaSign:latest
+  nexastack/nexafile:latest
 ```
 
 </Step>

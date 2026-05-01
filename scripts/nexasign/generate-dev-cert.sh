@@ -5,7 +5,7 @@
 # Erzeugt ein Self-signed PKCS#12 Signatur-Zertifikat für den NexaSign-Docker-Stack
 # und legt es ins nexasign-cert-Volume unter /opt/nexasign/cert.p12 ab.
 #
-# NUR für Entwicklung und Test-Setups. Für Produktivbetrieb siehe SIGNING.nexasign.md
+# NUR für Entwicklung und Test-Setups. Für Produktivbetrieb siehe SIGNING.nexafile.md
 # (Stichwort: AATL-vertrauenswürdiges Document-Signing-Cert von Certum / Sectigo /
 # GlobalSign / D-Trust — ohne das zeigen alle PDF-Viewer „Identität nicht verifiziert").
 #
@@ -92,7 +92,7 @@ echo "   — Certum Document Signing EV  (ca. 80 €/J,   EU)"
 echo "   — Sectigo Document Signing     (ca. 300 €/J,  EU/global)"
 echo "   — GlobalSign Document Signing  (ca. 350 €/J,  global)"
 echo "   — D-Trust AdES                 (ca. 120 €/J,  DE / Bundesdruckerei)"
-echo "   Details in SIGNING.nexasign.md."
+echo "   Details in SIGNING.nexafile.md."
 echo ""
 echo "   Danach Container neu starten:"
 echo "     cd $REPO_ROOT/docker/nexasign && docker compose restart app"

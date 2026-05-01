@@ -19,7 +19,7 @@ dem gesamten Documenso-Team.
 - **Upstream-Website:** [documenso.com](https://documenso.com)
 - **Upstream-Discord:** [documen.so/discord](https://documen.so/discord)
 
-Unsere Änderungen sind im [CHANGELOG.nexasign.md](CHANGELOG.nexasign.md) dokumentiert.
+Unsere Änderungen sind im [CHANGELOG.nexafile.md](CHANGELOG.nexafile.md) dokumentiert.
 
 ## Was NexaSign macht
 
@@ -34,7 +34,7 @@ angewiesen zu sein:
 - **eIDAS-Unterstützung** für einfache und fortgeschrittene elektronische Signaturen
 
 Wenn Sie NexaSign zuerst aus Anwender-Sicht verstehen wollen, lesen Sie
-[ERSTE-SCHRITTE.nexasign.md](ERSTE-SCHRITTE.nexasign.md). Diese Anleitung erklärt
+[ERSTE-SCHRITTE.nexafile.md](ERSTE-SCHRITTE.nexafile.md). Diese Anleitung erklärt
 ohne technische Details, was man mit NexaSign praktisch machen kann.
 
 ## Wichtiger Hinweis zur Schriftform
@@ -133,7 +133,7 @@ Gerätenamen entsprechend (`/dev/sda 3` und `/dev/sda3`).
 #### Schritt 1 — App-Stack (Docker, Pflicht)
 
 ```bash
-git clone https://github.com/NexaStack-Software/NexaSign.git
+git clone https://github.com/NexaStack-Software/NexaFile.git
 cd NexaSign
 
 cd docker/nexasign
@@ -173,7 +173,7 @@ docker compose restart app
 ```
 
 **Für Produktivbetrieb** ein AATL-vertrauenswürdiges Cert kaufen (ca. 80–400 €/J).
-Anleitung, Anbieter und Fehlerdiagnose in [SIGNING.nexasign.md](SIGNING.nexasign.md).
+Anleitung, Anbieter und Fehlerdiagnose in [SIGNING.nexafile.md](SIGNING.nexafile.md).
 
 #### Schritt 3 — Vorlagen-Tools (PHP, optional)
 
@@ -186,7 +186,7 @@ Wer nur die App braucht, kann das hier überspringen. Die PHP-Tools liefern:
 Voraussetzungen: PHP 8.1+, Composer, WeasyPrint in einem Python-venv, systemd für
 das Retention-Cron, nginx mit den location-Blöcken unter `/vorlagen/*`.
 
-Komplette Schritt-für-Schritt-Anleitung: [DEPLOY-PHP.nexasign.md](DEPLOY-PHP.nexasign.md).
+Komplette Schritt-für-Schritt-Anleitung: [DEPLOY-PHP.nexafile.md](DEPLOY-PHP.nexafile.md).
 
 ## Lizenz und Haftung
 
@@ -202,7 +202,7 @@ Komplette Schritt-für-Schritt-Anleitung: [DEPLOY-PHP.nexasign.md](DEPLOY-PHP.ne
 
 ## Unterstützung
 
-- **Bugs/Fragen:** [GitHub-Issues in diesem Repository](https://github.com/NexaStack-Software/NexaSign)
+- **Bugs/Fragen:** [GitHub-Issues in diesem Repository](https://github.com/NexaStack-Software/NexaFile)
 - **Kommerzielle Unterstützung (Hosting, Setup, Schulung):** [NexaStack](https://nexastack.co/)
 
 ## Upstream-Synchronisation

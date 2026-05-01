@@ -114,7 +114,7 @@ nicht nur als 500-Status.
 
 ### Niedrig: nginx-Härtung lebt nur in der Doku
 
-**Datei:** `DEPLOY-PHP.nexasign.md` Abschnitt 5
+**Datei:** `DEPLOY-PHP.nexafile.md` Abschnitt 5
 
 Rate-Limit-Zonen, Security-Header-Snippet, `vendor/`-Block und
 `source-md/`-Lockout existieren als Beispiel-Config. Wenn ein Operator den
@@ -143,7 +143,7 @@ Konsistent mit dem Rest des Projekts wäre `nexastack/x-rechnung-web` oder
 ## Was nicht im Audit-Scope war
 
 - TLS-Konfiguration (delegiert an die nginx-Konfig auf der Operator-Seite)
-- Rate-Limit-Werte selbst (Defaults sind in `DEPLOY-PHP.nexasign.md` dokumentiert,
+- Rate-Limit-Werte selbst (Defaults sind in `DEPLOY-PHP.nexafile.md` dokumentiert,
   müssen pro Installation an Last angepasst werden)
 - Authentifizierung der `/vorlagen/*`-Endpoints (Tools sind bewusst öffentlich,
   AV-Vertrag- und X-Rechnung-Generator sollen ohne Login nutzbar sein)

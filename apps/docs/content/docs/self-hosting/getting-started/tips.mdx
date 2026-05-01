@@ -22,7 +22,7 @@ Mount your `.p12` certificate file into the container at the default path:
 docker run -d \
   -v /path/to/your/cert.p12:/opt/nexasign/cert.p12:ro \
   -e NEXT_PRIVATE_SIGNING_PASSPHRASE="your-certificate-password" \
-  NexaStack-Software/NexaSign:latest
+  nexastack/nexafile:latest
 ```
 
 The default certificate path inside the container is `/opt/nexasign/cert.p12`. You can change this with `NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH`.
@@ -92,13 +92,13 @@ Use a specific version tag in production:
 
 ```bash
 # Good — predictable, reproducible
-docker pull NexaStack-Software/NexaSign:1.8.0
+docker pull nexastack/nexafile:1.8.0
 
 # Risky — may pull breaking changes
-docker pull NexaStack-Software/NexaSign:latest
+docker pull nexastack/nexafile:latest
 ```
 
-Check the [GitHub releases](https://github.com/NexaStack-Software/NexaSign/releases) page for available versions.
+Check the [GitHub releases](https://github.com/NexaStack-Software/NexaFile/releases) page for available versions.
 
 ---
 

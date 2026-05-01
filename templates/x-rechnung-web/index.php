@@ -238,7 +238,7 @@ h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 2.75rem);
     oder als steuerlich relevantes Dokument bitte mit dem KoSIT-Validator
     (<a href="https://github.com/itplr-kosit/validator" target="_blank" rel="noopener">itplr-kosit/validator</a>)
     gegenprüfen. Status verfolgen:
-    <a href="https://github.com/NexaStack-Software/NexaSign/issues" target="_blank" rel="noopener">GitHub-Issues</a>.
+    <a href="https://github.com/NexaStack-Software/NexaFile/issues" target="_blank" rel="noopener">GitHub-Issues</a>.
   </div>
 
   <p class="lead">
