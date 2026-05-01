@@ -7,7 +7,7 @@
 export const NexaStackFooter = () => (
   <footer className="mt-auto border-t border-border bg-background">
     <div className="mx-auto max-w-screen-xl px-4 py-6 text-center text-base text-muted-foreground md:px-8">
-      NexaSign — ein Open-Source-Projekt von{' '}
+      NexaFile — ein Open-Source-Projekt von{' '}
       <a
         href="https://nexastack.co/"
         className="font-medium text-foreground no-underline transition-colors hover:text-primary"

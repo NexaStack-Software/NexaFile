@@ -3,7 +3,7 @@ import type { SVGAttributes } from 'react';
 export type LogoProps = SVGAttributes<SVGSVGElement>;
 
 /**
- * NexaSign-Wortmarke als Inline-SVG.
+ * NexaFile-Wortmarke als Inline-SVG.
  * Verwendet `currentColor`, d. h. die Farbe wird vom CSS-Kontext vererbt
  * (z. B. `className="text-primary"` oder `text-foreground`).
  */
@@ -24,7 +24,7 @@ export const BrandingLogo = ({ ...props }: LogoProps) => {
         N
       </text>
 
-      {/* Wortmarke „NexaSign" */}
+      {/* Wortmarke „NexaFile" */}
       <text
         x="110"
         y="80"
@@ -33,7 +33,7 @@ export const BrandingLogo = ({ ...props }: LogoProps) => {
         fontSize="58"
         letterSpacing="-0.02em"
       >
-        NexaSign
+        NexaFile
       </text>
     </svg>
   );

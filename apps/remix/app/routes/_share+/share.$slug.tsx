@@ -13,15 +13,15 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
   }
 
   return [
-    { title: 'NexaSign - Share' },
-    { description: 'I just signed a document in style with NexaSign!' },
+    { title: 'NexaFile - Share' },
+    { description: 'I just signed a document in style with NexaFile!' },
     {
       property: 'og:title',
-      content: 'NexaSign - Join the open source signing revolution',
+      content: 'NexaFile - Join the open source document workflow',
     },
     {
       property: 'og:description',
-      content: 'I just signed with NexaSign!',
+      content: 'I just signed with NexaFile!',
     },
     {
       property: 'og:type',
@@ -33,7 +33,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       name: 'twitter:site',
-      content: '@nexasign',
+      content: '@nexastack',
     },
     {
       name: 'twitter:card',
@@ -45,7 +45,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       name: 'twitter:description',
-      content: 'I just signed with NexaSign!',
+      content: 'I just signed with NexaFile!',
     },
   ];
 }
@@ -70,7 +70,7 @@ export const loader = async ({ request, params: { slug } }: Route.LoaderArgs) =>
     return {};
   }
 
-  // Is hardcoded because this whole meta is hardcoded anyway for NexaSign.
+  // Is hardcoded because this whole meta is hardcoded anyway for NexaFile.
   throw redirect('/');
 };
 

@@ -52,7 +52,7 @@ export const DocumentReminderEmailTemplate = ({
               ) : (
                 <Img
                   src={getAssetUrl('/static/logo.png')}
-                  alt="NexaSign Logo"
+                  alt="NexaFile Logo"
                   className="mb-4 h-6"
                 />
               )}

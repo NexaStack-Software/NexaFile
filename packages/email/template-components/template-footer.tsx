@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 
-import { Link, Section, Text } from '../components';
+import { Section, Text } from '../components';
 import { useBranding } from '../providers/branding';
 
 export type TemplateFooterProps = {
@@ -19,7 +19,7 @@ export const TemplateFooter = ({ isDocument = true }: TemplateFooterProps) => {
               Footer mit eigener URL ausspielen. Hier keinen externen Link
               hart-codieren, damit wir nie auf eine Domain zeigen, die der
               Deployer nicht kontrolliert. */}
-          <Trans>This document was sent using NexaSign.</Trans>
+          <Trans>This document was sent using NexaFile.</Trans>
         </Text>
       )}
 
@@ -36,11 +36,11 @@ export const TemplateFooter = ({ isDocument = true }: TemplateFooterProps) => {
         </Text>
       )}
 
-      {/* NexaSign ist self-hosted — keine Zentral-Adresse. Wenn der Betreiber
+      {/* NexaFile ist self-hosted — keine Zentral-Adresse. Wenn der Betreiber
           in den Team-Einstellungen ein eigenes Branding + Firmenadresse setzt,
           wird der obige Block mit `brandingCompanyDetails` gerendert. Ohne
           Branding-Config lassen wir diesen Footer-Abschnitt bewusst leer,
-          damit keine falsche/NexaSign-Adresse in User-Emails auftaucht. */}
+          damit keine falsche/NexaFile-Adresse in User-Emails auftaucht. */}
     </Section>
   );
 };

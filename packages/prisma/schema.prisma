@@ -66,6 +66,12 @@ model User {
   folders   Folder[]
   envelopes Envelope[]
 
+  uploadedDiscoveryDocuments DiscoveryDocument[]
+  acceptedDiscoveryDocuments DiscoveryDocument[] @relation("DiscoveryDocumentAcceptedBy")
+  sources                    Source[]
+  triggeredSyncRuns          SyncRun[]
+  discoveryAuditLogs         DiscoveryAuditLog[]
+
   verificationTokens VerificationToken[]
   apiTokens          ApiToken[]
   securityAuditLogs  UserSecurityAuditLog[]
@@ -436,6 +442,7 @@ model Envelope {
   documentMeta   DocumentMeta @relation(fields: [documentMetaId], references: [id])
 
   envelopeAttachments EnvelopeAttachment[]
+  discoverySourceDocument DiscoveryDocument? @relation("DiscoveryDocumentSigningEnvelope")
 
   @@index([type])
   @@index([status])
@@ -495,11 +502,12 @@ enum DocumentSigningOrder {
 }
 
 model DocumentData {
-  id           String           @id @default(cuid())
-  type         DocumentDataType
-  data         String
-  initialData  String
-  envelopeItem EnvelopeItem?
+  id                String             @id @default(cuid())
+  type              DocumentDataType
+  data              String
+  initialData       String
+  envelopeItem      EnvelopeItem?
+  discoveryDocument DiscoveryDocument?
 }
 
 enum DocumentDistributionMethod {
@@ -930,6 +938,9 @@ model Team {
   apiTokens  ApiToken[]
   webhooks   Webhook[]
   teamGroups TeamGroup[]
+  discoveryDocuments DiscoveryDocument[]
+  discoveryAuditLogs DiscoveryAuditLog[]
+  sources            Source[]
 
   organisationId String
   organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
@@ -1119,5 +1130,251 @@ model RateLimit {
   createdAt DateTime @default(now())
 
   @@id([key, action, bucket])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// Discovery — Schritt 1 des Lifecycles („Dokumente finden")
+// -----------------------------------------------------------------------------
+// Ein DiscoveryDocument ist ein im System aufgetauchter Beleg, bevor er in den
+// Lifecycle übernommen wird (Schritt 3 = signieren). Pro Team isoliert.
+// Die Bytes liegen in DocumentData (Reuse des bestehenden Storage-Providers).
+
+enum DiscoveryDocumentStatus {
+  INBOX
+  PENDING_MANUAL
+  ACCEPTED
+  SIGNED
+  ARCHIVED
+  IGNORED
+}
+
+model DiscoveryDocument {
+  id             String                  @id @default(cuid())
+  teamId         Int
+  team           Team                    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  uploadedById   Int?
+  uploadedBy     User?                   @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  sourceId       String?
+  source         Source?                 @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+
+  title          String
+  correspondent  String?
+  documentType   String?
+  documentDate   DateTime?
+  capturedAt     DateTime                @default(now())
+
+  status         DiscoveryDocumentStatus @default(INBOX)
+
+  providerSource   String   // "local", "imap", "paperless", ...
+  providerNativeId String?
+
+  contentType    String?
+  fileSize       Int?
+  tags           String[]
+
+  // Strukturierte Felder aus der Klassifizierung.
+  detectedAmount         String?
+  detectedInvoiceNumber  String?
+  portalHint             String?
+  messageIdHash          String?
+
+  // Mail-Body als Klartext (HTML-stripped) für UI-Anzeige. Begrenzt auf 1 MB.
+  // Originale .eml + body.html liegen als Artifacts auf dem Filesystem.
+  bodyText      String?  @db.Text
+  // Hint für UI: HTML-Variante existiert als Datei, wird NICHT inline gerendert.
+  bodyHasHtml   Boolean  @default(false)
+  // Pfad zum Filesystem-Ordner mit eml/body/attachments/metadata.
+  // Relative zu NEXT_PRIVATE_DISCOVERY_ARCHIVE_PATH.
+  archivePath   String?
+
+  // GoBD-Lifecycle: ab acceptedAt zählt 10-Jahres-Retention, WORM aktiv.
+  acceptedAt    DateTime?
+  acceptedById  Int?
+  acceptedBy    User?    @relation("DiscoveryDocumentAcceptedBy", fields: [acceptedById], references: [id], onDelete: SetNull)
+
+  // dataId ist optional, weil MANUAL-Belege (Beleg-Hinweis ohne PDF, User muss
+  // im Portal nachziehen) keine Bytes haben. Lokale Uploads und IMAP-AUTO-
+  // Imports haben weiterhin dataId.
+  dataId         String?       @unique
+  data           DocumentData? @relation(fields: [dataId], references: [id], onDelete: Cascade)
+
+  // Optionaler Link in Schritt 3 des NexaFILE-Flows: aus einem gefundenen
+  // Beleg wurde ein normales Signatur-Dokument erzeugt.
+  signingEnvelopeId String?   @unique
+  signingEnvelope   Envelope? @relation("DiscoveryDocumentSigningEnvelope", fields: [signingEnvelopeId], references: [id], onDelete: SetNull)
+
+  auditLogs      DiscoveryAuditLog[]
+  artifacts      DiscoveryArtifact[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([teamId, status])
+  @@index([teamId, capturedAt])
+  @@index([teamId, uploadedById, status])
+  @@index([sourceId])
+  @@index([messageIdHash])
+  @@index([acceptedAt])
+
+  // Idempotenz-Constraint: pro Source darf jede Message-ID nur einmal vorkommen.
+  // Schliesst die Race-Luecke des App-seitigen findFirst-vor-create-Patterns im
+  // IMAP-Adapter (verifiziert 2026-04-30 nach doppelten Receipts in der Beleg-Inbox).
+  // Implementiert als PARTIAL-Unique-Index (excludes NULL) in der Migration
+  // 20260430080000_dedupe_discovery_documents — Prisma kann partial indexes nicht
+  // per @@unique-Direktive ausdruecken, daher hier nur als Kommentar dokumentiert.
+}
+
+enum DiscoveryArtifactKind {
+  MAIL_EML
+  MAIL_BODY_TEXT
+  MAIL_BODY_HTML
+  MAIL_METADATA
+  ATTACHMENT
+}
+
+// DiscoveryArtifact — eine Datei im Archiv-Ordner einer DiscoveryDocument.
+// Pro Mail entstehen typisch: 1× MAIL_EML, 1× MAIL_BODY_TEXT, 1× MAIL_METADATA,
+// 0..1× MAIL_BODY_HTML, 0..N× ATTACHMENT. sha256 ist Pflicht — GoBD-Beweis.
+model DiscoveryArtifact {
+  id                  String                @id @default(cuid())
+  discoveryDocumentId String
+  discoveryDocument   DiscoveryDocument     @relation(fields: [discoveryDocumentId], references: [id], onDelete: Cascade)
+  kind                DiscoveryArtifactKind
+  fileName            String
+  contentType         String
+  fileSize            Int
+  sha256              String                @db.VarChar(64)
+  // Pfad relativ zu DiscoveryDocument.archivePath (z. B. "attachment-1.pdf").
+  relativePath        String
+  createdAt           DateTime              @default(now())
+
+  @@unique([discoveryDocumentId, kind, fileName])
+  @@index([discoveryDocumentId])
+  @@index([sha256])
+}
+
+// -----------------------------------------------------------------------------
+// Source — pro User konfigurierte Discovery-Quelle (IMAP, später Cloud).
+// -----------------------------------------------------------------------------
+
+enum SourceKind {
+  IMAP
+}
+
+enum SourceSyncStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  SUSPENDED
+}
+
+model Source {
+  id                        String           @id @default(cuid())
+  userId                    Int
+  user                      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // teamId ist Pflicht: User entscheidet beim Anlegen, in welches Team die
+  // gefundenen Belege fließen. Das verhindert Belege im falschen Team-Kontext
+  // bei Multi-Team-Mitgliedschaft.
+  teamId                    Int
+  team                      Team             @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  kind                      SourceKind
+  label                     String
+  encryptedConfig           String           @db.Text
+  encryptedConfigKeyVersion String           @default("v1")
+  // lastSyncAt = finishedAt vom letzten erfolgreichen SyncRun (Anzeige).
+  // Lock kommt nicht mehr aus Source.syncLockUntil, sondern aus dem laufenden
+  // SyncRun (status = RUNNING). lastSyncAttemptedAt entfällt komplett.
+  lastSyncAt                DateTime?
+  lastSyncStatus            SourceSyncStatus @default(PENDING)
+  lastSyncError             String?
+  consecutiveFailures       Int              @default(0)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+
+  discoveryDocuments DiscoveryDocument[]
+  auditLogs          DiscoveryAuditLog[]
+  syncRuns           SyncRun[]
+
+  @@index([userId])
+  @@index([teamId])
+  @@index([lastSyncAt])
+}
+
+enum SyncRunStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+// SyncRun — eine vom User getriggerte Suche über einen expliziten Zeitraum.
+// Idempotenz beim Mehrfach-Trigger: messageIdHash auf DiscoveryDocument
+// verhindert Duplikate, wenn überlappende Zeiträume gewählt werden.
+model SyncRun {
+  id            String        @id @default(cuid())
+  sourceId      String
+  source        Source        @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  triggeredById Int
+  triggeredBy   User          @relation(fields: [triggeredById], references: [id], onDelete: Cascade)
+
+  rangeFrom     DateTime
+  rangeTo       DateTime
+  searchTerm    String?
+  status        SyncRunStatus @default(PENDING)
+
+  mailsChecked      Int @default(0)
+  documentsAuto     Int @default(0)
+  documentsManual   Int @default(0)
+  documentsIgnored  Int @default(0)
+  documentsFailed   Int @default(0)
+
+  errorMessage String?
+  cancelRequested Boolean @default(false)
+
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+
+  @@index([sourceId, startedAt(sort: Desc)])
+  @@index([status])
+}
+
+// -----------------------------------------------------------------------------
+// DiscoveryAuditLog — Audit-Spur für Source-Konfig und Discovery-Lifecycle.
+// -----------------------------------------------------------------------------
+
+enum DiscoveryAuditEvent {
+  IMAP_ACCOUNT_CREATED
+  IMAP_ACCOUNT_DELETED
+  IMAP_ACCOUNT_UPDATED
+  IMAP_SYNC_STARTED
+  IMAP_SYNC_COMPLETED
+  IMAP_SYNC_LOGIN_FAILED
+  IMAP_SYNC_TLS_INSECURE
+  IMAP_DOCUMENT_IMPORTED
+  IMAP_DOCUMENT_RESYNCED
+  DISCOVERY_DOCUMENT_ACCEPTED
+  DISCOVERY_DOCUMENT_IGNORED
+  DISCOVERY_SIGNING_DOCUMENT_CREATED
+}
+
+model DiscoveryAuditLog {
+  id                  String              @id @default(cuid())
+  event               DiscoveryAuditEvent
+  sourceId            String?
+  source              Source?             @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  discoveryDocumentId String?
+  discoveryDocument   DiscoveryDocument?  @relation(fields: [discoveryDocumentId], references: [id], onDelete: SetNull)
+  userId              Int?
+  user                User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  teamId              Int?
+  team                Team?               @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  metadata            Json?
+  createdAt           DateTime            @default(now())
+
+  @@index([sourceId])
+  @@index([discoveryDocumentId])
+  @@index([userId])
   @@index([createdAt])
 }

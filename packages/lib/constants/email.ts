@@ -1,7 +1,7 @@
 import { env } from '../utils/env';
 
 export const FROM_ADDRESS = env('NEXT_PRIVATE_SMTP_FROM_ADDRESS') || 'noreply@nexastack.co';
-export const FROM_NAME = env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'NexaSign';
+export const FROM_NAME = env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'NexaFile';
 
 export const NEXASIGN_INTERNAL_EMAIL = {
   name: FROM_NAME,

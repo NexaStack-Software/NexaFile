@@ -59,23 +59,23 @@ export const Header = ({ className, ...props }: HeaderProps) => {
       {...props}
     >
       <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between gap-x-4 px-4 md:justify-normal md:px-8">
-        {/* NexaSign-Logo: fertig gesetzte Wortmarke als Bild.
+        {/* NexaFile-Logo: fertig gesetzte Wortmarke als Bild.
             60 px hoch, 1x + 2x via srcset, WebP mit PNG-Fallback.
             Identisch zur PHP-Nav (templates/vorlagen-index/_nav.php). */}
         <Link
           to={getRootHref(params)}
           className="hidden items-center rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
-          aria-label="NexaSign"
+          aria-label="NexaFile"
         >
           <picture>
             <source type="image/webp" srcSet="/logo-1x.webp 1x, /logo-2x.webp 2x" />
             <img
               src="/logo-1x.png"
               srcSet="/logo-1x.png 1x, /logo-2x.png 2x"
-              alt="NexaSign"
-              height={60}
-              width={251}
-              style={{ height: '60px', width: 'auto', display: 'block' }}
+              alt="NexaFile"
+              height={64}
+              width={268}
+              style={{ height: '64px', width: 'auto', display: 'block' }}
             />
           </picture>
         </Link>

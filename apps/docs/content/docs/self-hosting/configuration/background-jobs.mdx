@@ -1,6 +1,6 @@
 ---
 title: Background Jobs
-description: Configure how NexaSign processes background tasks like email delivery, document processing, and webhook dispatch.
+description: Configure how NexaFile processes background tasks like email delivery, document processing, and webhook dispatch.
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -8,7 +8,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 ## Overview
 
-NexaSign processes background jobs for email delivery, document sealing, webhook dispatch, and scheduled maintenance tasks. Three providers are available:
+NexaFile processes background jobs for email delivery, document sealing, webhook dispatch, and scheduled maintenance tasks. Three providers are available:
 
 | Provider | Backend    | Best For                                        | Infrastructure |
 | -------- | ---------- | ----------------------------------------------- | -------------- |
@@ -66,7 +66,7 @@ INNGEST_SIGNING_KEY=your-signing-key
 
 ## BullMQ
 
-[BullMQ](https://docs.bullmq.io/) is a Redis-backed job queue that runs inside the NexaSign process. It provides higher throughput than the local provider, configurable concurrency, and a built-in dashboard for monitoring jobs.
+[BullMQ](https://docs.bullmq.io/) is a Redis-backed job queue that runs inside the NexaFile process. It provides higher throughput than the local provider, configurable concurrency, and a built-in dashboard for monitoring jobs.
 
 ### Requirements
 
@@ -110,7 +110,7 @@ volumes:
   redis_data:
 ```
 
-Then set `NEXT_PRIVATE_REDIS_URL=redis://redis:6379` in your NexaSign environment.
+Then set `NEXT_PRIVATE_REDIS_URL=redis://redis:6379` in your NexaFile environment.
 
 ### Advantages
 
@@ -124,7 +124,7 @@ Then set `NEXT_PRIVATE_REDIS_URL=redis://redis:6379` in your NexaSign environmen
 
 ## Local
 
-The local provider uses your PostgreSQL database as a job queue. Jobs are stored in the `BackgroundJob` table and processed via internal HTTP requests that NexaSign sends to itself.
+The local provider uses your PostgreSQL database as a job queue. Jobs are stored in the `BackgroundJob` table and processed via internal HTTP requests that NexaFile sends to itself.
 
 ### Setup
 
@@ -137,7 +137,7 @@ NEXT_PRIVATE_JOBS_PROVIDER=local
 
 ### Internal URL
 
-Background jobs in the local provider work by NexaSign sending HTTP requests to itself. If your reverse proxy or network setup causes issues with the app reaching its own public URL, set the internal URL:
+Background jobs in the local provider work by NexaFile sending HTTP requests to itself. If your reverse proxy or network setup causes issues with the app reaching its own public URL, set the internal URL:
 
 ```bash
 NEXT_PRIVATE_INTERNAL_WEBAPP_URL=http://localhost:3000

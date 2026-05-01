@@ -9,7 +9,7 @@ import { ZOrganisationNameSchema } from '@nexasign/trpc/server/organisation-rout
  */
 export const ZClaimFlagsSchema = z.object({
   /**
-   * Allows disabling of NexaSign branding for:
+   * Allows disabling of NexaFile branding for:
    * - Certificates
    * - Emails
    * - Other?
@@ -57,7 +57,7 @@ export const SUBSCRIPTION_CLAIM_FEATURE_FLAGS: Record<
   },
   hidePoweredBy: {
     key: 'hidePoweredBy',
-    label: 'Hide NexaSign branding by',
+    label: 'Hide NexaFile branding by',
   },
   emailDomains: {
     key: 'emailDomains',

@@ -5,7 +5,7 @@
 
 ## Supported Versions
 
-NexaSign is currently published as a public beta. Only the latest released tag
+NexaFile is currently published as a public beta. Only the latest released tag
 and the `main` branch receive security fixes.
 
 | Version          | Supported |
@@ -31,7 +31,7 @@ requested.
 
 In scope:
 
-- The NexaSign Remix application (`apps/remix/`)
+- The NexaFile Remix application (`apps/remix/`)
 - The PHP template tools under `templates/` (vorlagen-index, av-vertrag-web,
   x-rechnung-web)
 - The GoBD tooling under `tools/` and deployment configs under `deploy/`

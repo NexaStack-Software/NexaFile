@@ -88,6 +88,9 @@ Emilian Buza.jpg
 img/26864.jpg
 packages/assets/images/emilian.webp
 
+# Logo-Backups (Originale liegen nur lokal als Wiederherstellungs-Punkt)
+img/*.original.png
+
 # Generierte Logo-Artefakte (Zwischenstände bei Logo-Generierung)
 tmp-logo/
 
@@ -98,6 +101,8 @@ tmp-logo/
 # Diese Dateien gehören in ein privates NexaStack-Infra-Repo, nicht hierher.
 # Falls sie versehentlich lokal landen, blockiert .gitignore das Tracking.
 archive/
+!packages/lib/server-only/sources/archive/
+!packages/lib/server-only/sources/archive/**
 demo/
 Demo/
 DEMO.nexasign.md

@@ -1,20 +1,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <!-- © 2026 NexaStack, NexaSign contributors -->
 
-# NexaSign
+# NexaFile
 
-**Die deutsche, selbstgehostete Alternative zu DocuSign.**
+**Die deutsche, selbstgehostete Dokumentenplattform für Finden, Signieren und Archivieren.**
 
-NexaSign signiert elektronische Dokumente rechtskonform nach eIDAS — komplett
-in Ihrer eigenen Infrastruktur. Keine Daten in US-Clouds, kein Abo-Zwang,
-keine Drittanbieter-Server im Signatur-Pfad.
+NexaFile findet, signiert und archiviert elektronische Dokumente in Ihrer eigenen
+Infrastruktur. Keine Daten in US-Clouds, kein Abo-Zwang, keine Drittanbieter-Server
+im Signatur- oder Archiv-Pfad.
 
 Gepflegt von [NexaStack](https://nexastack.co/) als Open-Source-Projekt unter
 AGPL-3.0-or-later.
 
 ---
 
-## 🔎 NexaSign live ausprobieren, bevor Sie selbst hosten
+## 🔎 NexaFile live ausprobieren, bevor Sie selbst hosten
 
 **→ [nexasign-demo.nexastack.co](https://nexasign-demo.nexastack.co)**
 
@@ -28,7 +28,14 @@ ersten Eindruck zu bekommen, bevor Sie den eigenen Stack aufsetzen.
 
 ---
 
-## Was NexaSign kann
+## Was NexaFile kann
+
+**Dokumente finden und übernehmen:**
+
+- IMAP-Quellen gezielt für frei wählbare Datumsbereiche synchronisieren
+- E-Mails, Anhänge, Body-Dateien und Metadaten lokal archivieren
+- Gefundene Belege prüfen, akzeptieren und mit Retention-Start versehen
+- Auditierbare Discovery-Logs und Exportfähigkeit für Betriebsprüfungen
 
 **E-Signatur, rechtskonform und self-hosted:**
 
@@ -61,7 +68,7 @@ ersten Eindruck zu bekommen, bevor Sie den eigenen Stack aufsetzen.
 
 ## Hinweis zur Schriftform
 
-NexaSign erzeugt **einfache und fortgeschrittene elektronische Signaturen (EES/AES)**.
+NexaFile erzeugt **einfache und fortgeschrittene elektronische Signaturen (EES/AES)**.
 Das reicht für die allermeisten Verträge im deutschen Geschäftsalltag
 (AGB-Zustimmungen, NDAs, Freelance-Verträge, Dienstleistungen, Angebote), da
 diese nach § 125 BGB formfrei sind.
@@ -70,13 +77,13 @@ Für Verträge mit gesetzlicher **Schriftform-Pflicht** (z. B. Mietverträge
 > 1 Jahr, bestimmte Kündigungen, Arbeitszeugnisse) wird eine **qualifizierte
 elektronische Signatur (QES)** nach eIDAS Art. 25 benötigt. Diese erfordert
 einen akkreditierten Vertrauensdiensteanbieter (z. B. D-Trust / Bundesdruckerei)
-und ist in NexaSign aktuell **nicht** integriert.
+und ist in NexaFile aktuell **nicht** integriert.
 
 ---
 
 ## Hinweis zu GoBD und Aufbewahrung
 
-NexaSign liefert **GoBD-Tooling** (WORM-Strict-Mode, 10-Jahres-Retention nach
+NexaFile liefert **GoBD-Tooling** (WORM-Strict-Mode, 10-Jahres-Retention nach
 § 147 AO / § 257 HGB, Z2/Z3-Export-CLI mit SHA-256-Manifest). Das ist die
 technische Basis für eine GoBD-orientierte Aufbewahrung — **nicht** der
 fertige GoBD-Nachweis.
@@ -92,7 +99,7 @@ abgestimmt. Eine Vorlage für die Verfahrensdokumentation liegt unter
 
 ## Installation (Self-Hosting)
 
-NexaSign besteht aus zwei Teilen:
+NexaFile besteht aus zwei Teilen:
 
 1. **E-Signatur-App** — Docker, Port 3060 (Pflicht)
 2. **Vorlagen-Tools** (`/vorlagen/*`, AV-Vertrag, X-Rechnung, GoBD) — PHP auf Host, **optional**
@@ -199,11 +206,12 @@ Details in [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Haftung:** Die Software wird **ohne jede Gewährleistung** bereitgestellt
   (§§ 15/16 AGPL-3.0). Bei unentgeltlicher Überlassung gilt zusätzlich § 521
   BGB analog — Haftung nur bei Vorsatz und grober Fahrlässigkeit.
-- **Keine Rechtsberatung:** Die Ausgabe einer Signatur durch NexaSign ersetzt
+- **Keine Rechtsberatung:** Die Ausgabe einer Signatur durch NexaFile ersetzt
   **keine juristische Prüfung** der unterzeichneten Dokumente.
 - **Betrieb als Service:** AGPL-3.0 verlangt, dass alle Nutzer des Services
-  Zugang zum Quellcode haben. Der gesamte NexaSign-Source liegt öffentlich
-  in diesem Repo.
+  Zugang zum Quellcode haben. Der gesamte NexaFile-Source liegt öffentlich
+  in diesem Repo. Technische Paket-, Docker- und Datenbanknamen verwenden in V1
+  aus Kompatibilitätsgründen teilweise weiterhin `nexasign`.
 
 ## Sicherheit
 

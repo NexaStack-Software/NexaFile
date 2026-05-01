@@ -47,11 +47,14 @@
     "bullmq": "^5.71.1",
     "csv-parse": "^6.1.0",
     "inngest": "^3.54.0",
+    "imapflow": "^1.0.190",
     "ioredis": "^5.10.1",
     "jose": "^6.1.2",
+    "jszip": "^3.10.1",
     "konva": "^10.0.9",
     "kysely": "0.28.16",
     "luxon": "^3.7.2",
+    "mailparser": "^3.7.4",
     "nanoid": "^5.1.6",
     "oslo": "^0.17.0",
     "p-map": "^7.0.4",
@@ -72,6 +75,7 @@
   "devDependencies": {
     "@playwright/browser-chromium": "1.56.1",
     "@types/luxon": "^3.7.1",
+    "@types/mailparser": "^3.4.5",
     "@types/pg": "^8.15.6",
     "vitest": "^4.0.18"
   }

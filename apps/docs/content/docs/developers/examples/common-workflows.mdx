@@ -750,7 +750,7 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));
 
 ### Register the Webhook
 
-Register your endpoint in the NexaSign dashboard:
+Register your endpoint in the NexaFile dashboard:
 
 {/* prettier-ignore */}
 <Steps>
@@ -1037,14 +1037,14 @@ type ApiError = {
   details?: Record<string, unknown>;
 };
 
-class NexaSignApiError extends Error {
+class NexaFileApiError extends Error {
   code?: string;
   statusCode: number;
   details?: Record<string, unknown>;
 
   constructor(error: ApiError) {
     super(error.message);
-    this.name = 'NexaSignApiError';
+    this.name = 'NexaFileApiError';
     this.code = error.code;
     this.statusCode = error.statusCode;
     this.details = error.details;
@@ -1054,7 +1054,7 @@ class NexaSignApiError extends Error {
 async function handleApiResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const error = await response.json();
-    throw new NexaSignApiError({
+    throw new NexaFileApiError({
       message: error.message || 'Unknown error',
       code: error.code,
       statusCode: response.status,
@@ -1076,7 +1076,7 @@ try {
   const envelope = await handleApiResponse<{ id: string }>(response);
   console.log('Created:', envelope.id);
 } catch (error) {
-  if (error instanceof NexaSignApiError) {
+  if (error instanceof NexaFileApiError) {
     switch (error.statusCode) {
       case 400:
         console.error('Invalid request:', error.message);

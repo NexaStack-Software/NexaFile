@@ -4,7 +4,7 @@ import { createTOTPKeyURI } from 'oslo/otp';
 
 import { NEXASIGN_ENCRYPTION_KEY } from '../../../constants/crypto';
 
-const ISSUER = 'NexaSign Email 2FA';
+const ISSUER = 'NexaFile Email 2FA';
 
 export type GenerateTwoFactorCredentialsFromEmailOptions = {
   envelopeId: string;

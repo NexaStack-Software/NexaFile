@@ -6,12 +6,7 @@ export const handleRedirects = async (c: Context): Promise<string | null> => {
   const path = req.path;
 
   // Direct rewrites
-  if (
-    path === '/documents' ||
-    path === '/documents/folders' ||
-    path === '/templates' ||
-    path === '/templates/folders'
-  ) {
+  if (path === '/documents/folders' || path === '/templates' || path === '/templates/folders') {
     return '/';
   }
 

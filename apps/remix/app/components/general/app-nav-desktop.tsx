@@ -52,15 +52,18 @@ export const AppNavDesktop = ({
       return [];
     }
 
+    // NexaFile-Hauptnavigation: Erstellen → Finden → Signieren → Archivieren.
+    // Erstellen und Archivieren sind PHP-Bereiche, bleiben aber Teil derselben
+    // Nutzerführung.
     return [
       {
-        href: `/t/${teamUrl}/documents`,
-        label: msg`Documents`,
+        href: `/t/${teamUrl}/find-documents`,
+        label: msg`Dokumente finden`,
       },
-      // NexaSign-Templates (interne Signier-Vorlagen) sind weiter per URL
-      // erreichbar (/t/<team>/templates), stehen aber nicht in der Haupt-Nav —
-      // dort führt der Eintrag „Vorlagen" rechts daneben auf die öffentliche
-      // Vorlagen-Bibliothek /vorlagen/.
+      {
+        href: `/t/${teamUrl}/documents`,
+        label: msg`Dokumente signieren`,
+      },
     ];
   }, [currentTeam, organisations]);
 
@@ -81,22 +84,7 @@ export const AppNavDesktop = ({
               exit={{ opacity: 0 }}
               className="flex items-baseline gap-x-6"
             >
-              {menuNavigationLinks.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  to={href}
-                  data-tour={href.includes('/documents') ? 'nav-documents' : undefined}
-                  className={cn(
-                    'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
-                    {
-                      'text-foreground dark:text-muted-foreground': pathname?.startsWith(href),
-                    },
-                  )}
-                >
-                  {_(label)}
-                </Link>
-              ))}
-              {/* NexaSign: „Vorlagen" und „GoBD" — externe Bereiche, gleicher Stil wie die Remix-Links */}
+              {/* 1. Erstellen — externer PHP-Bereich /vorlagen/ */}
               <a
                 href="/vorlagen/"
                 data-tour="nav-vorlagen"
@@ -108,8 +96,43 @@ export const AppNavDesktop = ({
                   },
                 )}
               >
-                Vorlagen
+                <Trans>Dokumente erstellen</Trans>
               </a>
+
+              {/* 2. Finden — interne Remix-Route */}
+              {menuNavigationLinks.slice(0, 1).map(({ href, label }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  className={cn(
+                    'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
+                    {
+                      'text-foreground dark:text-muted-foreground': pathname?.startsWith(href),
+                    },
+                  )}
+                >
+                  {_(label)}
+                </Link>
+              ))}
+
+              {/* 3. Signieren — interne Remix-Route */}
+              {menuNavigationLinks.slice(1).map(({ href, label }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  data-tour="nav-documents"
+                  className={cn(
+                    'rounded-md font-medium leading-5 text-muted-foreground ring-offset-background hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-muted-foreground/60',
+                    {
+                      'text-foreground dark:text-muted-foreground': pathname?.startsWith(href),
+                    },
+                  )}
+                >
+                  {_(label)}
+                </Link>
+              ))}
+
+              {/* 4. Archivieren — externer PHP-Bereich /vorlagen/gobd/ */}
               <a
                 href="/vorlagen/gobd/"
                 className={cn(
@@ -120,7 +143,7 @@ export const AppNavDesktop = ({
                   },
                 )}
               >
-                GoBD
+                <Trans>Dokumente archivieren</Trans>
               </a>
             </motion.div>
           )}

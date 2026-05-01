@@ -56,7 +56,7 @@ export const sendForgotPassword = async ({ userId }: SendForgotPasswordOptions) 
       name: user.name || '',
     },
     from: {
-      name: env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'NexaSign',
+      name: env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'NexaFile',
       address: env('NEXT_PRIVATE_SMTP_FROM_ADDRESS') || 'noreply@nexasign.com',
     },
     subject: i18n._(msg`Forgot Password?`),

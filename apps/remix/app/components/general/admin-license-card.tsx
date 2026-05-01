@@ -95,7 +95,7 @@ export const AdminLicenseCard = ({ licenseData }: AdminLicenseCardProps) => {
         </div>
 
         <h3 className="text-primary-forground mb-2 flex items-end text-sm font-medium leading-tight">
-          <Trans>NexaSign License</Trans>
+          <Trans>NexaFile License</Trans>
         </h3>
 
         {match(license.status)

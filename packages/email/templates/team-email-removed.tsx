@@ -27,7 +27,7 @@ export const TeamEmailRemovedTemplate = ({
   const { _ } = useLingui();
   const branding = useBranding();
 
-  const previewText = msg`Team email removed for ${teamName} on NexaSign`;
+  const previewText = msg`Team email removed for ${teamName} on NexaFile`;
 
   return (
     <Html>

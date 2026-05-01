@@ -87,6 +87,6 @@ export const assertSigningCertificateConfigured = () => {
   throw new AppError(AppErrorCode.NOT_SETUP, {
     message: `Signing certificate is not available at ${status.filePath} (${status.reason}).`,
     userMessage:
-      'NexaSign needs a signing certificate before documents can be sent for signature. Configure cert.p12 or run scripts/nexasign/generate-dev-cert.sh for a test certificate.',
+      'NexaFile needs a signing certificate before documents can be sent for signature. Configure cert.p12 or run scripts/nexasign/generate-dev-cert.sh for a test certificate.',
   });
 };

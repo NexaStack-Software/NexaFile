@@ -73,8 +73,7 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[...
             gap: '16px',
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoSrc} alt="NexaSign" height="28" />
+          <img src={logoSrc} alt="NexaFile" height={28} />
           <span
             style={{
               color: '#D4D4D8',

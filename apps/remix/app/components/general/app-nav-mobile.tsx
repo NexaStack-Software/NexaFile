@@ -60,14 +60,27 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       ];
     }
 
+    // NexaFile-Hauptnavigation in 4 Schritten: Erstellen → Finden →
+    // Signieren → Archivieren. Templates (Signier-Vorlagen) bleiben per Direkt-URL
+    // /t/<team>/templates erreichbar, stehen aber nicht in der Haupt-Nav.
     return [
       {
-        href: `/t/${teamUrl}/documents`,
-        text: t`Documents`,
+        href: '/vorlagen/',
+        text: t`Dokumente erstellen`,
+        external: true,
       },
       {
-        href: `/t/${teamUrl}/templates`,
-        text: t`Templates`,
+        href: `/t/${teamUrl}/find-documents`,
+        text: t`Dokumente finden`,
+      },
+      {
+        href: `/t/${teamUrl}/documents`,
+        text: t`Dokumente signieren`,
+      },
+      {
+        href: '/vorlagen/gobd/',
+        text: t`Dokumente archivieren`,
+        external: true,
       },
       {
         href: '/inbox',
@@ -86,7 +99,7 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
         <Link to="/" onClick={handleMenuItemClick}>
           <img
             src={LogoImage}
-            alt="NexaSign Logo"
+            alt="NexaFile Logo"
             className="dark:invert"
             width={170}
             height={25}
@@ -94,21 +107,32 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
         </Link>
 
         <div className="mt-8 flex w-full flex-col items-start gap-y-4">
-          {menuNavigationLinks.map(({ href, text }) => (
-            <Link
-              key={href}
-              className="flex items-center gap-2 text-2xl font-semibold text-foreground hover:text-foreground/80"
-              to={href}
-              onClick={() => handleMenuItemClick()}
-            >
-              {text}
-              {href === '/inbox' && unreadCountData && unreadCountData.count > 0 && (
-                <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">
-                  {unreadCountData.count > 99 ? '99+' : unreadCountData.count}
-                </span>
-              )}
-            </Link>
-          ))}
+          {menuNavigationLinks.map((link) =>
+            'external' in link && link.external ? (
+              <a
+                key={link.href}
+                className="flex items-center gap-2 text-2xl font-semibold text-foreground hover:text-foreground/80"
+                href={link.href}
+                onClick={() => handleMenuItemClick()}
+              >
+                {link.text}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                className="flex items-center gap-2 text-2xl font-semibold text-foreground hover:text-foreground/80"
+                to={link.href}
+                onClick={() => handleMenuItemClick()}
+              >
+                {link.text}
+                {link.href === '/inbox' && unreadCountData && unreadCountData.count > 0 && (
+                  <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">
+                    {unreadCountData.count > 99 ? '99+' : unreadCountData.count}
+                  </span>
+                )}
+              </Link>
+            ),
+          )}
 
           <button
             className="text-2xl font-semibold text-foreground hover:text-foreground/80"

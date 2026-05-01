@@ -1,15 +1,18 @@
 import { adminRouter } from './admin-router/router';
 import { apiTokenRouter } from './api-token-router/router';
 import { authRouter } from './auth-router/router';
+import { discoveryRouter } from './discovery-router/router';
 import { documentRouter } from './document-router/router';
 import { embeddingPresignRouter } from './embedding-router/_router';
 import { enterpriseRouter } from './enterprise-router/router';
 import { envelopeRouter } from './envelope-router/router';
 import { fieldRouter } from './field-router/router';
 import { folderRouter } from './folder-router/router';
+import { intakeRouter } from './intake-router/router';
 import { organisationRouter } from './organisation-router/router';
 import { profileRouter } from './profile-router/router';
 import { recipientRouter } from './recipient-router/router';
+import { sourcesRouter } from './sources-router/router';
 import { teamRouter } from './team-router/router';
 import { templateRouter } from './template-router/router';
 import { router } from './trpc';
@@ -20,6 +23,9 @@ export const appRouter = router({
   envelope: envelopeRouter,
   auth: authRouter,
   profile: profileRouter,
+  discovery: discoveryRouter,
+  intake: intakeRouter,
+  sources: sourcesRouter,
   document: documentRouter,
   field: fieldRouter,
   folder: folderRouter,

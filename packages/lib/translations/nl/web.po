@@ -252,6 +252,11 @@ msgstr "{0, plural, one {U staat op het punt de geselecteerde sjabloon te verwij
 msgid "{0}"
 msgstr "{0}"
 
+#. placeholder {0}: result.attachmentsAdded
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "{0} Anhang/Anhänge wieder verfügbar."
+msgstr ""
+
 #. placeholder {0}: team.name
 #: apps/remix/app/components/dialogs/public-profile-template-manage-dialog.tsx
 msgid "{0} direct signing templates"
@@ -267,6 +272,14 @@ msgstr "{0}-veld"
 #: packages/lib/jobs/definitions/emails/send-signing-email.handler.ts
 msgid "{0} has invited you to {recipientActionVerb} the document \"{1}\"."
 msgstr "{0} heeft je uitgenodigd om het document \"{1}\" te {recipientActionVerb}."
+
+#. placeholder {0}: run.documentsAuto
+#. placeholder {1}: run.documentsManual
+#. placeholder {2}: run.documentsIgnored
+#. placeholder {3}: run.mailsChecked
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "{0} importiert, {1} manuell, {2} ignoriert · {3} Mails geprüft"
+msgstr ""
 
 #. placeholder {0}: team.name
 #: packages/lib/jobs/definitions/emails/send-signing-email.handler.ts
@@ -292,6 +305,12 @@ msgstr "{0} heeft namens \"{1}\" je uitgenodigd om het document \"{2}\" te {reci
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 msgid "{0} Teams"
 msgstr "{0} teams"
+
+#. placeholder {0}: data.documents.length
+#. placeholder {1}: data.total
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{0} von {1} angezeigt"
+msgstr ""
 
 #. placeholder {0}: currentStepData.order
 #. placeholder {1}: envelopeEditorSteps.length
@@ -327,6 +346,10 @@ msgstr "{browserInfo} op {os}"
 #: apps/remix/app/components/general/document-signing/document-signing-text-field.tsx
 msgid "{charactersRemaining, plural, one {1 character remaining} other {{charactersRemaining} characters remaining}}"
 msgstr "{charactersRemaining, plural, one {1 teken resterend} other {{charactersRemaining} tekens resterend}}"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{downloadableCount} davon mit Anhang — ZIP enthält MANIFEST.txt mit Liste der übersprungenen Mails."
+msgstr ""
 
 #: packages/email/template-components/template-access-auth-2fa.tsx
 msgid "{expiresInMinutes, plural, one {This code will expire in # minute.} other {This code will expire in # minutes.}}"
@@ -433,6 +456,10 @@ msgstr "{recipientReference} heeft {documentName} ondertekend"
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "{remaningLength, plural, one {# character remaining} other {# characters remaining}}"
 msgstr "{remaningLength, plural, one {# teken resterend} other {# tekens resterend}}"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{selectedCount} ausgewählt"
+msgstr ""
 
 #: apps/remix/app/components/tables/envelopes-table-bulk-action-bar.tsx
 msgid "{selectedCount} selected"
@@ -630,8 +657,8 @@ msgid "<0>{organisationName}</0> has requested to create an account on your beha
 msgstr "<0>{organisationName}</0> heeft verzocht om een account voor je aan te maken."
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "<0>{organisationName}</0> has requested to link your current NexaSign account to their organisation."
-msgstr "<0>{organisationName}</0> heeft verzocht om je huidige NexaSign-account aan hun organisatie te koppelen."
+msgid "<0>{organisationName}</0> has requested to link your current NexaFile account to their organisation."
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 msgid "<0>{senderName} {senderEmail}</0> has invited you to approve this document"
@@ -670,8 +697,8 @@ msgid "<0>{senderName} {senderEmail}</0> on behalf of \"{0}\" has invited you to
 msgstr "<0>{senderName} {senderEmail}</0> namens \"{0}\" heeft je uitgenodigd om dit document te bekijken"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "<0>{teamName}</0> has requested to use your email address for their team on NexaSign."
-msgstr "<0>{teamName}</0> heeft verzocht om je e-mailadres te gebruiken voor hun team op NexaSign."
+msgid "<0>{teamName}</0> has requested to use your email address for their team on NexaFile."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "<0>Account management:</0> Modify your account settings, permissions, and preferences"
@@ -705,6 +732,10 @@ msgstr "<0>Iedereen</0> - Iedereen kan toegang krijgen tot en het document bekij
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "<0>Full account access:</0> View all your profile information, settings, and activity"
 msgstr "<0>Volledige accounttoegang:</0> Bekijk al je profielinformatie, instellingen en activiteit"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "<0>Für Z2 und Z3</0> liefert NexaFile das CLI-Tool <1>nexasign-gobd-export</1> — siehe nächster Abschnitt."
+msgstr ""
 
 #: packages/ui/components/recipient/recipient-action-auth-select.tsx
 msgid "<0>Inherit authentication method</0> - Use the global action signing authentication method configured in the \"General Settings\" step"
@@ -789,6 +820,10 @@ msgstr "1 gratis organisatie over"
 #: apps/remix/app/components/forms/token.tsx
 msgid "1 month"
 msgstr "1 maand"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaFile hochladen und signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt."
+msgstr ""
 
 #: apps/remix/app/components/forms/token.tsx
 msgid "12 months"
@@ -929,8 +964,8 @@ msgid "A means to print or download documents for your records"
 msgstr "Een manier om documenten voor je administratie te printen of te downloaden"
 
 #: packages/email/templates/organisation-join.tsx
-msgid "A member has joined your organisation on NexaSign"
-msgstr "Een lid is toegetreden tot je organisatie op NexaSign"
+msgid "A member has joined your organisation on NexaFile"
+msgstr ""
 
 #: packages/lib/jobs/definitions/emails/send-organisation-member-left-email.handler.ts
 msgid "A member has left your organisation"
@@ -941,8 +976,8 @@ msgid "A member has left your organisation {organisationName}"
 msgstr "Een lid heeft je organisatie {organisationName} verlaten"
 
 #: packages/email/templates/organisation-leave.tsx
-msgid "A member has left your organisation on NexaSign"
-msgstr "Een lid heeft je organisatie op NexaSign verlaten"
+msgid "A member has left your organisation on NexaFile"
+msgstr ""
 
 #: packages/lib/jobs/definitions/emails/send-organisation-member-joined-email.handler.ts
 msgid "A new member has joined your organisation"
@@ -981,18 +1016,18 @@ msgid "A request has been made to create an account for you"
 msgstr "Er is een verzoek ingediend om een account voor je aan te maken"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "A request has been made to link your NexaSign account"
-msgstr "Er is een verzoek ingediend om je NexaSign-account te koppelen"
+msgid "A request has been made to link your NexaFile account"
+msgstr ""
 
 #. placeholder {0}: team.name
 #: packages/lib/server-only/team/create-team-email-verification.ts
-msgid "A request to use your email has been initiated by {0} on NexaSign"
-msgstr "Er is een verzoek ingediend door {0} op NexaSign om je e-mailadres te gebruiken."
+msgid "A request to use your email has been initiated by {0} on NexaFile"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
-msgid "A secret that will be sent to your URL so you can verify that the request has been sent by NexaSign."
-msgstr "Een geheim dat naar je URL wordt verzonden, zodat je kunt verifiëren dat het verzoek door NexaSign is verzonden."
+msgid "A secret that will be sent to your URL so you can verify that the request has been sent by NexaFile."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "A stable internet connection"
@@ -1028,6 +1063,18 @@ msgstr "Een geldig e-mailadres is vereist"
 msgid "A verification email will be sent to the provided email."
 msgstr "Er wordt een verificatie-e-mail naar het opgegeven e-mailadres verzonden."
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Abbrechen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Abbruch fehlgeschlagen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Abbruch wird ausgeführt"
+msgstr ""
+
 #: apps/remix/app/components/general/organisations/organisation-invitations.tsx
 #: packages/email/templates/confirm-team-email.tsx
 #: packages/email/templates/organisation-invite.tsx
@@ -1039,12 +1086,12 @@ msgid "Accept & Link Account"
 msgstr "Accepteren & account koppelen"
 
 #: packages/email/templates/organisation-invite.tsx
-msgid "Accept invitation to join an organisation on NexaSign"
-msgstr "Uitnodiging accepteren om toe te treden tot een organisatie op NexaSign"
+msgid "Accept invitation to join an organisation on NexaFile"
+msgstr ""
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "Accept team email request for {teamName} on NexaSign"
-msgstr "Team-e-mailverzoek voor {teamName} op NexaSign accepteren"
+msgid "Accept team email request for {teamName} on NexaFile"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Acceptance and Consent"
@@ -1461,6 +1508,37 @@ msgstr "AI-functies"
 msgid "AI features are disabled for your team. Please ask your team owner or organisation owner to enable them."
 msgstr "AI-functies zijn uitgeschakeld voor je team. Vraag de eigenaar van je team of de eigenaar van de organisatie om ze in te schakelen."
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Aktion"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Aktion ausgeführt"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Aktion fehlgeschlagen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Aktiv"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Akzeptieren"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Akzeptiert"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Akzeptiert · GoBD-gesperrt"
+msgstr ""
+
 #: apps/remix/app/components/general/document/document-status.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 msgid "All"
@@ -1533,6 +1611,18 @@ msgstr "Alle sjablonen"
 msgid "All Time"
 msgstr "Alle tijd"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Alle"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Alle Belege"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Alle Quellen"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
 msgid "Allow all organisation members to access this team"
 msgstr "Alle organisatieleden toestaan toegang te hebben tot dit team"
@@ -1575,6 +1665,14 @@ msgstr "Bijna klaar"
 #: apps/remix/app/components/forms/signup.tsx
 msgid "Already have an account? <0>Sign in instead</0>"
 msgstr "Heb je al een account? <0>Log dan in</0>"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Als Beleg akzeptieren"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Als manuell zu ziehen markieren"
+msgstr ""
 
 #: apps/remix/app/components/tables/organisation-billing-invoices-table.tsx
 msgid "Amount"
@@ -1889,6 +1987,19 @@ msgstr "Paginalay-out analyseren"
 msgid "Analyzing pages"
 msgstr "Pagina's analyseren"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Anbieter"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Anbieter auswählen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Anhänge + Mail als ZIP"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/inbox.tsx
 msgid "Any documents that you have been invited to will appear here"
 msgstr "Documenten waarvoor je aandacht nodig is, verschijnen hier"
@@ -1912,6 +2023,10 @@ msgstr "API‑tokens"
 #: apps/remix/app/routes/_authenticated+/admin+/stats.tsx
 msgid "App Version"
 msgstr "App‑versie"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "App-Passwort"
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-complete-dialog.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-complete-dialog.tsx
@@ -1961,6 +2076,19 @@ msgstr "Beoordelaars"
 msgctxt "Recipient role progressive verb"
 msgid "Approving"
 msgstr "Aan het goedkeuren"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Archiv"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Archivieren"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/assistant-confirmation-dialog.tsx
 msgid "Are you sure you want to complete the document? This action cannot be undone. Please ensure that you have completed prefilling all relevant fields before proceeding."
@@ -2116,6 +2244,10 @@ msgstr "Details van auditlogboek"
 msgid "Audit Logs"
 msgstr "Auditlogs"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Auswahl aufheben"
+msgstr ""
+
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Authentication Level"
@@ -2184,12 +2316,65 @@ msgstr "Back‑upcodes"
 msgid "Banner Updated"
 msgstr "Banner bijgewerkt"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Bausteine"
+msgstr ""
+
+#. placeholder {0}: formatDateTime(run.finishedAt, locale)
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Beendet {0}"
+msgstr ""
+
 #: packages/email/template-components/template-confirmation-email.tsx
 msgid "Before you get started, please confirm your email address by clicking the button below:"
 msgstr "Bevestig je e-mailadres door op de onderstaande knop te klikken voordat je begint:"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Bei Gmail/Outlook: in den Konto-Einstellungen ein App-Passwort erzeugen statt das Login-Passwort zu nutzen."
+msgstr ""
+
 #: apps/remix/app/components/general/user-profile-timur.tsx
 msgid "Beispiel-Nutzer"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Beleg nicht gefunden"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Beleg-Detail"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Belege aus allen verbundenen Quellen an einem Ort — durchsuchbar und nach Status gefiltert."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Belege aus Ihrem Postfach werden automatisch im Eingang einsortiert. Zugangsdaten werden verschlüsselt gespeichert und sind nur für Sie sichtbar."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Belege erscheinen hier, sobald Sie eine Quelle verbunden und einen Sync-Lauf gestartet haben."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Belege ziehen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Bereits importierte Belege bleiben erhalten. Neue Belege werden ab sofort nicht mehr eingelesen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Betrag"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Betreff"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Bezeichnung"
 msgstr ""
 
 #: apps/remix/app/components/general/settings-nav-desktop.tsx
@@ -2201,6 +2386,14 @@ msgstr ""
 #: apps/remix/app/routes/_authenticated+/settings+/billing.tsx
 msgid "Billing"
 msgstr "Facturatie"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Bis"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Bis (exklusiv)"
+msgstr ""
 
 #: packages/ui/primitives/signature-pad/signature-pad-color-picker.tsx
 msgid "Black"
@@ -2313,8 +2506,8 @@ msgid "By enabling 2FA, you will be required to enter a code from your authentic
 msgstr "Door 2FA in te schakelen, moet je elke keer dat je inlogt met e-mail en wachtwoord een code uit je authenticator-app invoeren."
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
-msgid "By proceeding to use the electronic signature service provided by NexaSign, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
-msgstr "Door gebruik te maken van de elektronische ondertekeningsdienst van NexaSign bevestig je dat je deze kennisgeving hebt gelezen en begrepen. Je gaat akkoord met alle voorwaarden die hier zijn uiteengezet met betrekking tot het gebruik van elektronische handtekeningen en elektronische transacties."
+msgid "By proceeding to use the electronic signature service provided by NexaFile, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-disclosure.tsx
 msgid "By proceeding with your electronic signature, you acknowledge and consent that it will be used to sign the given document and holds the same legal validity as a handwritten signature. By completing the electronic signing process, you affirm your understanding and acceptance of these conditions."
@@ -3281,6 +3474,10 @@ msgstr "Document wordt gemaakt"
 msgid "Creating Template"
 msgstr "Sjabloon wordt gemaakt"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "CSV exportieren"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
 msgid "CSV Structure"
 msgstr "CSV-structuur"
@@ -3338,6 +3535,10 @@ msgstr "Aangepaste organisatiegroepen"
 msgid "Dark Mode"
 msgstr "Donker modus"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Das Von-Datum muss vor dem Bis-Datum liegen."
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 msgid "Dashboard"
@@ -3372,6 +3573,14 @@ msgstr "Datumnotatie"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Date Settings"
 msgstr "Datuminstellingen"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Dateien im Archiv"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Datum"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 msgid "David is the Employee, Lucas is the Manager"
@@ -3625,11 +3834,20 @@ msgstr "Verwijderd"
 msgid "Deleting account..."
 msgstr "Account wordt verwijderd..."
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Der Fortschritt wird unten angezeigt."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Der Lauf ist angelegt. Aktualisieren Sie die Liste in Kürze."
+msgstr ""
+
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 msgid "Destination"
 msgstr "Bestemming"
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Details"
@@ -3695,6 +3913,22 @@ msgstr "Apparaat"
 #: packages/email/templates/reset-password.tsx
 msgid "Didn't request a password change? We are here to help you secure your account, just <0>contact us</0>."
 msgstr "Geen wachtwoordwijziging aangevraagd? We helpen je graag je account te beveiligen, neem gewoon <0>contact met ons op</0>."
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Die Verantwortungs-Teilung"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Diese Quelle existiert nicht oder wurde gelöscht."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Diese Quelle ist gesperrt."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Diese Vorlagen dienen zur <0>Orientierung</0> und stellen keine Rechtsberatung i.S.d. Rechtsdienstleistungsgesetzes dar. Vor produktiver Verwendung bitte durch zugelassene/n Rechtsanwältin/-anwalt prüfen lassen. Die Nutzung erfolgt auf eigenes Risiko."
+msgstr ""
 
 #: apps/remix/app/components/general/template/template-direct-link-badge.tsx
 #: apps/remix/app/components/tables/templates-table.tsx
@@ -4197,8 +4431,6 @@ msgid "Documentation"
 msgstr "Documentatie"
 
 #: apps/remix/app/components/general/app-command-menu.tsx
-#: apps/remix/app/components/general/app-nav-desktop.tsx
-#: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-upload-page.tsx
 #: apps/remix/app/components/general/skeletons/document-edit-skeleton.tsx
 #: apps/remix/app/components/general/user-profile-skeleton.tsx
@@ -4258,6 +4490,27 @@ msgstr "Documenten waarvoor alle ontvangers hebben getekend, maar die nog niet z
 
 #: apps/remix/app/components/general/user-profile-timur.tsx
 msgid "Dokumente"
+msgstr ""
+
+#: apps/remix/app/components/general/app-nav-desktop.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+msgid "Dokumente archivieren"
+msgstr ""
+
+#: apps/remix/app/components/general/app-nav-desktop.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+msgid "Dokumente erstellen"
+msgstr ""
+
+#: apps/remix/app/components/general/app-nav-desktop.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Dokumente finden"
+msgstr ""
+
+#: apps/remix/app/components/general/app-nav-desktop.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+msgid "Dokumente signieren"
 msgstr ""
 
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
@@ -4371,6 +4624,10 @@ msgstr "Tekenen"
 msgid "Draw signature"
 msgstr "Handtekening tekenen"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Drei aufeinanderfolgende Login-Fehler. Bitte Zugangsdaten prüfen und reaktivieren."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/envelope-item-edit-dialog.tsx
 msgid "Drop PDF here or click to select"
 msgstr "Zet de pdf hier neer of klik om te selecteren"
@@ -4433,9 +4690,21 @@ msgstr "Sjabloon dupliceren"
 msgid "Duplicate values are not allowed"
 msgstr "Dubbele waarden zijn niet toegestaan"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Durchsuchen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Durchsuchung konnte nicht gestartet werden"
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "Dutch"
 msgstr "Nederlands"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "E-Mail-Adresse"
+msgstr ""
 
 #: apps/remix/app/components/forms/editor/editor-field-number-form.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/number-field.tsx
@@ -4480,6 +4749,14 @@ msgstr "bijv. Legal"
 #: apps/remix/app/components/dialogs/passkey-create-dialog.tsx
 msgid "eg. Mac"
 msgstr "bijv. Mac"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Eigenen Host eingeben…"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Eingang"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Electronic Delivery of Documents"
@@ -4800,6 +5077,10 @@ msgstr "Bijgevoegd document"
 msgid "Enclosed Documents"
 msgstr "Bijgevoegde documenten"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Endgültig entfernen"
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "English"
 msgstr "Engels"
@@ -4906,6 +5187,10 @@ msgstr "Voer hier je tekst in"
 msgid "Enterprise"
 msgstr "Enterprise"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Entfernen fehlgeschlagen"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/envelope-distribute-dialog.tsx
 msgid "Envelope distributed"
 msgstr "Envelope gedistribueerd"
@@ -4951,6 +5236,14 @@ msgstr "Enveloptitel"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 msgid "Envelope updated"
 msgstr "Envelope bijgewerkt"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Erkannter Betrag"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Erneut aus IMAP laden"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-user-delete-dialog.tsx
@@ -5048,6 +5341,14 @@ msgstr "Fout bij het laden van de pagina"
 msgid "Error uploading file"
 msgstr "Fout bij uploaden van bestand"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Erster Sync läuft im Hintergrund."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Es läuft bereits ein Sync für diese Quelle. Bitte warten oder oben abbrechen."
+msgstr ""
+
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 msgid "Event"
@@ -5116,6 +5417,10 @@ msgstr "Verloopt over {0}"
 msgid "Expires on {0}"
 msgstr "Verloopt op {0}"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Export-CLI — "
+msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 #: packages/ui/primitives/document-flow/add-settings.tsx
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
@@ -5125,6 +5430,10 @@ msgstr "Externe ID"
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
 msgid "Extracting contact details"
 msgstr "Contactgegevens extraheren"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Fachbegriffe & FAQ"
+msgstr ""
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
@@ -5257,6 +5566,10 @@ msgstr "Feature-flags"
 msgid "Features"
 msgstr "Functies"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Fehler"
+msgstr ""
+
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/text-field.tsx
 msgid "Field character limit"
 msgstr "Tekenlimiet veld"
@@ -5336,6 +5649,10 @@ msgstr "Vul de gegevens in om een nieuwe abonnementsclaim aan te maken."
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
 msgid "Filter by status"
 msgstr "Filteren op status"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Finanzamt-Zugriff: Z1, Z2, Z3"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/document-move-to-folder-dialog.tsx
 #: apps/remix/app/components/dialogs/envelopes-bulk-move-dialog.tsx
@@ -5449,6 +5766,10 @@ msgstr "Frans"
 msgid "Full Name"
 msgstr "Volledige naam"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Für signierte Dokumente startet die Aufbewahrung mit <0>completedAt</0>. Für gefundene Belege startet sie mit <1>acceptedAt</1>, also in dem Moment, in dem Sie den Beleg als relevant übernehmen. Der Retention-Check meldet Belege, die auf die 10-Jahres-Frist zulaufen oder sie überschritten haben; er löscht nichts automatisch."
+msgstr ""
+
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
 #: apps/remix/app/components/general/direct-template/direct-template-page.tsx
 #: apps/remix/app/components/general/document/document-edit-form.tsx
@@ -5472,6 +5793,19 @@ msgstr "Links genereren"
 #: packages/lib/constants/i18n.ts
 msgid "German"
 msgstr "Duits"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Geschäftspostfach"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Gesperrt"
+msgstr ""
+
+#. placeholder {0}: formatDateTime(run.startedAt, locale)
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Gestartet {0}"
+msgstr ""
 
 #: packages/ui/components/document/document-global-auth-action-select.tsx
 msgid "Global recipient action authentication"
@@ -5555,6 +5889,22 @@ msgstr "Ga naar team"
 #: apps/remix/app/routes/_profile+/p.$url.tsx
 msgid "Go to your <0>public profile settings</0> to add documents."
 msgstr "Ga naar je <0>instellingen voor openbaar profiel</0> om documenten toe te voegen."
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD steht für <0>„Grundsätze zur ordnungsmäßigen Führung und Aufbewahrung von Büchern, Aufzeichnungen und Unterlagen in elektronischer Form sowie zum Datenzugriff\"</0> — ein BMF-Schreiben aus dem Jahr 2019, das für alle deutschen Unternehmen verbindlich ist, die Bücher führen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD-Archivierung"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD-konforme Archivierung mit NexaFile"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "GoBD-Konformität ist <0>nie</0> die Leistung eines einzelnen Tools. Sie entsteht aus dem Zusammenspiel von drei Elementen:"
+msgstr ""
 
 #: packages/ui/primitives/signature-pad/signature-pad-color-picker.tsx
 msgid "Green"
@@ -5686,6 +6036,14 @@ msgstr "Verbergen"
 msgid "Hide license key"
 msgstr "Licentiesleutel verbergen"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Hinweis: Der Export nimmt gefundene Belege auf, sobald sie akzeptiert wurden. Die Mail-Artefakte werden vom Host-Pfad <0>NEXASIGN_DISCOVERY_ARCHIVE_PATH</0> gelesen; Standard ist <1>/var/lib/nexasign-archive</1>."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Holt die Mail nochmal vom Mailserver und schreibt Anhänge + .eml ins Archiv."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/folder-move-dialog.tsx
 #: apps/remix/app/components/general/folder/folder-grid.tsx
 #: apps/remix/app/components/general/generic-error-layout.tsx
@@ -5709,6 +6067,10 @@ msgstr "Horizontaal"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 msgid "How long recipients have to complete this document after it is sent. Uses the team default when set to inherit."
 msgstr "Hoe lang ontvangers de tijd hebben om dit document te voltooien nadat het is verzonden. Gebruikt de standaardinstelling van het team wanneer overnemen is geselecteerd."
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "HTML-Variante als Datei verfügbar — wird aus Sicherheitsgründen nicht inline angezeigt."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "I agree to link my account with this organization"
@@ -5790,9 +6152,40 @@ msgstr "Als je de bevestigingslink niet in je inbox vindt, kun je hieronder een 
 msgid "If your authenticator app does not support QR codes, you can use the following code instead:"
 msgstr "Als je authenticator‑app geen QR‑codes ondersteunt, kun je in plaats daarvan de volgende code gebruiken:"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Ignorieren"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Ignoriert"
+msgstr ""
+
+#. placeholder {0}: source.teamName
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "IMAP-Konto · Belege fließen in Team „{0}\""
+msgstr ""
+
+#. placeholder {0}: source.teamName
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "IMAP-Konto · Team: {0}"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "IMAP-Konto verbinden"
+msgstr ""
+
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "Important: What This Means"
 msgstr "Belangrijk: wat dit betekent"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "In dieses Team werden gefundene Belege einsortiert. Sie können das später nicht ändern — bei Bedarf eine neue Quelle anlegen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "In Gmail öffnen"
+msgstr ""
 
 #: apps/remix/app/components/tables/user-billing-organisations-table.tsx
 #: packages/lib/constants/billing.ts
@@ -5846,6 +6239,10 @@ msgstr "Bevat:"
 #: apps/remix/app/components/general/template/template-page-view-information.tsx
 msgid "Information"
 msgstr "Informatie"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Inhalt des Export-Pakets"
+msgstr ""
 
 #: packages/ui/components/recipient/recipient-action-auth-select.tsx
 msgid "Inherit authentication method"
@@ -5937,8 +6334,8 @@ msgid "Invalid License Key"
 msgstr "Ongeldige licentiesleutel"
 
 #: apps/remix/app/components/general/admin-license-status-banner.tsx
-msgid "Invalid License Type - Your NexaSign instance is using features that are not part of your license."
-msgstr "Ongeldig licentietype - Je NexaSign-instantie gebruikt functies die niet onder je licentie vallen."
+msgid "Invalid License Type - Your NexaFile instance is using features that are not part of your license."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Invalid link"
@@ -6068,8 +6465,8 @@ msgid "Japanese"
 msgstr "Japans"
 
 #: packages/email/templates/organisation-invite.tsx
-msgid "Join {organisationName} on NexaSign"
-msgstr "Word lid van {organisationName} op NexaSign"
+msgid "Join {organisationName} on NexaFile"
+msgstr ""
 
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -6082,13 +6479,37 @@ msgstr "Lid geworden"
 msgid "Joined {0}"
 msgstr "Toegetreden {0}"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Kein Anhang"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Keine Belege im aktuellen Bereich"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Keine Dateien im Archiv. Diese E-Mail wurde entweder vor Aktivierung des Archive-Features importiert oder enthielt keinen herunterladbaren Anhang (z. B. Beleg-Hinweis ohne PDF, der zum Portal verweist)."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Kern: Wenn Sie <0>steuerrelevante Dokumente</0> (Rechnungen, Verträge, Handelsbriefe) digital erzeugen oder ablegen, müssen sie <1>10 Jahre unveränderbar</1> aufbewahrt und im Prüfungsfall dem Finanzamt zugänglich gemacht werden. Unterschriebene Verträge aus NexaFile fallen eindeutig unter diese Pflicht."
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 msgid "Key identifiers and relationships for this team."
 msgstr "Belangrijke identificatoren en relaties voor dit team."
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten Envelopes, akzeptierten gefundenen Belege, Mail-/Anhang-Dateien und Audit-Logs eines Zeitraums als strukturiertes Paket."
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "Korean"
 msgstr "Koreaans"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Korrespondent"
+msgstr ""
 
 #: apps/remix/app/components/forms/editor/editor-field-generic-field-forms.tsx
 #: apps/remix/app/components/forms/editor/editor-field-text-form.tsx
@@ -6101,6 +6522,10 @@ msgstr "Koreaans"
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/text-field.tsx
 msgid "Label"
 msgstr "Label"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Laden"
+msgstr ""
 
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
@@ -6213,6 +6638,23 @@ msgstr "Letterspatiëring"
 msgid "Letter Spacing"
 msgstr "Letterspatiëring"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Letzter Monat"
+msgstr ""
+
+#. placeholder {0}: formatRelativeTime(latestSync, locale)
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Letzter Sync: {0}"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Letztes Jahr"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Letztes Quartal"
+msgstr ""
+
 #: apps/remix/app/components/general/admin-license-card.tsx
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "License"
@@ -6242,6 +6684,11 @@ msgstr "Lichte modus"
 msgid "Like to have your own public profile with agreements?"
 msgstr "Wil je een eigen openbaar profiel met overeenkomsten?"
 
+#. placeholder {0}: capabilities?.imap.maxAccountsPerUser
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Limit erreicht: maximal {0} IMAP-Konten pro Konto. Bestehende Quelle löschen, um eine neue anzulegen."
+msgstr ""
+
 #: apps/remix/app/components/forms/editor/editor-field-generic-field-forms.tsx
 msgid "Line height"
 msgstr "Regelhoogte"
@@ -6264,8 +6711,8 @@ msgid "Link template"
 msgstr "Sjabloon koppelen"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "Link your NexaSign account"
-msgstr "Koppel uw NexaSign-account"
+msgid "Link your NexaFile account"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/security.linked-accounts.tsx
@@ -6336,6 +6783,14 @@ msgstr "Zoeken naar formulier­velden"
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
 msgid "Looking for signature fields"
 msgstr "Zoeken naar handtekeningvelden"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Mail erneut aus IMAP geladen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Mail-Inhalt"
+msgstr ""
 
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
 #: apps/remix/app/components/tables/organisation-groups-table.tsx
@@ -6506,6 +6961,15 @@ msgstr "Manager"
 msgid "Managers and above"
 msgstr "Managers en hoger"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Manuell"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Manuell zu ziehen"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 msgid "Mapping fields to recipients"
 msgstr "Velden aan ontvangers koppelen"
@@ -6609,8 +7073,8 @@ msgid "Min"
 msgstr "Min"
 
 #: apps/remix/app/components/general/admin-license-status-banner.tsx
-msgid "Missing License - Your NexaSign instance is using features that require a license."
-msgstr "Licentie ontbreekt - Je NexaSign-instantie gebruikt functies waarvoor een licentie vereist is."
+msgid "Missing License - Your NexaFile instance is using features that require a license."
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Missing Recipients"
@@ -6702,6 +7166,10 @@ msgstr "Mijn map"
 msgid "N/A"
 msgstr "n.v.t."
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Nach § 147 Abs. 6 AO kann das Finanzamt drei Arten von Datenzugriff fordern:"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/assistant-confirmation-dialog.tsx
 #: apps/remix/app/components/dialogs/folder-update-dialog.tsx
@@ -6762,6 +7230,14 @@ msgstr "Moet ondertekenen"
 msgid "Needs to view"
 msgstr "Moet bekijken"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Neu"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Neuen Sync-Lauf starten"
+msgstr ""
+
 #: apps/remix/app/components/tables/settings-security-passkey-table.tsx
 msgid "Never"
 msgstr "Nooit"
@@ -6791,13 +7267,21 @@ msgstr "Nieuwe optie {0}"
 msgid "New Password"
 msgstr "Nieuw wachtwoord"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "NexaFile ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung."
+msgstr ""
+
 #: apps/remix/app/components/general/admin-license-card.tsx
-msgid "NexaSign License"
-msgstr "NexaSign-licentie"
+msgid "NexaFile License"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "NexaFile stellt <0>GoBD-orientierte Archivfunktionen</0> zur Verfügung. Die GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit Ihrer/m Steuerberater/in, Datenschutzbeauftragten und — für formale Zertifizierungen — mit einer/m Wirtschaftsprüfer/in."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
-msgid "NexaSign will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
-msgstr "NexaSign verwijdert <0>al je documenten</0>, samen met al je voltooide documenten, handtekeningen en alle andere bronnen die bij je account horen."
+msgid "NexaFile will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/team-group-create-dialog.tsx
 #: apps/remix/app/components/dialogs/team-member-create-dialog.tsx
@@ -7005,6 +7489,18 @@ msgstr "Geen waarde gevonden."
 msgid "No worries, it happens! Enter your email and we'll email you a special link to reset your password."
 msgstr "Geen zorgen, dat gebeurt wel eens! Vul je e‑mail in en we sturen je een speciale link om je wachtwoord te resetten."
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Noch kein Sync gestartet"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Noch keine Quelle verbunden"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Noch keine Sync-Läufe. Starten Sie oben einen Lauf."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/envelope-distribute-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
 #: apps/remix/app/components/forms/editor/editor-field-number-form.tsx
@@ -7075,9 +7571,17 @@ msgstr "Aantal toegestane teams. 0 = onbeperkt"
 msgid "Number Settings"
 msgstr "Nummer-instellingen"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Nutzung"
+msgstr ""
+
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "Off"
 msgstr "Uit"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Ohne TLS-Verifikation kann der Datenverkehr von einem Angreifer mitgelesen werden. Nur einsetzen, wenn der Server ein bekanntes selbst-signiertes Zertifikat hat."
+msgstr ""
 
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "On"
@@ -7545,6 +8049,10 @@ msgstr "Openstaande organisatie-uitnodigingen"
 msgid "Pending since"
 msgstr "In behandeling sinds"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Per FTP/SCP erreichbar. Dateien sind read-only (0440); zum Verschieben einer Kopie benutzen Sie `cp` statt `mv`."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 #: apps/remix/app/components/general/billing-plans.tsx
 msgid "per month"
@@ -7572,6 +8080,10 @@ msgstr "Persoonlijk account"
 #: apps/remix/app/routes/_authenticated+/inbox.tsx
 msgid "Personal Inbox"
 msgstr "Persoonlijke inbox"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Pfad auf dem Server"
+msgstr ""
 
 #: apps/remix/app/components/forms/editor/editor-field-checkbox-form.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/checkbox-field.tsx
@@ -7810,6 +8322,14 @@ msgstr "Upload een logo"
 msgid "Polish"
 msgstr "Pools"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Port"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Portal-Hinweis (Mail enthält)"
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "Portuguese (Brazil)"
 msgstr "Portugees (Brazilië)"
@@ -7823,6 +8343,14 @@ msgstr "Pos X:"
 #: packages/ui/primitives/document-flow/field-item.tsx
 msgid "Pos Y:"
 msgstr "Pos Y:"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach durchsuchen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach-Durchsuchung gestartet"
+msgstr ""
 
 #: apps/remix/app/components/embed/embed-direct-template-client-page.tsx
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
@@ -7949,6 +8477,56 @@ msgstr "Publieke sjabloon"
 msgid "Public templates are connected to your public profile. Any modifications to public templates will also appear in your public profile."
 msgstr "Openbare sjablonen zijn gekoppeld aan je openbare profiel. Alle wijzigingen aan openbare sjablonen worden ook zichtbaar in je openbare profiel."
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Quelle"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Quelle entfernen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Quelle entfernt"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Quelle hinzugefügt"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Quelle nicht gefunden"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Quelle reaktiviert"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Quelle verbinden"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Quelle wirklich entfernen?"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Quelle: <0>NexaStack</0> — Open-Source-Vorlagen unter CC-BY 4.0. Feedback und Pull Requests willkommen."
+msgstr ""
+
+#: apps/remix/app/components/general/settings-nav-desktop.tsx
+#: apps/remix/app/components/general/settings-nav-mobile.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Quellen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Quellen verwalten"
+msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/envelope-editor.tsx
 msgid "Quick Actions"
 msgstr "Snelle acties"
@@ -7980,6 +8558,11 @@ msgstr "Opnieuw registreren"
 msgid "Re-register Email Domain"
 msgstr "E-maildomein opnieuw registreren"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Re-Sync fehlgeschlagen"
+msgstr ""
+
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/checkbox-field.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/dropdown-field.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/number-field.tsx
@@ -7994,8 +8577,8 @@ msgid "Read Only"
 msgstr "Alleen-lezen"
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Read our documentation to get started with NexaSign."
-msgstr "Lees onze documentatie om aan de slag te gaan met NexaSign."
+msgid "Read our documentation to get started with NexaFile."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "Read Status"
@@ -8013,6 +8596,14 @@ msgstr "Uw document wordt gelezen"
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 msgid "Ready"
 msgstr "Klaar"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Reaktivieren"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Reaktivieren fehlgeschlagen"
+msgstr ""
 
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
@@ -8051,6 +8642,11 @@ msgstr "Recente activiteit"
 #: apps/remix/app/components/general/template/template-page-view-recent-activity.tsx
 msgid "Recent documents"
 msgstr "Recente documenten"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Rechnungs-Nr."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/template-direct-link-dialog.tsx
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
@@ -8538,6 +9134,10 @@ msgstr "Beperkte toegang"
 msgid "Retention of Documents"
 msgstr "Bewaring van documenten"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Retention-Check und Löschschutz"
+msgstr ""
+
 #: apps/remix/app/components/tables/admin-document-jobs-table.tsx
 msgid "Retried"
 msgstr "Opnieuw geprobeerd"
@@ -8569,8 +9169,8 @@ msgid "Return to Home"
 msgstr "Terug naar home"
 
 #: apps/remix/app/routes/_unauthenticated+/o.$orgUrl.signin.tsx
-msgid "Return to NexaSign sign in page here"
-msgstr "Ga hier terug naar de NexaSign-aanmeldpagina"
+msgid "Return to NexaFile sign in page here"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/check-email.tsx
 #: apps/remix/app/routes/_unauthenticated+/reset-password._index.tsx
@@ -9239,6 +9839,22 @@ msgstr "Registreren met Microsoft"
 msgid "Sign Up with OIDC"
 msgstr "Registreren met OIDC"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument geöffnet"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument konnte nicht vorbereitet werden"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument öffnen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Signatur-Dokument vorbereitet"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/embed/embed-direct-template-client-page.tsx
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
@@ -9422,7 +10038,11 @@ msgid "Skip"
 msgstr "Overslaan"
 
 #: apps/remix/app/components/general/user-profile-timur.tsx
-msgid "So könnte Ihr öffentliches NexaSign-Profil aussehen."
+msgid "So könnte Ihr öffentliches NexaFile-Profil aussehen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Sobald ein IMAP-Konto verbunden ist, starten Sie gezielte Sync-Läufe für bestimmte Zeiträume. Gefundene Belege legt NexaFile im Eingang ab."
 msgstr ""
 
 #: packages/ui/primitives/document-flow/missing-signature-field-dialog.tsx
@@ -9573,9 +10193,21 @@ msgstr "Door spaties gescheiden lijst met domeinen. Laat leeg om alle domeinen t
 msgid "Spanish"
 msgstr "Spaans"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Speichern fehlgeschlagen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Speichern und synchronisieren"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings._layout.tsx
 msgid "SSO"
 msgstr "SSO"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Starten Sie in den Quellen-Einstellungen einen Sync-Lauf für einen bestimmten Zeitraum, um Belege aus Ihrem Postfach einzulesen."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/_layout.tsx
 msgid "Stats"
@@ -9592,6 +10224,7 @@ msgstr "Statistieken"
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/audit-log.tsx
@@ -9754,6 +10387,14 @@ msgstr "Passkey succesvol aangemaakt"
 msgid "Successfully created: {successCount}"
 msgstr "Succesvol aangemaakt: {successCount}"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Suchbegriff"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Suchen…"
+msgstr ""
+
 #: packages/email/templates/bulk-send-complete.tsx
 msgid "Summary:"
 msgstr "Overzicht:"
@@ -9790,6 +10431,18 @@ msgstr "Synchroniseren mislukt, wijzigingen niet opgeslagen"
 msgid "Sync license from server"
 msgstr "Licentie met server synchroniseren"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Sync-Lauf gestartet"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Sync-Lauf konnte nicht starten"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Sync-Lauf starten"
+msgstr ""
+
 #: packages/lib/utils/document-audit-logs.ts
 #: packages/lib/utils/document-audit-logs.ts
 #: packages/lib/utils/document-audit-logs.ts
@@ -9814,14 +10467,15 @@ msgstr "Doelorganisatie"
 #: apps/remix/app/components/tables/organisation-teams-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.groups.$id.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 msgid "Team"
 msgstr "Team"
 
 #. placeholder {0}: team.name
 #: packages/lib/server-only/team/delete-team.ts
-msgid "Team \"{0}\" has been deleted on NexaSign"
-msgstr "Team \"{0}\" is verwijderd op NexaSign"
+msgid "Team \"{0}\" has been deleted on NexaFile"
+msgstr ""
 
 #: packages/lib/constants/teams-translations.ts
 msgid "Team Admin"
@@ -9830,6 +10484,10 @@ msgstr "Teambeheerder"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.groups.$id.tsx
 msgid "Team Assignments"
 msgstr "Teamtoewijzingen"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Team auswählen"
+msgstr ""
 
 #: apps/remix/app/components/forms/subscription-claim-form.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -9872,8 +10530,8 @@ msgid "Team email removed"
 msgstr "Teame-mailadres verwijderd"
 
 #: packages/email/templates/team-email-removed.tsx
-msgid "Team email removed for {teamName} on NexaSign"
-msgstr "Teame-mailadres verwijderd voor {teamName} op NexaSign"
+msgid "Team email removed for {teamName} on NexaFile"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Team email verification"
@@ -10087,7 +10745,6 @@ msgid "Template uploaded"
 msgstr "Sjabloon geüpload"
 
 #: apps/remix/app/components/general/app-command-menu.tsx
-#: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.public-profile.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
@@ -10107,6 +10764,11 @@ msgstr "Templates gedeeltelijk verwijderd"
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 msgid "Test"
 msgstr "Test"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Test fehlgeschlagen"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/webhook-test-dialog.tsx
 msgid "Test Webhook"
@@ -10158,8 +10820,8 @@ msgid "Thank you for completing the signing process."
 msgstr "Bedankt dat je het ondertekeningsproces hebt voltooid."
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
-msgid "Thank you for using NexaSign to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
-msgstr "Bedankt dat je NexaSign gebruikt om je documenten elektronisch te ondertekenen. Het doel van deze kennisgeving is je te informeren over het proces, de rechtsgeldigheid en je rechten met betrekking tot het gebruik van elektronische handtekeningen op ons platform. Door te kiezen voor een elektronische handtekening ga je akkoord met de onderstaande voorwaarden."
+msgid "Thank you for using NexaFile to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
+msgstr ""
 
 #: packages/email/template-components/template-forgot-password.tsx
 msgid "That's okay, it happens! Click the button below to reset your password."
@@ -10522,8 +11184,8 @@ msgstr "De typen handtekeningen die ontvangers mogen gebruiken bij het onderteke
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
-msgid "The URL for NexaSign to send webhook events to."
-msgstr "De URL waarnaar NexaSign webhook‑gebeurtenissen stuurt."
+msgid "The URL for NexaFile to send webhook events to."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "The user you are looking for may have been removed, renamed or may have never existed."
@@ -10667,8 +11329,8 @@ msgid "This document has been signed by all recipients"
 msgstr "Dit document is door alle ontvangers ondertekend"
 
 #: apps/remix/app/components/general/document/document-certificate-qr-view.tsx
-msgid "This document is available in your NexaSign account. You can view more details, recipients, and audit logs there."
-msgstr "Dit document is beschikbaar in je NexaSign-account. Je kunt daar meer details, ontvangers en auditlogs bekijken."
+msgid "This document is available in your NexaFile account. You can view more details, recipients, and audit logs there."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id._index.tsx
 msgid "This document is currently a draft and has not been sent"
@@ -10687,7 +11349,7 @@ msgid "This document was created using a direct link."
 msgstr "Dit document is aangemaakt met een directe link."
 
 #: packages/email/template-components/template-footer.tsx
-msgid "This document was sent using NexaSign."
+msgid "This document was sent using NexaFile."
 msgstr ""
 
 #: apps/remix/app/components/dialogs/envelope-duplicate-dialog.tsx
@@ -10903,6 +11565,10 @@ msgstr "Titel"
 #: packages/ui/primitives/document-flow/add-settings.types.ts
 msgid "Title cannot be empty"
 msgstr "Titel mag niet leeg zijn"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "TLS-Zertifikat prüfen"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/organisation.invite.$token.tsx
 msgid "To accept this invitation you must create an account."
@@ -11347,6 +12013,10 @@ msgstr "Losmaken"
 msgid "Unsealed Documents"
 msgstr "Onverzegelde documenten"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Unterschriebene Verträge sind <0>steuerrelevante Belege</0> — das Finanzamt darf sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaFile für eine <1>GoBD-orientierte Archivierung</1> mitbringt: Erklärungen, Vorlagen, Tools, FAQ."
+msgstr ""
+
 #: apps/remix/app/components/general/user-profile-timur.tsx
 msgid "Unterzeichnen"
 msgstr ""
@@ -11727,6 +12397,37 @@ msgstr "Validatie mislukt"
 msgid "Value"
 msgstr "Waarde"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Verarbeitet"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Verbinden Sie Ihre erste Dokumentenquelle"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Verbinden Sie Postfächer, aus denen Belege automatisch in den Eingang einlaufen sollen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Verbindung erfolgreich"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Verbindung fehlgeschlagen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Verbindung testen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Vergangene Sync-Läufe"
+msgstr ""
+
 #: packages/email/template-components/template-access-auth-2fa.tsx
 msgid "Verification Code Required"
 msgstr "Verificatiecode vereist"
@@ -11781,6 +12482,10 @@ msgstr "Verticaal"
 #: apps/remix/app/components/forms/editor/editor-field-generic-field-forms.tsx
 msgid "Vertical Align"
 msgstr "Verticaal uitlijnen"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Vertragsvorlagen für deutsche Unternehmen"
+msgstr ""
 
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
 #: apps/remix/app/components/forms/2fa/view-recovery-codes-dialog.tsx
@@ -11963,6 +12668,27 @@ msgstr "Bekijken"
 msgid "Visibility"
 msgstr "Zichtbaarheid"
 
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Von"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
+msgid "Vorlagen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Vorletztes Jahr"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüft und in den Eingang importiert. Bereits importierte Belege werden automatisch übersprungen."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFile liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
+msgstr ""
+
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 msgid "Waiting"
 msgstr "Wachten"
@@ -11986,8 +12712,8 @@ msgstr "Wachten op jouw beurt"
 
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
-msgid "Want to send slick signing links like this one? <0>Check out NexaSign</0>."
-msgstr "Wil je ook van die strakke ondertekenlinks versturen zoals deze? <0>Bekijk NexaSign</0>."
+msgid "Want to send slick signing links like this one? <0>Check out NexaFile</0>."
+msgstr ""
 
 #: apps/remix/app/routes/_profile+/_layout.tsx
 msgid "Want your own public profile?"
@@ -12004,6 +12730,22 @@ msgstr "Wil je een eigen openbaar profiel?"
 #: packages/ui/primitives/template-flow/add-template-placeholder-recipients.tsx
 msgid "Warning: Assistant as last signer"
 msgstr "Waarschuwing: Assistent als laatste ondertekenaar"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+msgid "Wartet auf ersten Sync"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Was ist GoBD überhaupt?"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Was NexaFile liefert"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Was Sie selbst regeln"
+msgstr ""
 
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/general/organisations/organisation-billing-portal-button.tsx
@@ -12415,8 +13157,8 @@ msgid "Welcome to {organisationName}"
 msgstr "Welkom bij {organisationName}"
 
 #: packages/email/template-components/template-confirmation-email.tsx
-msgid "Welcome to NexaSign!"
-msgstr "Welkom bij NexaSign!"
+msgid "Welcome to NexaFile!"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Well-known URL is required"
@@ -12454,8 +13196,8 @@ msgid "Whether to enable the SSO portal for your organisation"
 msgstr "Of het SSO-portaal voor uw organisatie moet worden ingeschakeld"
 
 #: apps/remix/app/routes/_profile+/p.$url.tsx
-msgid "While waiting for them to do so you can create your own NexaSign account and get started with document signing right away."
-msgstr "Terwijl je daarop wacht, kun je je eigen NexaSign‑account aanmaken en direct beginnen met documenten ondertekenen."
+msgid "While waiting for them to do so you can create your own NexaFile account and get started with document signing right away."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 msgid "Whitelabeling, unlimited members and more"
@@ -12469,6 +13211,10 @@ msgstr "Wie wil je herinneren?"
 #: packages/ui/primitives/document-flow/field-item.tsx
 msgid "Width:"
 msgstr "Breedte:"
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Wird abgebrochen…"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Withdrawing Consent"
@@ -12710,8 +13456,8 @@ msgid "You can only detect fields in draft envelopes"
 msgstr "U kunt alleen velden detecteren in concept-enveloppen"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "You can revoke access at any time in your team settings on NexaSign <0>here</0>."
-msgstr "Je kunt de toegang op elk moment intrekken in je teaminstellingen op NexaSign, <0>hier</0>."
+msgid "You can revoke access at any time in your team settings on NexaFile <0>here</0>."
+msgstr ""
 
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "You can update the profile URL by updating the team URL in the general settings page."
@@ -12855,8 +13601,8 @@ msgstr "Je bent door <0>{0}</0> uitgenodigd om lid te worden van hun organisatie
 
 #. placeholder {0}: organisation.name
 #: packages/lib/server-only/organisation/create-organisation-member-invites.ts
-msgid "You have been invited to join {0} on NexaSign"
-msgstr "Je bent uitgenodigd om {0} op NexaSign te joinen"
+msgid "You have been invited to join {0} on NexaFile"
+msgstr ""
 
 #: packages/email/templates/organisation-invite.tsx
 msgid "You have been invited to join the following organisation"
@@ -13406,12 +14152,12 @@ msgid "Your Email"
 msgstr "Uw e-mailadres"
 
 #: apps/remix/app/routes/_unauthenticated+/verify-email.$token.tsx
-msgid "Your email has already been confirmed. You can now use all features of NexaSign."
-msgstr "Je e-mailadres is al bevestigd. Je kunt nu alle functies van NexaSign gebruiken."
+msgid "Your email has already been confirmed. You can now use all features of NexaFile."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/verify-email.$token.tsx
-msgid "Your email has been successfully confirmed! You can now use all features of NexaSign."
-msgstr "Je e‑mail is succesvol bevestigd! Je kunt nu alle functies van NexaSign gebruiken."
+msgid "Your email has been successfully confirmed! You can now use all features of NexaFile."
+msgstr ""
 
 #. placeholder {0}: teamEmail.team.name
 #. placeholder {1}: teamEmail.team.url
@@ -13479,8 +14225,8 @@ msgid "Your plan does not support inviting members. Please upgrade or your plan 
 msgstr "Je abonnement ondersteunt geen uitnodigingen van leden. Upgrade je abonnement of neem contact op met sales via <0>{SUPPORT_EMAIL}</0> om je opties te bespreken."
 
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
-msgid "Your plan is no longer valid. Please subscribe to a new plan to continue using NexaSign."
-msgstr "Je abonnement is niet langer geldig. Neem een nieuw abonnement om NexaSign te blijven gebruiken."
+msgid "Your plan is no longer valid. Please subscribe to a new plan to continue using NexaFile."
+msgstr ""
 
 #: apps/remix/app/components/forms/profile.tsx
 msgid "Your profile has been updated successfully."
@@ -13580,3 +14326,19 @@ msgstr "Uw verificatiecode:"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Zeitraum prüfen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Zum Signieren vorbereiten"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
+msgid "Zurück"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
+msgid "Zurück zur Liste"
+msgstr ""

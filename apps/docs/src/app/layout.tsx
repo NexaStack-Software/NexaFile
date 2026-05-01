@@ -13,13 +13,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://nexasign.nexastack.co/docs'),
   title: {
-    template: '%s | NexaSign Docs',
-    default: 'NexaSign Docs',
+    template: '%s | NexaFile Docs',
+    default: 'NexaFile Docs',
   },
   description:
-    'The official documentation for NexaSign, the open-source document signing platform.',
+    'The official documentation for NexaFile, the open-source document lifecycle platform.',
   openGraph: {
-    siteName: 'NexaSign Docs',
+    siteName: 'NexaFile Docs',
     type: 'website',
   },
   twitter: {
