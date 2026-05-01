@@ -142,7 +142,7 @@ export const sendTeamEmailVerificationEmail = async (email: string, token: strin
     to: email,
     from: senderEmail,
     subject: i18n._(
-      msg`A request to use your email has been initiated by ${team.name} on NexaSign`,
+      msg`A request to use your email has been initiated by ${team.name} on NexaFile`,
     ),
     html,
     text,

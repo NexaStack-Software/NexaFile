@@ -333,7 +333,7 @@ export const EnvelopeDistributeDialog = ({
                                             </SelectItem>
                                           ))}
 
-                                          <SelectItem value={'-1'}>NexaSign</SelectItem>
+                                          <SelectItem value={'-1'}>NexaFile</SelectItem>
                                         </SelectContent>
                                       </Select>
                                     </FormControl>

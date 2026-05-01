@@ -652,8 +652,8 @@ msgid "<0>{organisationName}</0> has requested to create an account on your beha
 msgstr "<0>{organisationName}</0> has requested to create an account on your behalf."
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "<0>{organisationName}</0> has requested to link your current NexaSign account to their organisation."
-msgstr "<0>{organisationName}</0> has requested to link your current NexaSign account to their organisation."
+msgid "<0>{organisationName}</0> has requested to link your current NexaFile account to their organisation."
+msgstr "<0>{organisationName}</0> has requested to link your current NexaFile account to their organisation."
 
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 msgid "<0>{senderName} {senderEmail}</0> has invited you to approve this document"
@@ -692,8 +692,8 @@ msgid "<0>{senderName} {senderEmail}</0> on behalf of \"{0}\" has invited you to
 msgstr "<0>{senderName} {senderEmail}</0> on behalf of \"{0}\" has invited you to view this document"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "<0>{teamName}</0> has requested to use your email address for their team on NexaSign."
-msgstr "<0>{teamName}</0> has requested to use your email address for their team on NexaSign."
+msgid "<0>{teamName}</0> has requested to use your email address for their team on NexaFile."
+msgstr "<0>{teamName}</0> has requested to use your email address for their team on NexaFile."
 
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "<0>Account management:</0> Modify your account settings, permissions, and preferences"
@@ -729,8 +729,8 @@ msgid "<0>Full account access:</0> View all your profile information, settings, 
 msgstr "<0>Full account access:</0> View all your profile information, settings, and activity"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "<0>Für Z2 und Z3</0> liefert NexaSign das CLI-Tool <1>nexasign-gobd-export</1> — siehe nächster Abschnitt."
-msgstr "<0>Für Z2 und Z3</0> liefert NexaSign das CLI-Tool <1>nexasign-gobd-export</1> — siehe nächster Abschnitt."
+msgid "<0>Für Z2 und Z3</0> liefert NexaFile das CLI-Tool <1>nexasign-gobd-export</1> — siehe nächster Abschnitt."
+msgstr "<0>Für Z2 und Z3</0> liefert NexaFile das CLI-Tool <1>nexasign-gobd-export</1> — siehe nächster Abschnitt."
 
 #: packages/ui/components/recipient/recipient-action-auth-select.tsx
 msgid "<0>Inherit authentication method</0> - Use the global action signing authentication method configured in the \"General Settings\" step"
@@ -817,8 +817,8 @@ msgid "1 month"
 msgstr "1 month"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/_index.tsx
-msgid "11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaSign hochladen und signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt."
-msgstr "11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaSign hochladen und signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt."
+msgid "11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaFile hochladen und signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt."
+msgstr "11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaFile hochladen und signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt."
 
 #: apps/remix/app/components/forms/token.tsx
 msgid "12 months"
@@ -959,8 +959,8 @@ msgid "A means to print or download documents for your records"
 msgstr "A means to print or download documents for your records"
 
 #: packages/email/templates/organisation-join.tsx
-msgid "A member has joined your organisation on NexaSign"
-msgstr "A member has joined your organisation on NexaSign"
+msgid "A member has joined your organisation on NexaFile"
+msgstr "A member has joined your organisation on NexaFile"
 
 #: packages/lib/jobs/definitions/emails/send-organisation-member-left-email.handler.ts
 msgid "A member has left your organisation"
@@ -971,8 +971,8 @@ msgid "A member has left your organisation {organisationName}"
 msgstr "A member has left your organisation {organisationName}"
 
 #: packages/email/templates/organisation-leave.tsx
-msgid "A member has left your organisation on NexaSign"
-msgstr "A member has left your organisation on NexaSign"
+msgid "A member has left your organisation on NexaFile"
+msgstr "A member has left your organisation on NexaFile"
 
 #: packages/lib/jobs/definitions/emails/send-organisation-member-joined-email.handler.ts
 msgid "A new member has joined your organisation"
@@ -1011,18 +1011,18 @@ msgid "A request has been made to create an account for you"
 msgstr "A request has been made to create an account for you"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "A request has been made to link your NexaSign account"
-msgstr "A request has been made to link your NexaSign account"
+msgid "A request has been made to link your NexaFile account"
+msgstr "A request has been made to link your NexaFile account"
 
 #. placeholder {0}: team.name
 #: packages/lib/server-only/team/create-team-email-verification.ts
-msgid "A request to use your email has been initiated by {0} on NexaSign"
-msgstr "A request to use your email has been initiated by {0} on NexaSign"
+msgid "A request to use your email has been initiated by {0} on NexaFile"
+msgstr "A request to use your email has been initiated by {0} on NexaFile"
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
-msgid "A secret that will be sent to your URL so you can verify that the request has been sent by NexaSign."
-msgstr "A secret that will be sent to your URL so you can verify that the request has been sent by NexaSign."
+msgid "A secret that will be sent to your URL so you can verify that the request has been sent by NexaFile."
+msgstr "A secret that will be sent to your URL so you can verify that the request has been sent by NexaFile."
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "A stable internet connection"
@@ -1081,12 +1081,12 @@ msgid "Accept & Link Account"
 msgstr "Accept & Link Account"
 
 #: packages/email/templates/organisation-invite.tsx
-msgid "Accept invitation to join an organisation on NexaSign"
-msgstr "Accept invitation to join an organisation on NexaSign"
+msgid "Accept invitation to join an organisation on NexaFile"
+msgstr "Accept invitation to join an organisation on NexaFile"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "Accept team email request for {teamName} on NexaSign"
-msgstr "Accept team email request for {teamName} on NexaSign"
+msgid "Accept team email request for {teamName} on NexaFile"
+msgstr "Accept team email request for {teamName} on NexaFile"
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Acceptance and Consent"
@@ -1519,10 +1519,6 @@ msgstr "Aktion fehlgeschlagen"
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 msgid "Aktiv"
 msgstr "Aktiv"
-
-#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "Aktueller Stand (Phase 1): Metadaten- und Audit-Export. PDF-Binary-Export aus der <0>DocumentData</0>-Tabelle und SHA-256-Manifest folgen in Phase 2."
-msgstr "Aktueller Stand (Phase 1): Metadaten- und Audit-Export. PDF-Binary-Export aus der <0>DocumentData</0>-Tabelle und SHA-256-Manifest folgen in Phase 2."
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Akzeptieren"
@@ -2505,8 +2501,8 @@ msgid "By enabling 2FA, you will be required to enter a code from your authentic
 msgstr "By enabling 2FA, you will be required to enter a code from your authenticator app every time you sign in using email password."
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
-msgid "By proceeding to use the electronic signature service provided by NexaSign, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
-msgstr "By proceeding to use the electronic signature service provided by NexaSign, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
+msgid "By proceeding to use the electronic signature service provided by NexaFile, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
+msgstr "By proceeding to use the electronic signature service provided by NexaFile, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
 
 #: apps/remix/app/components/general/document-signing/document-signing-disclosure.tsx
 msgid "By proceeding with your electronic signature, you acknowledge and consent that it will be used to sign the given document and holds the same legal validity as a handwritten signature. By completing the electronic signing process, you affirm your understanding and acceptance of these conditions."
@@ -5765,6 +5761,10 @@ msgstr "French"
 msgid "Full Name"
 msgstr "Full Name"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Für signierte Dokumente startet die Aufbewahrung mit <0>completedAt</0>. Für gefundene Belege startet sie mit <1>acceptedAt</1>, also in dem Moment, in dem Sie den Beleg als relevant übernehmen. Der Retention-Check meldet Belege, die auf die 10-Jahres-Frist zulaufen oder sie überschritten haben; er löscht nichts automatisch."
+msgstr "Für signierte Dokumente startet die Aufbewahrung mit <0>completedAt</0>. Für gefundene Belege startet sie mit <1>acceptedAt</1>, also in dem Moment, in dem Sie den Beleg als relevant übernehmen. Der Retention-Check meldet Belege, die auf die 10-Jahres-Frist zulaufen oder sie überschritten haben; er löscht nichts automatisch."
+
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
 #: apps/remix/app/components/general/direct-template/direct-template-page.tsx
 #: apps/remix/app/components/general/document/document-edit-form.tsx
@@ -5894,8 +5894,8 @@ msgid "GoBD-Archivierung"
 msgstr "GoBD-Archivierung"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "GoBD-konforme Archivierung mit NexaSign"
-msgstr "GoBD-konforme Archivierung mit NexaSign"
+msgid "GoBD-konforme Archivierung mit NexaFile"
+msgstr "GoBD-konforme Archivierung mit NexaFile"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
 msgid "GoBD-Konformität ist <0>nie</0> die Leistung eines einzelnen Tools. Sie entsteht aus dem Zusammenspiel von drei Elementen:"
@@ -6030,6 +6030,10 @@ msgstr "Hide"
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "Hide license key"
 msgstr "Hide license key"
+
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Hinweis: Der Export nimmt gefundene Belege auf, sobald sie akzeptiert wurden. Die Mail-Artefakte werden vom Host-Pfad <0>NEXASIGN_DISCOVERY_ARCHIVE_PATH</0> gelesen; Standard ist <1>/var/lib/nexasign-archive</1>."
+msgstr "Hinweis: Der Export nimmt gefundene Belege auf, sobald sie akzeptiert wurden. Die Mail-Artefakte werden vom Host-Pfad <0>NEXASIGN_DISCOVERY_ARCHIVE_PATH</0> gelesen; Standard ist <1>/var/lib/nexasign-archive</1>."
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
 msgid "Holt die Mail nochmal vom Mailserver und schreibt Anhänge + .eml ins Archiv."
@@ -6325,8 +6329,8 @@ msgid "Invalid License Key"
 msgstr "Invalid License Key"
 
 #: apps/remix/app/components/general/admin-license-status-banner.tsx
-msgid "Invalid License Type - Your NexaSign instance is using features that are not part of your license."
-msgstr "Invalid License Type - Your NexaSign instance is using features that are not part of your license."
+msgid "Invalid License Type - Your NexaFile instance is using features that are not part of your license."
+msgstr "Invalid License Type - Your NexaFile instance is using features that are not part of your license."
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Invalid link"
@@ -6456,8 +6460,8 @@ msgid "Japanese"
 msgstr "Japanese"
 
 #: packages/email/templates/organisation-invite.tsx
-msgid "Join {organisationName} on NexaSign"
-msgstr "Join {organisationName} on NexaSign"
+msgid "Join {organisationName} on NexaFile"
+msgstr "Join {organisationName} on NexaFile"
 
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -6483,16 +6487,16 @@ msgid "Keine Dateien im Archiv. Diese E-Mail wurde entweder vor Aktivierung des 
 msgstr "Keine Dateien im Archiv. Diese E-Mail wurde entweder vor Aktivierung des Archive-Features importiert oder enthielt keinen herunterladbaren Anhang (z. B. Beleg-Hinweis ohne PDF, der zum Portal verweist)."
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "Kern: Wenn Sie <0>steuerrelevante Dokumente</0> (Rechnungen, Verträge, Handelsbriefe) digital erzeugen oder ablegen, müssen sie <1>10 Jahre unveränderbar</1> aufbewahrt und im Prüfungsfall dem Finanzamt zugänglich gemacht werden. Unterschriebene Verträge aus NexaSign fallen eindeutig unter diese Pflicht."
-msgstr "Kern: Wenn Sie <0>steuerrelevante Dokumente</0> (Rechnungen, Verträge, Handelsbriefe) digital erzeugen oder ablegen, müssen sie <1>10 Jahre unveränderbar</1> aufbewahrt und im Prüfungsfall dem Finanzamt zugänglich gemacht werden. Unterschriebene Verträge aus NexaSign fallen eindeutig unter diese Pflicht."
+msgid "Kern: Wenn Sie <0>steuerrelevante Dokumente</0> (Rechnungen, Verträge, Handelsbriefe) digital erzeugen oder ablegen, müssen sie <1>10 Jahre unveränderbar</1> aufbewahrt und im Prüfungsfall dem Finanzamt zugänglich gemacht werden. Unterschriebene Verträge aus NexaFile fallen eindeutig unter diese Pflicht."
+msgstr "Kern: Wenn Sie <0>steuerrelevante Dokumente</0> (Rechnungen, Verträge, Handelsbriefe) digital erzeugen oder ablegen, müssen sie <1>10 Jahre unveränderbar</1> aufbewahrt und im Prüfungsfall dem Finanzamt zugänglich gemacht werden. Unterschriebene Verträge aus NexaFile fallen eindeutig unter diese Pflicht."
 
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 msgid "Key identifiers and relationships for this team."
 msgstr "Key identifiers and relationships for this team."
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten Envelopes und das Audit-Log eines Zeitraums als strukturiertes Paket."
-msgstr "Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten Envelopes und das Audit-Log eines Zeitraums als strukturiertes Paket."
+msgid "Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten Envelopes, akzeptierten gefundenen Belege, Mail-/Anhang-Dateien und Audit-Logs eines Zeitraums als strukturiertes Paket."
+msgstr "Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten Envelopes, akzeptierten gefundenen Belege, Mail-/Anhang-Dateien und Audit-Logs eines Zeitraums als strukturiertes Paket."
 
 #: packages/lib/constants/i18n.ts
 msgid "Korean"
@@ -6702,8 +6706,8 @@ msgid "Link template"
 msgstr "Link template"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "Link your NexaSign account"
-msgstr "Link your NexaSign account"
+msgid "Link your NexaFile account"
+msgstr "Link your NexaFile account"
 
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/security.linked-accounts.tsx
@@ -7064,8 +7068,8 @@ msgid "Min"
 msgstr "Min"
 
 #: apps/remix/app/components/general/admin-license-status-banner.tsx
-msgid "Missing License - Your NexaSign instance is using features that require a license."
-msgstr "Missing License - Your NexaSign instance is using features that require a license."
+msgid "Missing License - Your NexaFile instance is using features that require a license."
+msgstr "Missing License - Your NexaFile instance is using features that require a license."
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Missing Recipients"
@@ -7259,20 +7263,20 @@ msgid "New Password"
 msgstr "New Password"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "NexaSign ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung."
-msgstr "NexaSign ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung."
+msgid "NexaFile ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung."
+msgstr "NexaFile ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung."
 
 #: apps/remix/app/components/general/admin-license-card.tsx
-msgid "NexaSign License"
-msgstr "NexaSign License"
+msgid "NexaFile License"
+msgstr "NexaFile License"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "NexaSign stellt <0>GoBD-orientierte Archivfunktionen</0> zur Verfügung. Die GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit Ihrer/m Steuerberater/in, Datenschutzbeauftragten und — für formale Zertifizierungen — mit einer/m Wirtschaftsprüfer/in."
-msgstr "NexaSign stellt <0>GoBD-orientierte Archivfunktionen</0> zur Verfügung. Die GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit Ihrer/m Steuerberater/in, Datenschutzbeauftragten und — für formale Zertifizierungen — mit einer/m Wirtschaftsprüfer/in."
+msgid "NexaFile stellt <0>GoBD-orientierte Archivfunktionen</0> zur Verfügung. Die GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit Ihrer/m Steuerberater/in, Datenschutzbeauftragten und — für formale Zertifizierungen — mit einer/m Wirtschaftsprüfer/in."
+msgstr "NexaFile stellt <0>GoBD-orientierte Archivfunktionen</0> zur Verfügung. Die GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit Ihrer/m Steuerberater/in, Datenschutzbeauftragten und — für formale Zertifizierungen — mit einer/m Wirtschaftsprüfer/in."
 
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
-msgid "NexaSign will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
-msgstr "NexaSign will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
+msgid "NexaFile will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
+msgstr "NexaFile will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
 
 #: apps/remix/app/components/dialogs/team-group-create-dialog.tsx
 #: apps/remix/app/components/dialogs/team-member-create-dialog.tsx
@@ -8568,8 +8572,8 @@ msgid "Read Only"
 msgstr "Read Only"
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Read our documentation to get started with NexaSign."
-msgstr "Read our documentation to get started with NexaSign."
+msgid "Read our documentation to get started with NexaFile."
+msgstr "Read our documentation to get started with NexaFile."
 
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "Read Status"
@@ -9125,6 +9129,10 @@ msgstr "Restricted Access"
 msgid "Retention of Documents"
 msgstr "Retention of Documents"
 
+#: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
+msgid "Retention-Check und Löschschutz"
+msgstr "Retention-Check und Löschschutz"
+
 #: apps/remix/app/components/tables/admin-document-jobs-table.tsx
 msgid "Retried"
 msgstr "Retried"
@@ -9156,8 +9164,8 @@ msgid "Return to Home"
 msgstr "Return to Home"
 
 #: apps/remix/app/routes/_unauthenticated+/o.$orgUrl.signin.tsx
-msgid "Return to NexaSign sign in page here"
-msgstr "Return to NexaSign sign in page here"
+msgid "Return to NexaFile sign in page here"
+msgstr "Return to NexaFile sign in page here"
 
 #: apps/remix/app/routes/_unauthenticated+/check-email.tsx
 #: apps/remix/app/routes/_unauthenticated+/reset-password._index.tsx
@@ -10025,12 +10033,12 @@ msgid "Skip"
 msgstr "Skip"
 
 #: apps/remix/app/components/general/user-profile-timur.tsx
-msgid "So könnte Ihr öffentliches NexaSign-Profil aussehen."
-msgstr "So könnte Ihr öffentliches NexaSign-Profil aussehen."
+msgid "So könnte Ihr öffentliches NexaFile-Profil aussehen."
+msgstr "So könnte Ihr öffentliches NexaFile-Profil aussehen."
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
-msgid "Sobald ein IMAP-Konto verbunden ist, sucht NexaFile alle 15 Minuten nach neuen Belegen und legt sie im Eingang ab."
-msgstr "Sobald ein IMAP-Konto verbunden ist, sucht NexaFile alle 15 Minuten nach neuen Belegen und legt sie im Eingang ab."
+msgid "Sobald ein IMAP-Konto verbunden ist, starten Sie gezielte Sync-Läufe für bestimmte Zeiträume. Gefundene Belege legt NexaFile im Eingang ab."
+msgstr "Sobald ein IMAP-Konto verbunden ist, starten Sie gezielte Sync-Läufe für bestimmte Zeiträume. Gefundene Belege legt NexaFile im Eingang ab."
 
 #: packages/ui/primitives/document-flow/missing-signature-field-dialog.tsx
 msgid "Some signers have not been assigned a signature field. Please assign at least 1 signature field to each signer before proceeding."
@@ -10461,8 +10469,8 @@ msgstr "Team"
 
 #. placeholder {0}: team.name
 #: packages/lib/server-only/team/delete-team.ts
-msgid "Team \"{0}\" has been deleted on NexaSign"
-msgstr "Team \"{0}\" has been deleted on NexaSign"
+msgid "Team \"{0}\" has been deleted on NexaFile"
+msgstr "Team \"{0}\" has been deleted on NexaFile"
 
 #: packages/lib/constants/teams-translations.ts
 msgid "Team Admin"
@@ -10517,8 +10525,8 @@ msgid "Team email removed"
 msgstr "Team email removed"
 
 #: packages/email/templates/team-email-removed.tsx
-msgid "Team email removed for {teamName} on NexaSign"
-msgstr "Team email removed for {teamName} on NexaSign"
+msgid "Team email removed for {teamName} on NexaFile"
+msgstr "Team email removed for {teamName} on NexaFile"
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Team email verification"
@@ -10807,8 +10815,8 @@ msgid "Thank you for completing the signing process."
 msgstr "Thank you for completing the signing process."
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
-msgid "Thank you for using NexaSign to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
-msgstr "Thank you for using NexaSign to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
+msgid "Thank you for using NexaFile to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
+msgstr "Thank you for using NexaFile to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
 
 #: packages/email/template-components/template-forgot-password.tsx
 msgid "That's okay, it happens! Click the button below to reset your password."
@@ -11171,8 +11179,8 @@ msgstr "The types of signatures that recipients are allowed to use when signing 
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
-msgid "The URL for NexaSign to send webhook events to."
-msgstr "The URL for NexaSign to send webhook events to."
+msgid "The URL for NexaFile to send webhook events to."
+msgstr "The URL for NexaFile to send webhook events to."
 
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "The user you are looking for may have been removed, renamed or may have never existed."
@@ -11316,8 +11324,8 @@ msgid "This document has been signed by all recipients"
 msgstr "This document has been signed by all recipients"
 
 #: apps/remix/app/components/general/document/document-certificate-qr-view.tsx
-msgid "This document is available in your NexaSign account. You can view more details, recipients, and audit logs there."
-msgstr "This document is available in your NexaSign account. You can view more details, recipients, and audit logs there."
+msgid "This document is available in your NexaFile account. You can view more details, recipients, and audit logs there."
+msgstr "This document is available in your NexaFile account. You can view more details, recipients, and audit logs there."
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id._index.tsx
 msgid "This document is currently a draft and has not been sent"
@@ -11336,8 +11344,8 @@ msgid "This document was created using a direct link."
 msgstr "This document was created using a direct link."
 
 #: packages/email/template-components/template-footer.tsx
-msgid "This document was sent using NexaSign."
-msgstr "This document was sent using NexaSign."
+msgid "This document was sent using NexaFile."
+msgstr "This document was sent using NexaFile."
 
 #: apps/remix/app/components/dialogs/envelope-duplicate-dialog.tsx
 msgid "This document will be duplicated."
@@ -12001,8 +12009,8 @@ msgid "Unsealed Documents"
 msgstr "Unsealed Documents"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "Unterschriebene Verträge sind <0>steuerrelevante Belege</0> — das Finanzamt darf sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaSign für eine <1>GoBD-orientierte Archivierung</1> mitbringt: Erklärungen, Vorlagen, Tools, FAQ."
-msgstr "Unterschriebene Verträge sind <0>steuerrelevante Belege</0> — das Finanzamt darf sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaSign für eine <1>GoBD-orientierte Archivierung</1> mitbringt: Erklärungen, Vorlagen, Tools, FAQ."
+msgid "Unterschriebene Verträge sind <0>steuerrelevante Belege</0> — das Finanzamt darf sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaFile für eine <1>GoBD-orientierte Archivierung</1> mitbringt: Erklärungen, Vorlagen, Tools, FAQ."
+msgstr "Unterschriebene Verträge sind <0>steuerrelevante Belege</0> — das Finanzamt darf sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaFile für eine <1>GoBD-orientierte Archivierung</1> mitbringt: Erklärungen, Vorlagen, Tools, FAQ."
 
 #: apps/remix/app/components/general/user-profile-timur.tsx
 msgid "Unterzeichnen"
@@ -12673,8 +12681,8 @@ msgid "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüf
 msgstr "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüft und in den Eingang importiert. Bereits importierte Belege werden automatisch übersprungen."
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
-msgstr "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
+msgid "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFile liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
+msgstr "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFile liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
 
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 msgid "Waiting"
@@ -12699,8 +12707,8 @@ msgstr "Waiting for Your Turn"
 
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
-msgid "Want to send slick signing links like this one? <0>Check out NexaSign</0>."
-msgstr "Want to send slick signing links like this one? <0>Check out NexaSign</0>."
+msgid "Want to send slick signing links like this one? <0>Check out NexaFile</0>."
+msgstr "Want to send slick signing links like this one? <0>Check out NexaFile</0>."
 
 #: apps/remix/app/routes/_profile+/_layout.tsx
 msgid "Want your own public profile?"
@@ -12727,8 +12735,8 @@ msgid "Was ist GoBD überhaupt?"
 msgstr "Was ist GoBD überhaupt?"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
-msgid "Was NexaSign liefert"
-msgstr "Was NexaSign liefert"
+msgid "Was NexaFile liefert"
+msgstr "Was NexaFile liefert"
 
 #: apps/remix/app/routes/_authenticated+/vorlagen+/gobd+/_index.tsx
 msgid "Was Sie selbst regeln"
@@ -13144,8 +13152,8 @@ msgid "Welcome to {organisationName}"
 msgstr "Welcome to {organisationName}"
 
 #: packages/email/template-components/template-confirmation-email.tsx
-msgid "Welcome to NexaSign!"
-msgstr "Welcome to NexaSign!"
+msgid "Welcome to NexaFile!"
+msgstr "Welcome to NexaFile!"
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Well-known URL is required"
@@ -13183,8 +13191,8 @@ msgid "Whether to enable the SSO portal for your organisation"
 msgstr "Whether to enable the SSO portal for your organisation"
 
 #: apps/remix/app/routes/_profile+/p.$url.tsx
-msgid "While waiting for them to do so you can create your own NexaSign account and get started with document signing right away."
-msgstr "While waiting for them to do so you can create your own NexaSign account and get started with document signing right away."
+msgid "While waiting for them to do so you can create your own NexaFile account and get started with document signing right away."
+msgstr "While waiting for them to do so you can create your own NexaFile account and get started with document signing right away."
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 msgid "Whitelabeling, unlimited members and more"
@@ -13443,8 +13451,8 @@ msgid "You can only detect fields in draft envelopes"
 msgstr "You can only detect fields in draft envelopes"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "You can revoke access at any time in your team settings on NexaSign <0>here</0>."
-msgstr "You can revoke access at any time in your team settings on NexaSign <0>here</0>."
+msgid "You can revoke access at any time in your team settings on NexaFile <0>here</0>."
+msgstr "You can revoke access at any time in your team settings on NexaFile <0>here</0>."
 
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "You can update the profile URL by updating the team URL in the general settings page."
@@ -13588,8 +13596,8 @@ msgstr "You have been invited by <0>{0}</0> to join their organisation."
 
 #. placeholder {0}: organisation.name
 #: packages/lib/server-only/organisation/create-organisation-member-invites.ts
-msgid "You have been invited to join {0} on NexaSign"
-msgstr "You have been invited to join {0} on NexaSign"
+msgid "You have been invited to join {0} on NexaFile"
+msgstr "You have been invited to join {0} on NexaFile"
 
 #: packages/email/templates/organisation-invite.tsx
 msgid "You have been invited to join the following organisation"
@@ -14139,12 +14147,12 @@ msgid "Your Email"
 msgstr "Your Email"
 
 #: apps/remix/app/routes/_unauthenticated+/verify-email.$token.tsx
-msgid "Your email has already been confirmed. You can now use all features of NexaSign."
-msgstr "Your email has already been confirmed. You can now use all features of NexaSign."
+msgid "Your email has already been confirmed. You can now use all features of NexaFile."
+msgstr "Your email has already been confirmed. You can now use all features of NexaFile."
 
 #: apps/remix/app/routes/_unauthenticated+/verify-email.$token.tsx
-msgid "Your email has been successfully confirmed! You can now use all features of NexaSign."
-msgstr "Your email has been successfully confirmed! You can now use all features of NexaSign."
+msgid "Your email has been successfully confirmed! You can now use all features of NexaFile."
+msgstr "Your email has been successfully confirmed! You can now use all features of NexaFile."
 
 #. placeholder {0}: teamEmail.team.name
 #. placeholder {1}: teamEmail.team.url
@@ -14212,8 +14220,8 @@ msgid "Your plan does not support inviting members. Please upgrade or your plan 
 msgstr "Your plan does not support inviting members. Please upgrade or your plan or contact sales at <0>{SUPPORT_EMAIL}</0> if you would like to discuss your options."
 
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
-msgid "Your plan is no longer valid. Please subscribe to a new plan to continue using NexaSign."
-msgstr "Your plan is no longer valid. Please subscribe to a new plan to continue using NexaSign."
+msgid "Your plan is no longer valid. Please subscribe to a new plan to continue using NexaFile."
+msgstr "Your plan is no longer valid. Please subscribe to a new plan to continue using NexaFile."
 
 #: apps/remix/app/components/forms/profile.tsx
 msgid "Your profile has been updated successfully."

@@ -46,7 +46,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     selector: '[data-tour="nav-vorlagen"]',
     title: 'Deutsche Vorlagen und Generatoren',
-    body: 'Hier liegen NDA, Arbeitsvertrag, AV-Vertrag, X-Rechnung und weitere Generatoren. Sie erzeugen ein PDF, laden es in NexaSign hoch und lassen es unterschreiben.',
+    body: 'Hier liegen NDA, Arbeitsvertrag, AV-Vertrag, X-Rechnung und weitere Generatoren. Sie erzeugen ein PDF, laden es in NexaFile hoch und lassen es unterschreiben.',
   },
 ];
 

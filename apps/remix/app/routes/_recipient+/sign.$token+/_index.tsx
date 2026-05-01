@@ -381,7 +381,7 @@ const SigningPageV1 = ({ data }: { data: Awaited<ReturnType<typeof handleV1Loade
               <Trans>
                 Want to send slick signing links like this one?{' '}
                 <Link to="/" className="text-primary hover:text-primary/90">
-                  Check out NexaSign
+                  Check out NexaFile
                 </Link>
                 .
               </Trans>
@@ -478,7 +478,7 @@ const SigningPageV2 = ({ data }: { data: Awaited<ReturnType<typeof handleV2Loade
               <Trans>
                 Want to send slick signing links like this one?{' '}
                 <Link to="/" className="text-primary hover:text-primary/90">
-                  Check out NexaSign
+                  Check out NexaFile
                 </Link>
                 .
               </Trans>

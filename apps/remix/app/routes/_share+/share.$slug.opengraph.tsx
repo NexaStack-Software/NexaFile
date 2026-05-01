@@ -41,7 +41,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     ),
   ]);
 
-  // NexaSign-Wortmarke: Satori fetcht das Image selbst, solange die URL absolut ist.
+  // NexaFile-Wortmarke: Satori fetcht das Image selbst, solange die URL absolut ist.
   // 2x-Variante für scharfes Rendering auf der 1200×630-Card.
   const logoUrl = `${baseUrl}/logo-2x.png`;
 
@@ -82,9 +82,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
         position: 'relative',
       }}
     >
-      {/* Das Upstream-Bild og-share-frame2.png enthält ein „NexaSign"-Wasserzeichen
-          und „Join NexaSign" oben rechts — für NexaSign passt das nicht. Wir rendern
-          stattdessen einen neutralen Rahmen + dezenten NexaSign-Hinweis unten rechts. */}
+      {/* Das Upstream-Bild og-share-frame2.png enthält ein altes Wasserzeichen.
+          Wir rendern stattdessen einen neutralen Rahmen + dezenten NexaFile-Hinweis unten rechts. */}
       <div
         style={{
           position: 'absolute',
@@ -110,7 +109,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
       />
       <img
         src={logoUrl}
-        alt="NexaSign"
+        alt="NexaFile"
         width={300}
         height={72}
         style={{

@@ -39,7 +39,7 @@ export const ConfirmTeamEmailTemplate = ({
   const { _ } = useLingui();
   const branding = useBranding();
 
-  const previewText = msg`Accept team email request for ${teamName} on NexaSign`;
+  const previewText = msg`Accept team email request for ${teamName} on NexaFile`;
 
   return (
     <Html>
@@ -75,7 +75,7 @@ export const ConfirmTeamEmailTemplate = ({
               <Text className="text-center text-base">
                 <Trans>
                   <span className="font-bold">{teamName}</span> has requested to use your email
-                  address for their team on NexaSign.
+                  address for their team on NexaFile.
                 </Trans>
               </Text>
 
@@ -105,7 +105,7 @@ export const ConfirmTeamEmailTemplate = ({
 
                 <Text className="mt-2 text-sm">
                   <Trans>
-                    You can revoke access at any time in your team settings on NexaSign{' '}
+                    You can revoke access at any time in your team settings on NexaFile{' '}
                     <Link href={`${baseUrl}/settings/teams`}>here</Link>.
                   </Trans>
                 </Text>

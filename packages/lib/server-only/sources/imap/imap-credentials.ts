@@ -7,7 +7,7 @@ import { type ImapAccountConfig, ZImapAccountConfigSchema } from './types';
 
 /**
  * IMAP-Credential-Encryption — eigener Key (`NEXT_PRIVATE_IMAP_CREDENTIAL_KEY`),
- * damit IMAP-Passwörter / OAuth-Refresh-Tokens unabhängig von anderen NexaSign-
+ * damit IMAP-Passwörter / OAuth-Refresh-Tokens unabhängig von anderen NexaFile-
  * Secrets rotiert werden können. Fallback-Kette für gestaffelte Migration:
  * primär `NEXT_PRIVATE_IMAP_CREDENTIAL_KEY`, sekundär das Secondary-Key
  * (Vermeidung eines harten Bruchs bei Bestandsinstallationen, die noch keinen

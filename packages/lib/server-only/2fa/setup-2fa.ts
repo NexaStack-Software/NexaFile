@@ -12,7 +12,7 @@ type SetupTwoFactorAuthenticationOptions = {
   user: Pick<User, 'id' | 'email'>;
 };
 
-const ISSUER = 'NexaSign';
+const ISSUER = 'NexaFile';
 
 export const setupTwoFactorAuthentication = async ({
   user,

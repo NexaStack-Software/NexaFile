@@ -121,7 +121,7 @@ export const WebhookEditDialog = ({ trigger, webhook, ...props }: WebhookEditDia
                       </FormControl>
 
                       <FormDescription>
-                        <Trans>The URL for NexaSign to send webhook events to.</Trans>
+                        <Trans>The URL for NexaFile to send webhook events to.</Trans>
                       </FormDescription>
 
                       <FormMessage />
@@ -197,7 +197,7 @@ export const WebhookEditDialog = ({ trigger, webhook, ...props }: WebhookEditDia
                     <FormDescription>
                       <Trans>
                         A secret that will be sent to your URL so you can verify that the request
-                        has been sent by NexaSign.
+                        has been sent by NexaFile.
                       </Trans>
                     </FormDescription>
                     <FormMessage />

@@ -27,7 +27,7 @@ export const OrganisationJoinEmailTemplate = ({
   const { _ } = useLingui();
   const branding = useBranding();
 
-  const previewText = msg`A member has joined your organisation on NexaSign`;
+  const previewText = msg`A member has joined your organisation on NexaFile`;
 
   return (
     <Html>

@@ -127,7 +127,7 @@ export default function VorlagenIndex() {
       <p className="mt-3 max-w-3xl text-base text-muted-foreground">
         <Trans>
           11 pragmatische, rechtlich solide Vorlagen nach BGB / HGB / TzBfG / DSGVO. Jede Vorlage
-          als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaSign hochladen und
+          als geführter Generator: Felder ausfüllen, PDF erzeugen, in NexaFile hochladen und
           signieren. Die Markdown-Rohvorlagen bleiben zusätzlich auf den Generator-Seiten verlinkt.
         </Trans>
       </p>

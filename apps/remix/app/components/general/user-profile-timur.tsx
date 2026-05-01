@@ -13,7 +13,7 @@ export type UserProfileTimurProps = {
 
 /**
  * Demo-Profil-Komponente für die Signup-Seite.
- * Zeigt, wie ein öffentliches NexaSign-Profil für eingeladene Unterzeichner aussieht.
+ * Zeigt, wie ein öffentliches NexaFile-Profil für eingeladene Unterzeichner aussieht.
  * Der Komponentenname bleibt aus Upstream-Kompatibilität `UserProfileTimur` —
  * zeigt einen generischen Beispiel-User (kein echtes Foto im OSS-Repo).
  */
@@ -64,7 +64,7 @@ export const UserProfileTimur = ({ className, rows = 2 }: UserProfileTimurProps)
         </div>
 
         <p className="mt-4 max-w-[40ch] text-center text-sm text-muted-foreground">
-          <Trans>So könnte Ihr öffentliches NexaSign-Profil aussehen.</Trans>
+          <Trans>So könnte Ihr öffentliches NexaFile-Profil aussehen.</Trans>
         </p>
 
         <p className="mt-1 max-w-[40ch] text-center text-sm text-muted-foreground">

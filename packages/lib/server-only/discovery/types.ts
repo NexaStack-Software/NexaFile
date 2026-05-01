@@ -36,7 +36,7 @@ export type DiscoveryDocument = {
   documentDate: Date | null;
   /** Wann es im Discovery-Backend aufgetaucht ist */
   capturedAt: Date;
-  /** Lifecycle-Status aus Sicht des NexaSign-Nutzers */
+  /** Lifecycle-Status aus Sicht des NexaFile-Nutzers */
   status: DiscoveryDocumentStatus;
   /** Optional in Listenansicht (vor allem bei akzeptierten Belegen). */
   detectedAmount?: string | null;

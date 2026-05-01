@@ -147,7 +147,7 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
             <p className="mt-4 text-muted-foreground">
               <Trans>
                 Your email has been successfully confirmed! You can now use all features of
-                NexaSign.
+                NexaFile.
               </Trans>
             </p>
 
@@ -174,7 +174,7 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
 
             <p className="mt-4 text-muted-foreground">
               <Trans>
-                Your email has already been confirmed. You can now use all features of NexaSign.
+                Your email has already been confirmed. You can now use all features of NexaFile.
               </Trans>
             </p>
 

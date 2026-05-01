@@ -421,8 +421,8 @@ export default function SettingsSourcesIndex() {
               </h3>
               <p className="mt-1 text-sm text-muted-foreground">
                 <Trans>
-                  Sobald ein IMAP-Konto verbunden ist, sucht NexaFile alle 15 Minuten nach neuen
-                  Belegen und legt sie im Eingang ab.
+                  Sobald ein IMAP-Konto verbunden ist, starten Sie gezielte Sync-Läufe für bestimmte
+                  Zeiträume. Gefundene Belege legt NexaFile im Eingang ab.
                 </Trans>
               </p>
             </div>

@@ -21,7 +21,7 @@ import type {
  *
  * Hinweis (Lizenz): Dieser Provider spricht mit Paperless-ngx (GPL-3.0).
  * Die Erwähnung an dieser Stelle erfüllt die Attribution-Pflicht. Im
- * NexaSign-UI wird der Backend-Name nicht angezeigt.
+ * NexaFile-UI wird der Backend-Name nicht angezeigt.
  */
 
 type PaperlessDocument = {

@@ -52,7 +52,7 @@ export const AppNavDesktop = ({
       return [];
     }
 
-    // NexaFILE-Hauptnavigation: Erstellen → Finden → Signieren → Archivieren.
+    // NexaFile-Hauptnavigation: Erstellen → Finden → Signieren → Archivieren.
     // Erstellen und Archivieren sind PHP-Bereiche, bleiben aber Teil derselben
     // Nutzerführung.
     return [

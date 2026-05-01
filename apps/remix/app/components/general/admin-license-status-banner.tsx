@@ -43,12 +43,12 @@ export const AdminLicenseStatusBanner = ({ license }: AdminLicenseStatusBannerPr
             .with('UNAUTHORIZED', () =>
               license ? (
                 <Trans>
-                  Invalid License Type - Your NexaSign instance is using features that are not part
+                  Invalid License Type - Your NexaFile instance is using features that are not part
                   of your license.
                 </Trans>
               ) : (
                 <Trans>
-                  Missing License - Your NexaSign instance is using features that require a license.
+                  Missing License - Your NexaFile instance is using features that require a license.
                 </Trans>
               ),
             )

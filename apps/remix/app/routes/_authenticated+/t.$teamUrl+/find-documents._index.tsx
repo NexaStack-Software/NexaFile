@@ -409,7 +409,7 @@ const MailboxSearchPanel = ({
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
           <Trans>
-            Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFILE liest passende Mails ein und legt
+            Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFile liest passende Mails ein und legt
             Mail + Anhänge im Server-Archiv ab.
           </Trans>
         </p>

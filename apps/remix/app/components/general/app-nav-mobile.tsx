@@ -60,7 +60,7 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
       ];
     }
 
-    // NexaFILE-Hauptnavigation in 4 Schritten: Erstellen → Finden →
+    // NexaFile-Hauptnavigation in 4 Schritten: Erstellen → Finden →
     // Signieren → Archivieren. Templates (Signier-Vorlagen) bleiben per Direkt-URL
     // /t/<team>/templates erreichbar, stehen aber nicht in der Haupt-Nav.
     return [
@@ -99,7 +99,7 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
         <Link to="/" onClick={handleMenuItemClick}>
           <img
             src={LogoImage}
-            alt="NexaSign Logo"
+            alt="NexaFile Logo"
             className="dark:invert"
             width={170}
             height={25}

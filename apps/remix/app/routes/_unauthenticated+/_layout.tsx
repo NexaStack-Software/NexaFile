@@ -18,19 +18,19 @@ export default function Layout() {
           />
         </div>
 
-        {/* NexaSign-Wortmarke über dem Login-Formular — gibt allen öffentlichen
+        {/* NexaFile-Wortmarke über dem Login-Formular — gibt allen öffentlichen
             Seiten (Signin, Signup, Forgot-Password, …) einen sichtbaren Brand-Anker. */}
         <Link
           to="/"
           className="relative mx-auto mb-8 flex items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-          aria-label="NexaSign"
+          aria-label="NexaFile"
         >
           <picture>
             <source type="image/webp" srcSet="/logo-1x.webp 1x, /logo-2x.webp 2x" />
             <img
               src="/logo-1x.png"
               srcSet="/logo-1x.png 1x, /logo-2x.png 2x"
-              alt="NexaSign"
+              alt="NexaFile"
               height={144}
               width={602}
               style={{ height: '144px', width: 'auto', display: 'block' }}

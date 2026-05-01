@@ -4,11 +4,11 @@ import { NEXT_PUBLIC_WEBAPP_URL } from '@nexasign/lib/constants/app';
 
 export const appMetaTags = (title?: MessageDescriptor) => {
   const description =
-    'NexaSign ist die deutsche, selbstgehostete Alternative für digitale Signaturen. Open Source, DSGVO-konform und in Deutschland betreibbar. Unterschreiben Sie Verträge in Ihrer eigenen Infrastruktur, ohne Abo und ohne Drittpartei-Server.';
+    'NexaFile ist die deutsche, selbstgehostete Open-Source-Plattform für Dokumente: erstellen, finden, signieren und GoBD-orientiert archivieren.';
 
   return [
     {
-      title: title ? `${i18n._(title)} – NexaSign` : 'NexaSign – Dokumente digital unterzeichnen',
+      title: title ? `${i18n._(title)} – NexaFile` : 'NexaFile – Dokumente im eigenen Stack',
     },
     {
       name: 'description',
@@ -17,7 +17,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     {
       name: 'keywords',
       content:
-        'NexaSign, NexaStack, digitale Signatur, elektronische Unterschrift, Open Source, DSGVO, Self-Hosted, Deutschland',
+        'NexaFile, NexaStack, Dokumentenmanagement, digitale Signatur, elektronische Unterschrift, GoBD, Open Source, DSGVO, Self-Hosted, Deutschland',
     },
     {
       name: 'author',
@@ -29,7 +29,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       property: 'og:title',
-      content: 'NexaSign – die deutsche DocuSign-Alternative, selbstgehostet',
+      content: 'NexaFile – Dokumente erstellen, finden, signieren und archivieren',
     },
     {
       property: 'og:description',
