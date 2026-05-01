@@ -219,17 +219,18 @@ export const discoveryRouter = router({
       }
 
       const newStatus = ACTION_STATUS_MAP[input.action];
-      const auditEvent = ACTION_AUDIT_MAP[input.action];
-
       await prisma.$transaction(async (tx) => {
-        // accept setzt acceptedAt + acceptedById exakt einmal — Re-Accept
-        // (ARCHIVED → ACCEPTED ist eh blockiert, also nur Erst-Accept relevant).
+        // accept/archive setzen acceptedAt + acceptedById exakt einmal.
+        // Wichtig für GoBD: Auch ein direkt archivierter Beleg ist damit
+        // aufbewahrungspflichtig und landet im Exportfluss.
         const updateData: {
           status: typeof newStatus;
           acceptedAt?: Date;
           acceptedById?: number;
         } = { status: newStatus };
-        if (input.action === 'accept' && !doc.acceptedAt) {
+        const startsRetention =
+          !doc.acceptedAt && (input.action === 'accept' || input.action === 'archive');
+        if (startsRetention) {
           updateData.acceptedAt = new Date();
           updateData.acceptedById = user.id;
         }
@@ -239,6 +240,11 @@ export const discoveryRouter = router({
           data: updateData,
         });
 
+        const auditEvent =
+          startsRetention && input.action === 'archive'
+            ? 'DISCOVERY_DOCUMENT_ACCEPTED'
+            : ACTION_AUDIT_MAP[input.action];
+
         if (auditEvent) {
           await tx.discoveryAuditLog.create({
             data: {
@@ -246,7 +252,11 @@ export const discoveryRouter = router({
               discoveryDocumentId: doc.id,
               userId: user.id,
               teamId,
-              metadata: { action: input.action, providerSource: doc.providerSource },
+              metadata: {
+                action: input.action,
+                providerSource: doc.providerSource,
+                retentionStarted: startsRetention,
+              },
             },
           });
         }
@@ -380,6 +390,35 @@ export const discoveryRouter = router({
       }
 
       if (doc.signingEnvelopeId) {
+        if (!doc.acceptedAt || doc.status !== 'SIGNED') {
+          await prisma.$transaction(async (tx) => {
+            await tx.discoveryDocument.update({
+              where: { id: doc.id },
+              data: {
+                status: doc.status === 'ARCHIVED' ? 'ARCHIVED' : 'SIGNED',
+                acceptedAt: doc.acceptedAt ?? new Date(),
+                acceptedById: doc.acceptedById ?? user.id,
+              },
+            });
+
+            if (!doc.acceptedAt) {
+              await tx.discoveryAuditLog.create({
+                data: {
+                  event: 'DISCOVERY_DOCUMENT_ACCEPTED',
+                  discoveryDocumentId: doc.id,
+                  userId: user.id,
+                  teamId,
+                  metadata: {
+                    action: 'create-signing-document',
+                    envelopeId: doc.signingEnvelopeId,
+                    providerSource: doc.providerSource,
+                    retentionStarted: true,
+                  },
+                },
+              });
+            }
+          });
+        }
         return { envelopeId: doc.signingEnvelopeId, alreadyExisted: true };
       }
 
@@ -404,10 +443,34 @@ export const discoveryRouter = router({
       });
 
       await prisma.$transaction(async (tx) => {
+        const startsRetention = !doc.acceptedAt;
+
         await tx.discoveryDocument.update({
           where: { id: doc.id },
-          data: { signingEnvelopeId: envelope.id },
+          data: {
+            signingEnvelopeId: envelope.id,
+            status: doc.status === 'ARCHIVED' ? 'ARCHIVED' : 'SIGNED',
+            acceptedAt: doc.acceptedAt ?? new Date(),
+            acceptedById: doc.acceptedById ?? user.id,
+          },
         });
+
+        if (startsRetention) {
+          await tx.discoveryAuditLog.create({
+            data: {
+              event: 'DISCOVERY_DOCUMENT_ACCEPTED',
+              discoveryDocumentId: doc.id,
+              userId: user.id,
+              teamId,
+              metadata: {
+                action: 'create-signing-document',
+                envelopeId: envelope.id,
+                providerSource: doc.providerSource,
+                retentionStarted: true,
+              },
+            },
+          });
+        }
 
         await tx.discoveryAuditLog.create({
           data: {

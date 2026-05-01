@@ -34,8 +34,8 @@ const MODULES: Module[] = [
   {
     badge: 'Verantwortung',
     href: '#verantwortung',
-    titel: 'NexaSign vs. Sie',
-    desc: 'Klare Aufteilung: was deckt NexaSign technisch ab, was müssen Sie organisatorisch selbst regeln.',
+    titel: 'NexaFile vs. Sie',
+    desc: 'Klare Aufteilung: was deckt NexaFile technisch ab, was müssen Sie organisatorisch selbst regeln.',
     cta: 'Verantwortungs-Split',
   },
   {
@@ -49,39 +49,36 @@ const MODULES: Module[] = [
     badge: 'Tool',
     href: '#export-tool',
     titel: 'Export-CLI',
-    desc: 'Exportiert signierte Envelopes und das Audit-Log als ZIP-Paket für Z2-/Z3-Prüfzugriff.',
+    desc: 'Exportiert signierte Dokumente, akzeptierte gefundene Belege, Mail-Artefakte und Audit-Logs als ZIP-Paket.',
     cta: 'Nutzung',
   },
   {
     badge: 'Prüfung',
     href: '#zugriffsarten',
     titel: 'Finanzamt-Zugriffsarten',
-    desc: 'Z1, Z2, Z3 — was bedeuten die Zugriffs-Szenarien und was liefert NexaSign dafür.',
+    desc: 'Z1, Z2, Z3 — was bedeuten die Zugriffs-Szenarien und was liefert NexaFile dafür.',
     cta: 'Erklärung',
   },
   {
-    badge: 'Geplant',
-    badgeColor: 'warning',
+    badge: 'Schutz',
+    href: '#retention',
     titel: 'WORM-Enforcement in der App',
-    desc: 'Automatische Lösch-Sperre in der UI für signierte Envelopes — folgt in Phase 2.',
-    cta: 'In Entwicklung',
-    disabled: true,
+    desc: 'Akzeptierte gefundene Belege und abgeschlossene Signaturdokumente sind vor versehentlichem Löschen geschützt.',
+    cta: 'Schutzlogik',
   },
   {
-    badge: 'Geplant',
-    badgeColor: 'warning',
+    badge: 'Tool',
+    href: '#retention',
     titel: 'Retention-Cron (10 Jahre)',
     desc: 'Automatische Fristenkontrolle: keine Dokumente vor Ablauf der 10-Jahres-Pflicht löschen.',
-    cta: 'In Entwicklung',
-    disabled: true,
+    cta: 'Fristenkontrolle',
   },
   {
-    badge: 'Geplant',
-    badgeColor: 'warning',
+    badge: 'Prüfung',
+    href: '#export-tool',
     titel: 'SHA-256-Manifest',
     desc: 'Integritätsnachweis für jeden Export: unveränderte Hashes der Originale.',
-    cta: 'In Entwicklung',
-    disabled: true,
+    cta: 'Im Export enthalten',
   },
 ];
 
@@ -133,16 +130,16 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
       <p>
         Ja — spätestens bei der <strong>Verfahrensdokumentation</strong> und der jährlichen
         Integritätskontrolle. Die GoBD sind steuerliches Recht, und ein formal sauberes Setup ist
-        Aufgabe von Buchhaltung und Steuerberatung. NexaSign liefert die Technik, Sie liefern die
+        Aufgabe von Buchhaltung und Steuerberatung. NexaFile liefert die Technik, Sie liefern die
         Prozess-Freigaben.
       </p>
     ),
   },
   {
-    q: 'Darf NexaSign selbst sich „GoBD-konform" nennen?',
+    q: 'Darf NexaFile selbst sich „GoBD-konform" nennen?',
     a: (
       <p>
-        Nein. NexaSign ist <strong>„GoBD-ready"</strong>: die technischen Funktionen sind da.
+        Nein. NexaFile ist <strong>„GoBD-ready"</strong>: die technischen Funktionen sind da.
         „GoBD-konform" im juristischen Sinn wird erst Ihre konkrete Implementierung (Technik +
         Organisation + Verfahrensdokumentation). Für ein formales Testat wäre ein Wirtschaftsprüfer
         einzubeziehen.
@@ -155,12 +152,12 @@ export default function GoBDPage() {
   return (
     <div className="mx-auto w-full max-w-screen-xl px-4 py-10 pb-16 md:px-8">
       <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-        <Trans>GoBD-konforme Archivierung mit NexaSign</Trans>
+        <Trans>GoBD-konforme Archivierung mit NexaFile</Trans>
       </h1>
       <p className="mt-3 max-w-3xl text-base text-muted-foreground">
         <Trans>
           Unterschriebene Verträge sind <strong>steuerrelevante Belege</strong> — das Finanzamt darf
-          sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaSign für eine{' '}
+          sie bis zu 10 Jahre später prüfen. Hier finden Sie alle Bausteine, die NexaFile für eine{' '}
           <strong>GoBD-orientierte Archivierung</strong> mitbringt: Erklärungen, Vorlagen, Tools,
           FAQ.
         </Trans>
@@ -238,7 +235,7 @@ export default function GoBDPage() {
           Kern: Wenn Sie <strong>steuerrelevante Dokumente</strong> (Rechnungen, Verträge,
           Handelsbriefe) digital erzeugen oder ablegen, müssen sie{' '}
           <strong>10 Jahre unveränderbar</strong> aufbewahrt und im Prüfungsfall dem Finanzamt
-          zugänglich gemacht werden. Unterschriebene Verträge aus NexaSign fallen eindeutig unter
+          zugänglich gemacht werden. Unterschriebene Verträge aus NexaFile fallen eindeutig unter
           diese Pflicht.
         </Trans>
       </p>
@@ -259,11 +256,15 @@ export default function GoBDPage() {
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="rounded-xl border-[1.5px] border-l-[4px] border-border border-l-emerald-600 bg-card p-5">
           <h3 className="font-serif text-lg font-semibold text-foreground">
-            ✅ <Trans>Was NexaSign liefert</Trans>
+            ✅ <Trans>Was NexaFile liefert</Trans>
           </h3>
           <ul className="ml-5 mt-2 list-disc space-y-1 text-[0.94rem] leading-relaxed text-foreground">
             <li>
               <strong>Unveränderbare Ablage</strong> signierter PDFs mit kryptografischem Hash
+            </li>
+            <li>
+              <strong>Server-Archiv für gefundene Belege</strong> mit Original-Mail, Body, Metadaten
+              und Anhängen
             </li>
             <li>
               <strong>Append-Only Audit-Log</strong> — wer, was, wann, bei welchem Envelope
@@ -322,7 +323,7 @@ export default function GoBDPage() {
       <ul className="ml-5 mt-2 list-disc space-y-2 text-foreground">
         <li>
           <strong>Z1 — unmittelbarer Zugriff:</strong> Der/Die Prüfer/in loggt sich mit einem
-          Nur-Lese-Konto direkt in die NexaSign-Instanz ein und sichtet Dokumente online.
+          Nur-Lese-Konto direkt in die NexaFile-Instanz ein und sichtet Dokumente online.
         </li>
         <li>
           <strong>Z2 — mittelbarer Zugriff:</strong> Sie exportieren die angeforderten Dokumente in
@@ -335,7 +336,7 @@ export default function GoBDPage() {
       </ul>
       <p className="mt-3 leading-relaxed text-foreground">
         <Trans>
-          <strong>Für Z2 und Z3</strong> liefert NexaSign das CLI-Tool{' '}
+          <strong>Für Z2 und Z3</strong> liefert NexaFile das CLI-Tool{' '}
           <code>nexasign-gobd-export</code> — siehe nächster Abschnitt.
         </Trans>
       </p>
@@ -351,7 +352,8 @@ export default function GoBDPage() {
       <p className="mt-3 leading-relaxed text-foreground">
         <Trans>
           Kommandozeilen-Tool für den System-Administrator. Exportiert alle abgeschlossen signierten
-          Envelopes und das Audit-Log eines Zeitraums als strukturiertes Paket.
+          Envelopes, akzeptierten gefundenen Belege, Mail-/Anhang-Dateien und Audit-Logs eines
+          Zeitraums als strukturiertes Paket.
         </Trans>
       </p>
       <h3 className="mt-4 font-semibold text-foreground">
@@ -375,6 +377,27 @@ sudo nexasign-gobd-export 2026-01-01 2026-12-31 /tmp/gobd-2026`}</code>
           <code>audit-log.csv</code> — Vollständiger Audit-Trail im Zeitraum
         </li>
         <li>
+          <code>discovery-documents.csv</code> — akzeptierte gefundene Belege nach{' '}
+          <code>acceptedAt</code>
+        </li>
+        <li>
+          <code>discovery-audit-log.csv</code> — Audit-Trail der Quellen- und Belegsuche
+        </li>
+        <li>
+          <code>discovery-missing-artifacts.csv</code> — Prüfliste akzeptierter Belege, bei denen
+          Mail- oder Anhang-Dateien nachgeladen werden müssen
+        </li>
+        <li>
+          <code>documents/&lt;envelope-id&gt;/...</code> — signierte PDF-Dateien
+        </li>
+        <li>
+          <code>discovery/&lt;discovery-document-id&gt;/...</code> — gespeicherte E-Mails,
+          Body-Dateien, Metadaten und Anhänge
+        </li>
+        <li>
+          <code>manifest.sha256</code> — SHA-256-Hashes aller enthaltenen Dateien
+        </li>
+        <li>
           <code>README.md</code> — Beschreibung des Pakets und rechtlicher Kontext
         </li>
         <li>
@@ -383,10 +406,30 @@ sudo nexasign-gobd-export 2026-01-01 2026-12-31 /tmp/gobd-2026`}</code>
       </ul>
       <p className="mt-3 text-sm italic text-muted-foreground">
         <Trans>
-          Aktueller Stand (Phase 1): Metadaten- und Audit-Export. PDF-Binary-Export aus der{' '}
-          <code>DocumentData</code>-Tabelle und SHA-256-Manifest folgen in Phase 2.
+          Hinweis: Der Export nimmt gefundene Belege auf, sobald sie akzeptiert wurden. Die
+          Mail-Artefakte werden vom Host-Pfad <code>NEXASIGN_DISCOVERY_ARCHIVE_PATH</code> gelesen;
+          Standard ist <code>/var/lib/nexasign-archive</code>.
         </Trans>
       </p>
+
+      {/* Retention */}
+      <h2
+        id="retention"
+        className="mt-12 border-b border-border pb-2 font-serif text-2xl font-semibold tracking-tight text-foreground"
+      >
+        <Trans>Retention-Check und Löschschutz</Trans>
+      </h2>
+      <p className="mt-3 leading-relaxed text-foreground">
+        <Trans>
+          Für signierte Dokumente startet die Aufbewahrung mit <code>completedAt</code>. Für
+          gefundene Belege startet sie mit <code>acceptedAt</code>, also in dem Moment, in dem Sie
+          den Beleg als relevant übernehmen. Der Retention-Check meldet Belege, die auf die
+          10-Jahres-Frist zulaufen oder sie überschritten haben; er löscht nichts automatisch.
+        </Trans>
+      </p>
+      <pre className="mt-2 overflow-x-auto rounded-md border border-border bg-muted/40 px-4 py-3 font-mono text-sm leading-relaxed text-foreground">
+        <code>{`sudo nexasign-retention-check`}</code>
+      </pre>
 
       {/* FAQ */}
       <h2
@@ -411,7 +454,7 @@ sudo nexasign-gobd-export 2026-01-01 2026-12-31 /tmp/gobd-2026`}</code>
         <strong>⚖️ Rechtlicher Hinweis</strong>
         <br />
         <Trans>
-          NexaSign stellt <strong>GoBD-orientierte Archivfunktionen</strong> zur Verfügung. Die
+          NexaFile stellt <strong>GoBD-orientierte Archivfunktionen</strong> zur Verfügung. Die
           GoBD-konforme Gesamtimplementierung (Technik + Organisation + Verfahrensdokumentation) in
           Ihrem Unternehmen verantworten Sie selbst. Diese Seite dient der Orientierung und ersetzt
           keine Rechts-, Steuer- oder Konformitäts-Beratung. Wir empfehlen die Abstimmung mit
@@ -421,7 +464,7 @@ sudo nexasign-gobd-export 2026-01-01 2026-12-31 /tmp/gobd-2026`}</code>
         <br />
         <br />
         <Trans>
-          NexaSign ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung.
+          NexaFile ist Open-Source (AGPL-3.0). Die Bereitstellung erfolgt ohne Gewährleistung.
         </Trans>
       </div>
     </div>
