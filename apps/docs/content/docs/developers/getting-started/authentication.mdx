@@ -9,8 +9,8 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 ## Prerequisites
 
-- A NexaSign account (cloud or self-hosted)
-- A NexaSign account on any plan (Free, Individual, Team, or Enterprise)
+- A NexaFile account (cloud or self-hosted)
+- A NexaFile account on any plan (Free, Individual, Team, or Enterprise)
 
 <Callout type="info">
   Free accounts include API access with a limit of 5 documents per month. [Upgrade to a paid
@@ -24,7 +24,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 <Step>
 ### Open settings
 
-- Log in to your NexaSign account
+- Log in to your NexaFile account
 - Click your avatar in the top right corner
 - Select **Settings** from the dropdown menu
 
@@ -92,12 +92,12 @@ const documents = await response.json();
 
 ### Using the TypeScript SDK
 
-NexaSign provides official SDKs that handle authentication for you:
+NexaFile provides official SDKs that handle authentication for you:
 
 ```typescript
-import { NexaSign } from '@nexasign/sdk-typescript';
+import { NexaFile } from '@nexasign/sdk-typescript';
 
-const client = new NexaSign({
+const client = new NexaFile({
   apiKey: 'api_xxxxxxxxxxxxxxxx',
 });
 
@@ -146,7 +146,7 @@ NEXASIGN_API_KEY=api_xxxxxxxxxxxxxxxx
 ```
 
 ```typescript
-const client = new NexaSign({
+const client = new NexaFile({
   apiKey: process.env.NEXASIGN_API_KEY,
 });
 ```

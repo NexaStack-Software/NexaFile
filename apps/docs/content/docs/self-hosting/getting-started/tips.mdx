@@ -1,6 +1,6 @@
 ---
 title: Tips & Common Pitfalls
-description: Practical advice for running NexaSign in production.
+description: Practical advice for running NexaFile in production.
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -8,11 +8,11 @@ import { Callout } from 'fumadocs-ui/components/callout';
 ## Always Configure a Signing Certificate
 
 <Callout type="error">
-  This is the single most common issue when self-hosting NexaSign. Without a signing certificate,
+  This is the single most common issue when self-hosting NexaFile. Without a signing certificate,
   the application starts normally but document signing fails.
 </Callout>
 
-NexaSign does **not** bundle a [signing certificate](/docs/self-hosting/configuration/signing-certificate) in the Docker image. You must provide one yourself using one of two methods:
+NexaFile does **not** bundle a [signing certificate](/docs/self-hosting/configuration/signing-certificate) in the Docker image. You must provide one yourself using one of two methods:
 
 ### Volume Mount (Recommended)
 
@@ -51,7 +51,7 @@ NEXT_PRIVATE_SIGNING_PASSPHRASE=your-certificate-password
 
 ### Verify Your Certificate
 
-After starting NexaSign, check the certificate status endpoint:
+After starting NexaFile, check the certificate status endpoint:
 
 ```bash
 curl http://localhost:3000/api/certificate-status
@@ -69,13 +69,13 @@ Certificates without a password cause signing to fail with:
 Error: Failed to get private key bags
 ```
 
-Always set a password when creating your `.p12` certificate. When using OpenSSL, set the password during the export step and provide it to NexaSign via `NEXT_PRIVATE_SIGNING_PASSPHRASE`.
+Always set a password when creating your `.p12` certificate. When using OpenSSL, set the password during the export step and provide it to NexaFile via `NEXT_PRIVATE_SIGNING_PASSPHRASE`.
 
 ---
 
 ## Use the Health Check Endpoints
 
-NexaSign exposes two endpoints for monitoring:
+NexaFile exposes two endpoints for monitoring:
 
 | Endpoint                  | Purpose                              |
 | ------------------------- | ------------------------------------ |
@@ -114,7 +114,7 @@ The Docker container runs `prisma migrate deploy` every time it starts. This mea
 
 ## Set Internal Webapp URL for Background Jobs
 
-Background jobs work by NexaSign sending HTTP requests to itself. If your reverse proxy or network setup causes issues with the app reaching its own public URL, set the internal URL:
+Background jobs work by NexaFile sending HTTP requests to itself. If your reverse proxy or network setup causes issues with the app reaching its own public URL, set the internal URL:
 
 ```bash
 NEXT_PRIVATE_INTERNAL_WEBAPP_URL=http://localhost:3000
@@ -146,7 +146,7 @@ See [Storage Configuration](/docs/self-hosting/configuration/storage) for full s
 
 ## Background Jobs
 
-NexaSign uses a PostgreSQL-based job queue by default (`local` provider). No Redis or external message broker is required for basic deployments.
+NexaFile uses a PostgreSQL-based job queue by default (`local` provider). No Redis or external message broker is required for basic deployments.
 
 For production workloads, consider switching to **Inngest** (managed) or **BullMQ** (self-hosted with Redis) for better reliability and throughput.
 
@@ -156,7 +156,7 @@ See [Background Jobs Configuration](/docs/self-hosting/configuration/background-
 
 ## Docker File Permissions
 
-The NexaSign container runs as a non-root user (UID 1001). If you mount files into the container (certificates, configuration), ensure they're readable:
+The NexaFile container runs as a non-root user (UID 1001). If you mount files into the container (certificates, configuration), ensure they're readable:
 
 ```bash
 # On the host, before mounting

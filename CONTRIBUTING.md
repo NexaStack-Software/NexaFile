@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <!-- © 2026 NexaStack, NexaSign contributors -->
 
-# Contributing to NexaSign
+# Contributing to NexaFile
 
-Danke für Ihr Interesse an NexaSign. Beiträge (Bugfixes, Features, Docs,
+Danke für Ihr Interesse an NexaFile. Beiträge (Bugfixes, Features, Docs,
 Übersetzungen) sind willkommen.
 
 ## Quick links
@@ -36,6 +36,6 @@ Erforderlich: Node.js ≥ 22, Docker, npm 10+.
 
 ## Lizenz der Beiträge
 
-Mit Ihrem Beitrag zu NexaSign erklären Sie sich einverstanden, dass Ihr Code
+Mit Ihrem Beitrag zu NexaFile erklären Sie sich einverstanden, dass Ihr Code
 unter **AGPL-3.0-or-later** lizenziert wird — derselben Lizenz wie der Rest
 des Projekts. Kein separates CLA erforderlich. Siehe [LICENSE](LICENSE).

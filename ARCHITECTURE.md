@@ -1,10 +1,10 @@
-# NexaSign Architecture
+# NexaFile Architecture
 
-This document provides a high-level overview of the NexaSign codebase to help humans and agents understand how the application is structured.
+This document provides a high-level overview of the NexaFile codebase to help humans and agents understand how the application is structured.
 
 ## Overview
 
-NexaSign is an open-source document signing platform built as a **monorepo** using npm workspaces and Turborepo. The application enables users to create, send, and sign documents electronically.
+NexaFile is an open-source document lifecycle platform built as a **monorepo** using npm workspaces and Turborepo. The application enables users to find, create, send, sign, and archive documents.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐

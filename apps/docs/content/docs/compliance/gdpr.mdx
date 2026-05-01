@@ -1,19 +1,19 @@
 ---
 title: GDPR
-description: Understand how NexaSign handles GDPR compliance for data processing and storage.
+description: Understand how NexaFile handles GDPR compliance for data processing and storage.
 ---
 
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
-## NexaSign's Role
+## NexaFile's Role
 
-When using NexaSign for document signing, two distinct data processing roles apply:
+When using NexaFile for document signing, two distinct data processing roles apply:
 
 | Role                | Description                                                                           |
 | ------------------- | ------------------------------------------------------------------------------------- |
-| **Data Controller** | You (the organisation using NexaSign) determine the purposes and means of processing |
-| **Data Processor**  | NexaSign processes personal data on your behalf according to your instructions       |
+| **Data Controller** | You (the organisation using NexaFile) determine the purposes and means of processing |
+| **Data Processor**  | NexaFile processes personal data on your behalf according to your instructions       |
 
 As the data controller, you are responsible for:
 
@@ -22,7 +22,7 @@ As the data controller, you are responsible for:
 - Responding to data subject access requests
 - Ensuring compliance with GDPR requirements
 
-As the data processor, NexaSign:
+As the data processor, NexaFile:
 
 - Processes data only according to your instructions
 - Implements appropriate security measures
@@ -31,7 +31,7 @@ As the data processor, NexaSign:
 
 ## Data Processing
 
-NexaSign processes personal data necessary to provide document signing services:
+NexaFile processes personal data necessary to provide document signing services:
 
 | Data Category      | Examples                                       | Purpose                                 |
 | ------------------ | ---------------------------------------------- | --------------------------------------- |
@@ -49,10 +49,10 @@ Data is processed for the following purposes:
 
 ## Data Storage Locations
 
-Where your data is stored depends on how you use NexaSign:
+Where your data is stored depends on how you use NexaFile:
 
-<Tabs items={['NexaSign Cloud', 'Self-Hosted']}>
-<Tab value="NexaSign Cloud">
+<Tabs items={['NexaFile Cloud', 'Self-Hosted']}>
+<Tab value="NexaFile Cloud">
 
 For the hosted cloud service:
 
@@ -60,15 +60,15 @@ For the hosted cloud service:
 - Document storage uses EU-based infrastructure
 - Backups are maintained in geographically separate EU locations
 
-Contact NexaSign for specific information about sub-processors and data centre locations.
+Contact NexaFile for specific information about sub-processors and data centre locations.
 
 </Tab>
 <Tab value="Self-Hosted">
 
-When you self-host NexaSign:
+When you self-host NexaFile:
 
 - You control all data storage locations
-- No data is transmitted to NexaSign's infrastructure
+- No data is transmitted to NexaFile's infrastructure
 - You choose your own database, file storage, and backup locations
 
 Self-hosting provides complete control over data residency, which may be required for certain compliance scenarios.
@@ -91,13 +91,13 @@ GDPR grants individuals specific rights regarding their personal data. As the da
 
 When you receive a data subject request, you can:
 
-- Export user and document data from your NexaSign account
+- Export user and document data from your NexaFile account
 - Delete user accounts and associated documents
-- Contact NexaSign support for assistance with cloud-hosted data
+- Contact NexaFile support for assistance with cloud-hosted data
 
 ## Data Deletion
 
-NexaSign supports data deletion to help fulfill erasure requests:
+NexaFile supports data deletion to help fulfill erasure requests:
 
 <Accordions type="multiple">
   <Accordion title="User Account Deletion">
@@ -124,7 +124,7 @@ NexaSign supports data deletion to help fulfill erasure requests:
 
 ## Self-Hosting for GDPR Compliance
 
-Self-hosting NexaSign can simplify GDPR compliance:
+Self-hosting NexaFile can simplify GDPR compliance:
 
 - **Data residency** - Store all data in your chosen jurisdiction
 - **Sub-processor control** - No third-party data processors beyond your own infrastructure
@@ -137,17 +137,17 @@ See the [Self-Hosting Guide](/docs/self-hosting) for deployment options.
 
 A Data Processing Agreement (DPA) is a contract required by GDPR when a data controller engages a data processor.
 
-<Tabs items={['NexaSign Cloud', 'Self-Hosted']}>
-<Tab value="NexaSign Cloud">
+<Tabs items={['NexaFile Cloud', 'Self-Hosted']}>
+<Tab value="NexaFile Cloud">
 
 - A DPA is available upon request
 - Contact [info@nexastack.co](mailto:info@nexastack.co) to request a DPA
-- The DPA covers NexaSign's obligations as a data processor
+- The DPA covers NexaFile's obligations as a data processor
 
 </Tab>
 <Tab value="Self-Hosted">
 
-No DPA with NexaSign is required since no personal data is processed by NexaSign.
+No DPA with NexaFile is required since no personal data is processed by NexaFile.
 
 </Tab>
 </Tabs>
@@ -156,7 +156,7 @@ No DPA with NexaSign is required since no personal data is processed by NexaSign
 
 ## Disclaimer
 
-This documentation is provided for informational purposes only and does not constitute legal advice. GDPR compliance depends on your specific circumstances, including how you use NexaSign, what data you process, and your organisation's obligations.
+This documentation is provided for informational purposes only and does not constitute legal advice. GDPR compliance depends on your specific circumstances, including how you use NexaFile, what data you process, and your organisation's obligations.
 
 Consult with qualified legal counsel to:
 
@@ -170,5 +170,5 @@ Consult with qualified legal counsel to:
 ## Related
 
 - [Standards & Regulations](/docs/compliance/standards) - eIDAS, ESIGN Act, and other compliance frameworks
-- [Self-Hosting Guide](/docs/self-hosting) - Deploy NexaSign on your own infrastructure
+- [Self-Hosting Guide](/docs/self-hosting) - Deploy NexaFile on your own infrastructure
 - [Security Settings](/docs/users/settings/security) - Configure authentication and security options

@@ -12,9 +12,9 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'NexaSign Docs',
+  title: 'NexaFile Docs',
   description:
-    'The official documentation for NexaSign, the open-source document signing platform. Send documents for signatures, integrate with the API, or self-host with full control.',
+    'The official documentation for NexaFile, the open-source document lifecycle platform. Find documents, send them for signatures, integrate with the API, or self-host with full control.',
 };
 
 export default function HomePage() {
@@ -22,10 +22,10 @@ export default function HomePage() {
     <main className="mx-auto max-w-4xl px-4 py-12">
       {/* Hero */}
       <div className="mb-16 pt-6 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight">NexaSign Dokumentation</h1>
+        <h1 className="mb-4 text-4xl font-bold tracking-tight">NexaFile Dokumentation</h1>
         <p className="text-fd-muted-foreground mx-auto mb-8 max-w-2xl text-lg">
-          The open-source document signing platform. Send documents for signatures, integrate with
-          your apps, or self-host with full control.
+          The open-source document lifecycle platform. Find documents, send them for signatures,
+          integrate with your apps, or self-host with full control.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
@@ -84,7 +84,7 @@ export default function HomePage() {
           </div>
           <h2 className="mb-2 text-lg font-semibold">Self-Hosting Guide</h2>
           <p className="text-fd-muted-foreground mb-4 flex-1 text-sm">
-            Deploy your own NexaSign instance with Docker, Kubernetes, or Railway.
+            Deploy your own NexaFile instance with Docker, Kubernetes, or Railway.
           </p>
           <span className="text-fd-primary text-sm font-medium">Deploy now →</span>
         </Link>
@@ -239,7 +239,7 @@ export default function HomePage() {
       <div className="from-fd-primary/5 to-fd-primary/10 rounded-xl border bg-gradient-to-r p-8 text-center">
         <h3 className="mb-2 text-lg font-semibold">Join the Community</h3>
         <p className="text-fd-muted-foreground mb-6 text-sm">
-          NexaSign is open source. Contribute, ask questions, or share feedback.
+          NexaFile is open source. Contribute, ask questions, or share feedback.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <a
@@ -262,7 +262,7 @@ export default function HomePage() {
             href="https://nexasign.nexastack.co/signup"
             className="bg-nexasign text-fd-primary-foreground hover:bg-nexasign/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
           >
-            Try NexaSign
+            Try NexaFile
           </a>
         </div>
       </div>

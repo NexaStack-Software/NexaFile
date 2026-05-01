@@ -10,7 +10,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 ## Overview
 
-Webhooks are HTTP callbacks triggered by specific events in NexaSign. When an event occurs (such as a document being signed), NexaSign sends an HTTP POST request to your configured URL with details about the event.
+Webhooks are HTTP callbacks triggered by specific events in NexaFile. When an event occurs (such as a document being signed), NexaFile sends an HTTP POST request to your configured URL with details about the event.
 
 Common use cases include:
 
@@ -25,7 +25,7 @@ Common use cases include:
 
 ## Creating a Webhook Endpoint
 
-Before configuring a webhook in NexaSign, you need an endpoint that can receive HTTP POST requests. Here's a minimal example:
+Before configuring a webhook in NexaFile, you need an endpoint that can receive HTTP POST requests. Here's a minimal example:
 
 <Tabs items={['Node.js (Express)', 'Python (Flask)', 'Go']}>
 <Tab value="Node.js (Express)">
@@ -148,10 +148,10 @@ func main() {
 </Tabs>
 
 <Callout type="warn">
-  Always respond with a `200 OK` status within 30 seconds. NexaSign will retry failed deliveries.
+  Always respond with a `200 OK` status within 30 seconds. NexaFile will retry failed deliveries.
 </Callout>
 
-## Configuring Webhooks in NexaSign via the Dashboard
+## Configuring Webhooks in NexaFile via the Dashboard
 
 {/* prettier-ignore */}
 <Steps>
@@ -238,7 +238,7 @@ See [Webhook Events](/docs/developers/webhooks/events) for detailed payload info
 
 ## Testing Webhooks
 
-NexaSign provides a built-in testing feature to verify your webhook endpoint works correctly.
+NexaFile provides a built-in testing feature to verify your webhook endpoint works correctly.
 
 {/* prettier-ignore */}
 <Steps>
@@ -312,13 +312,13 @@ Navigate to the webhook call details page
 Click the **Resend** button
 </Step>
 <Step>
-NexaSign will attempt to deliver the same payload again
+NexaFile will attempt to deliver the same payload again
 </Step>
 </Steps>
 
 ## Retry Policy
 
-When a webhook delivery fails (non-2xx response or timeout), NexaSign automatically retries with exponential backoff:
+When a webhook delivery fails (non-2xx response or timeout), NexaFile automatically retries with exponential backoff:
 
 | Attempt | Delay |
 | ------- | ----- |

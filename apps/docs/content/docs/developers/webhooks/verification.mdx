@@ -10,11 +10,11 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 ## Overview
 
-Verifying webhook requests ensures that incoming payloads originate from NexaSign and have not been tampered with. Without verification, attackers could forge requests to your endpoint and trigger unintended actions.
+Verifying webhook requests ensures that incoming payloads originate from NexaFile and have not been tampered with. Without verification, attackers could forge requests to your endpoint and trigger unintended actions.
 
-## How NexaSign Signs Webhooks
+## How NexaFile Signs Webhooks
 
-When you configure a webhook with a secret, NexaSign includes that secret in every webhook request via the `X-NexaSign-Secret` header. Your server should compare this header value against your stored secret to authenticate the request.
+When you configure a webhook with a secret, NexaFile includes that secret in every webhook request via the `X-NexaSign-Secret` header. Your server should compare this header value against your stored secret to authenticate the request.
 
 ```bash
 POST /your-webhook-endpoint HTTP/1.1
@@ -197,8 +197,8 @@ app.post('/webhooks/nexasign', (req, res) => {
 
 | Issue           | Cause                                   | Solution                                                           |
 | --------------- | --------------------------------------- | ------------------------------------------------------------------ |
-| Secret mismatch | Webhook secret changed or misconfigured | Verify the secret in your environment matches the one in NexaSign |
-| Empty header    | Webhook created without a secret        | Add a secret to the webhook configuration in NexaSign             |
+| Secret mismatch | Webhook secret changed or misconfigured | Verify the secret in your environment matches the one in NexaFile |
+| Empty header    | Webhook created without a secret        | Add a secret to the webhook configuration in NexaFile             |
 | Encoding issues | String encoding mismatch                | Ensure both secrets use the same encoding (UTF-8)                  |
 
 ## Security Best Practices
@@ -230,7 +230,7 @@ const WEBHOOK_SECRET = 'my-secret-key'; // Never do this
 
 1. Generate a new secret
 2. Update your server to accept both old and new secrets temporarily
-3. Update the webhook configuration in NexaSign
+3. Update the webhook configuration in NexaFile
 4. Remove the old secret from your server
 
 </Accordion>
