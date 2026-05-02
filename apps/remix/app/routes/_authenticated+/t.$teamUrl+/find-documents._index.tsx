@@ -136,6 +136,55 @@ const monthKeyToRange = (key: string): { from: string; to: string } | null => {
   return { from: toDateInputValue(from), to: toDateInputValue(to) };
 };
 
+const hasDownloadableArchive = (doc: Document): boolean =>
+  doc.hasArchive && doc.attachmentCount > 0;
+
+const getDocumentQualityIssues = (doc: Document): string[] => {
+  const issues: string[] = [];
+  if (!doc.detectedAmount) issues.push('Betrag fehlt');
+  if (!doc.detectedInvoiceNumber) issues.push('Rechnungs-Nr. fehlt');
+  if (!hasDownloadableArchive(doc)) issues.push('Kein Anhang');
+  return issues;
+};
+
+const DocumentQualityBadges = ({ doc }: { doc: Document }) => {
+  const missingAmount = !doc.detectedAmount;
+  const missingInvoiceNumber = !doc.detectedInvoiceNumber;
+  const missingAttachment = !hasDownloadableArchive(doc);
+
+  if (!missingAmount && !missingInvoiceNumber && !missingAttachment) {
+    return (
+      <Badge variant="default" size="small">
+        <CheckCircleIcon className="mr-1 h-3 w-3" aria-hidden />
+        <Trans>Vollständig</Trans>
+      </Badge>
+    );
+  }
+
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {missingAmount && (
+        <Badge variant="warning" size="small">
+          <AlertCircleIcon className="mr-1 h-3 w-3" aria-hidden />
+          <Trans>Betrag fehlt</Trans>
+        </Badge>
+      )}
+      {missingInvoiceNumber && (
+        <Badge variant="warning" size="small">
+          <AlertCircleIcon className="mr-1 h-3 w-3" aria-hidden />
+          <Trans>Nr. fehlt</Trans>
+        </Badge>
+      )}
+      {missingAttachment && (
+        <Badge variant="neutral" size="small">
+          <PaperclipIcon className="mr-1 h-3 w-3" aria-hidden />
+          <Trans>Kein Anhang</Trans>
+        </Badge>
+      )}
+    </div>
+  );
+};
+
 const StatusIcon = ({ status }: { status: DiscoveryStatus }) => {
   if (status === 'pending-manual') return <ClockIcon className="h-4 w-4" aria-hidden />;
   if (status === 'accepted' || status === 'processed')
@@ -227,6 +276,9 @@ const DocumentRow = ({
                 {doc.attachmentCount}
               </span>
             )}
+          </div>
+          <div className="mt-2">
+            <DocumentQualityBadges doc={doc} />
           </div>
         </div>
       </Link>
@@ -944,6 +996,7 @@ const DocumentTable = ({
       'Betreff',
       'Betrag',
       'Rechnungs-Nr',
+      'Prüfung',
       ...(showAcceptedColumn ? ['Akzeptiert am', 'Akzeptiert von'] : []),
       'Status',
     ];
@@ -953,6 +1006,7 @@ const DocumentTable = ({
       d.title,
       d.detectedAmount ?? '',
       d.detectedInvoiceNumber ?? '',
+      getDocumentQualityIssues(d).join(', ') || 'Vollständig',
       ...(showAcceptedColumn
         ? [d.acceptedAt ? intlDate.format(d.acceptedAt) : '', d.acceptedByName ?? '']
         : []),
@@ -1000,6 +1054,9 @@ const DocumentTable = ({
               <th className="px-3 py-2 font-medium">
                 <Trans>Rechnungs-Nr.</Trans>
               </th>
+              <th className="px-3 py-2 font-medium">
+                <Trans>Prüfung</Trans>
+              </th>
               <th className="px-3 py-2 text-center font-medium" title="Anhang">
                 <PaperclipIcon className="mx-auto h-4 w-4" aria-hidden />
               </th>
@@ -1044,8 +1101,11 @@ const DocumentTable = ({
                 <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">
                   {doc.detectedInvoiceNumber ?? '–'}
                 </td>
+                <td className="px-3 py-2">
+                  <DocumentQualityBadges doc={doc} />
+                </td>
                 <td className="px-3 py-2 text-center">
-                  {doc.hasArchive && doc.attachmentCount > 0 ? (
+                  {hasDownloadableArchive(doc) ? (
                     <span
                       className="inline-flex items-center gap-1 text-xs font-medium text-foreground"
                       title={`${doc.attachmentCount} Anhang${
@@ -1260,8 +1320,7 @@ export default function FindDocumentsPage() {
       needsReview: visibleDocuments.filter(
         (doc) => doc.status === 'inbox' || doc.status === 'pending-manual',
       ).length,
-      downloadable: visibleDocuments.filter((doc) => doc.hasArchive && doc.attachmentCount > 0)
-        .length,
+      downloadable: visibleDocuments.filter(hasDownloadableArchive).length,
       missingAmount: visibleDocuments.filter((doc) => !doc.detectedAmount).length,
       missingInvoiceNumber: visibleDocuments.filter((doc) => !doc.detectedInvoiceNumber).length,
       months: Array.from(months.entries())

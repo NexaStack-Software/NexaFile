@@ -2379,6 +2379,10 @@ msgid "Betrag"
 msgstr "Betrag"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Betrag fehlt"
+msgstr "Betrag fehlt"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Betreff"
 msgstr "Betreff"
 
@@ -6509,6 +6513,7 @@ msgid "Joined {0}"
 msgstr "Joined {0}"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Kein Anhang"
 msgstr "Kein Anhang"
 
@@ -7576,6 +7581,10 @@ msgstr "Not supported"
 msgid "Nothing to do"
 msgstr "Nothing to do"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Nr. fehlt"
+msgstr "Nr. fehlt"
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-number-field.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-drag-drop.tsx
@@ -8513,6 +8522,10 @@ msgstr "Provider"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Provider has been updated successfully"
 msgstr "Provider has been updated successfully"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Prüfung"
+msgstr "Prüfung"
 
 #: apps/remix/app/components/general/template/template-type.tsx
 #: apps/remix/app/components/tables/templates-table.tsx
@@ -12750,6 +12763,10 @@ msgstr "Viewing"
 #: apps/remix/app/components/dialogs/folder-update-dialog.tsx
 msgid "Visibility"
 msgstr "Visibility"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Vollständig"
+msgstr "Vollständig"
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
