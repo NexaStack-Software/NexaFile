@@ -1,5 +1,17 @@
 # NexaFile Changelog
 
+## [1.0.0] - 2026-05-02 - V1
+
+Erste stabile NexaFile-Version.
+
+### Highlights
+
+- Dokumente erstellen, finden, signieren und archivieren in einem Produkt.
+- Vertragsvorlagen, Rechnungswerkzeuge, IMAP-Discovery, Signatur-Workflows und
+  GoBD-orientierte Archiv-Exports fuer den deutschen Geschaeftsalltag.
+- V1-Release-Gate mit Typecheck, Lint, Build, Migrationen, Release-E2E-Tests,
+  Fresh-Install-Smoke und Demo-Drift-Check bestanden.
+
 ## [1.0.0-rc.3] - 2026-05-02 - V1 Release Candidate
 
 Letzter V1-Release-Candidate mit Docker-Install-Cleanup.
