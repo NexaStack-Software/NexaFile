@@ -59,13 +59,19 @@ compatibility-sensitive identifiers for V1:
 
 ## V1 Release Sequence
 
-1. Finish and review current Discovery/GoBD local changes.
-2. Apply and test the Discovery retention backfill migration.
-3. Complete user-facing NexaFile copy pass.
-4. Add focused Discovery/GoBD checks to the release gate.
-5. Run the release gate and fresh-install smoke test.
-6. Deploy demo, manually verify the four-step navigation and core workflows.
-7. Tag `v1.0.0-rc.1`.
-8. Fix release-candidate findings.
-9. Tag `v1.0.0`.
+Status as of 2026-05-02:
 
+1. Done: Discovery/GoBD changes reviewed and merged to `main`.
+2. Done: Discovery retention backfill migration is present and covered by the
+   V1 checks.
+3. Done: User-facing product copy has moved to `NexaFile`; compatibility
+   identifiers may remain `nexasign` for V1.
+4. Done: Focused Discovery/GoBD checks are part of
+   `scripts/nexasign/release-gate.sh`.
+5. Done: `npm run release:gate` passed on `main` after the fresh-install smoke
+   stack was isolated from production compose resources.
+6. Done: Demo is deployed separately, has an hourly baseline reset, and passes
+   strict demo-drift checks.
+7. Next: Tag `v1.0.0-rc.1`.
+8. Next: Fix release-candidate findings.
+9. Next: Tag `v1.0.0`.

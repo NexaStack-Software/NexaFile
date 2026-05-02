@@ -1,4 +1,36 @@
-# NexaSign Changelog
+# NexaFile Changelog
+
+## [1.0.0-rc.1] - 2026-05-02 - V1 Release Candidate
+
+Erster V1-Release-Candidate nach bestandenem Release-Gate.
+
+### Features
+
+**Dokumente erstellen**
+- Vertragsvorlagen, AV-Vertrag, X-Rechnung/ZUGFeRD-Tools und PDF-Generatoren
+  fuer den deutschen Geschaeftsalltag.
+
+**Dokumente finden**
+- IMAP-Quellen mit expliziten SyncRuns.
+- Rechnungs- und Dokumenterkennung mit Mail- und Attachment-Archiv.
+- Annahme, Ignorieren, Signatur-Dokument-Erstellung, Artifact-Download und
+  ZIP-Export fuer gefundene Dokumente.
+
+**Dokumente signieren**
+- E-Signatur-Workflow mit Empfaengern, Feldern, Audit-Log, Zertifikatsseiten
+  und versiegelten PDFs.
+
+**Dokumente archivieren**
+- GoBD-orientierter Retention-Start, WORM-Guards, SHA-256-Manifest,
+  Exportpakete und Retention-Reports fuer abgeschlossene Signaturen und
+  akzeptierte Discovery-Dokumente.
+
+### Release Checks
+
+- `npm run release:gate` bestanden am 2026-05-02.
+- Fresh-install smoke stack isoliert, damit Produktionscontainer nicht mehr
+  durch lokale Smoke-Cleanup-Schritte entfernt werden.
+- Demo-Drift-Check im Gate bestanden; lokale Demo-Dateien bleiben untracked.
 
 ## [0.1.0-beta.1] — 2026-04-23 — Initial Release
 

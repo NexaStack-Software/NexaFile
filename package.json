@@ -5,7 +5,7 @@
     "apps/*",
     "packages/*"
   ],
-  "version": "0.1.0-beta.1",
+  "version": "1.0.0-rc.1",
   "scripts": {
     "postinstall": "patch-package",
     "build": "turbo run build",
