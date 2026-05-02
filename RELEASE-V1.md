@@ -75,5 +75,29 @@ Status as of 2026-05-02:
 7. Done: Tag `v1.0.0-rc.1` published on GitHub.
 8. Done: Tag `v1.0.0-rc.2` published on GitHub.
 9. Done: Tag `v1.0.0-rc.3` published on GitHub.
-10. In progress: Prepare final `v1.0.0`.
-11. Next: Tag `v1.0.0` after the final release checks pass.
+10. Done: Final `v1.0.0` release prep committed and pushed.
+11. Done: Tag `v1.0.0` published on GitHub as a stable release.
+
+## Post-Release Status
+
+Checked on 2026-05-02 after publishing `v1.0.0`:
+
+- GitHub repository is public at `NexaStack-Software/NexaFile`.
+- Latest GitHub release is `NexaFile v1.0.0`, not draft and not prerelease.
+- `main` is clean and matches `origin/main`.
+- Production `/api/health` returns `ok`.
+- Demo `/api/health` returns `ok`.
+- Runtime container `nexasign-app` is healthy.
+- Demo drift check passes with no failures; the remaining Docker inspect warning
+  is non-blocking when direct `docker ps` confirms the container is healthy.
+
+## Post-V1 Maintenance Queue
+
+Track these as GitHub issues for `v1.0.1`/early `v1.1.0`:
+
+1. Migrate Prisma seed configuration from `package.json#prisma` to
+   `prisma.config.ts` without breaking generator output.
+2. Refresh Browserslist/caniuse-lite data and verify the production build.
+3. Reduce existing lint warnings without changing runtime behavior.
+4. Document the GitHub CLI based release workflow for future releases.
+5. Add a light post-release monitoring checklist for production and demo.
