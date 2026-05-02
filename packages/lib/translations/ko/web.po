@@ -5790,6 +5790,10 @@ msgstr "DKIM 레코드 생성"
 msgid "Generate Links"
 msgstr "링크 생성"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Geprüft"
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "German"
 msgstr "독일어"
@@ -6460,6 +6464,10 @@ msgstr "현재는 귀하의 서명 순서가 아닙니다. 순서가 되면 문�
 msgid "Italian"
 msgstr "이탈리아어"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Jahre, Suchbegriff und Trefferliste zusammenführen, damit Rechnungen schneller geprüft, exportiert und abgelegt werden."
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "Japanese"
 msgstr "일본어"
@@ -7080,6 +7088,10 @@ msgstr ""
 msgid "Missing Recipients"
 msgstr "수신자 누락"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Mit Anhang"
+msgstr ""
+
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/template/template-page-view-recipients.tsx
 msgid "Modify recipients"
@@ -7578,6 +7590,18 @@ msgstr ""
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "Off"
 msgstr "꺼짐"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Offen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Ohne Betrag"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Ohne Nr."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 msgid "Ohne TLS-Verifikation kann der Datenverkehr von einem Angreifer mitgelesen werden. Nur einsetzen, wenn der Server ein bekanntes selbst-signiertes Zertifikat hat."
@@ -8346,6 +8370,10 @@ msgstr "Y 위치:"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Postfach durchsuchen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Postfach jetzt durchsuchen"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
@@ -10243,6 +10271,10 @@ msgstr "단계 {0}/{1}"
 msgid "Step <0>{step} of {maxStep}</0>"
 msgstr "단계 <0>{step}/{maxStep}</0>"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Steuerunterlagen nachholen"
+msgstr ""
+
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
 msgid "Stripe"
 msgstr "Stripe"
@@ -11787,6 +11819,10 @@ msgstr "전체 사용자 수"
 #: apps/remix/app/components/dialogs/team-delete-dialog.tsx
 msgid "Transfer documents to a different team"
 msgstr "문서를 다른 팀으로 전송"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Treffer"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
@@ -14326,6 +14362,10 @@ msgstr "인증 코드:"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Zeitraum auf Trefferliste anwenden"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Zeitraum prüfen"

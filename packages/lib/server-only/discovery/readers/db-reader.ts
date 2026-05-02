@@ -15,6 +15,7 @@ import type {
   DiscoveryFilter,
   DiscoveryPage,
   DiscoveryReader,
+  DiscoverySummary,
 } from '../types';
 
 /**
@@ -109,6 +110,11 @@ const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => {
   };
 };
 
+const getSummaryMonthKey = (doc: { documentDate: Date | null; capturedAt: Date }): string => {
+  const date = doc.documentDate ?? doc.capturedAt;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+};
+
 const buildWhere = (
   teamId: number,
   userId: number | undefined,
@@ -185,6 +191,67 @@ export const dbDiscoveryReader: DiscoveryReader = {
       documents: slice.map(toDiscoveryDocument),
       total,
       nextCursor: hasMore ? slice[slice.length - 1].id : null,
+    };
+  },
+
+  async summarizeDocuments(
+    filter: DiscoveryFilter,
+    ctx?: DiscoveryContext,
+  ): Promise<DiscoverySummary> {
+    const teamId = requireTeam(ctx);
+    const where = buildWhere(teamId, ctx?.userId, filter);
+
+    const docs = await prisma.discoveryDocument.findMany({
+      where,
+      select: {
+        status: true,
+        documentDate: true,
+        capturedAt: true,
+        detectedAmount: true,
+        detectedInvoiceNumber: true,
+        archivePath: true,
+        _count: { select: { artifacts: true } },
+      },
+    });
+
+    const months = new Map<string, number>();
+    let accepted = 0;
+    let needsReview = 0;
+    let downloadable = 0;
+    let missingAmount = 0;
+    let missingInvoiceNumber = 0;
+
+    docs.forEach((doc) => {
+      const monthKey = getSummaryMonthKey(doc);
+      months.set(monthKey, (months.get(monthKey) ?? 0) + 1);
+
+      if (doc.status === 'ACCEPTED' || doc.status === 'SIGNED' || doc.status === 'ARCHIVED') {
+        accepted += 1;
+      }
+      if (doc.status === 'INBOX' || doc.status === 'PENDING_MANUAL') {
+        needsReview += 1;
+      }
+      if (doc.archivePath && doc._count.artifacts > 3) {
+        downloadable += 1;
+      }
+      if (!doc.detectedAmount) {
+        missingAmount += 1;
+      }
+      if (!doc.detectedInvoiceNumber) {
+        missingInvoiceNumber += 1;
+      }
+    });
+
+    return {
+      total: docs.length,
+      accepted,
+      needsReview,
+      downloadable,
+      missingAmount,
+      missingInvoiceNumber,
+      months: Array.from(months.entries())
+        .sort(([a], [b]) => b.localeCompare(a))
+        .map(([key, count]) => ({ key, count })),
     };
   },
 

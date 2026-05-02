@@ -80,6 +80,16 @@ export type DiscoveryPage = {
   nextCursor: string | null;
 };
 
+export type DiscoverySummary = {
+  total: number;
+  accepted: number;
+  needsReview: number;
+  downloadable: number;
+  missingAmount: number;
+  missingInvoiceNumber: number;
+  months: Array<{ key: string; count: number }>;
+};
+
 /**
  * Ausführungs-Kontext aus der Session. Reader, die Multi-Tenancy unterstützen
  * (DB-Reader für lokale Uploads + IMAP-Sync), nutzen teamId/userId. Externe
@@ -99,6 +109,8 @@ export type DiscoveryReader = {
     cursor?: string | null,
     ctx?: DiscoveryContext,
   ): Promise<DiscoveryPage>;
+
+  summarizeDocuments?(filter: DiscoveryFilter, ctx?: DiscoveryContext): Promise<DiscoverySummary>;
 
   getDocument(id: string, ctx?: DiscoveryContext): Promise<DiscoveryDocument | null>;
 

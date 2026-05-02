@@ -136,6 +136,7 @@ export const discoveryRouter = router({
           configured: false,
           hasAnySource: sourceSummaries.length > 0,
           sources: sourceSummaries,
+          summary: null,
         };
       }
 
@@ -143,10 +144,15 @@ export const discoveryRouter = router({
       const { teamId, user } = ctx;
       const { cursor, ...filter } = input;
 
-      const page = await reader.findDocuments(filter, cursor ?? null, {
+      const discoveryContext = {
         teamId: teamId ?? undefined,
         userId: user.id,
-      });
+      };
+
+      const [page, summary] = await Promise.all([
+        reader.findDocuments(filter, cursor ?? null, discoveryContext),
+        reader.summarizeDocuments?.(filter, discoveryContext) ?? Promise.resolve(null),
+      ]);
 
       return {
         documents: page.documents,
@@ -155,6 +161,7 @@ export const discoveryRouter = router({
         configured: true,
         hasAnySource: sourceSummaries.length > 0,
         sources: sourceSummaries,
+        summary,
       };
     }),
 

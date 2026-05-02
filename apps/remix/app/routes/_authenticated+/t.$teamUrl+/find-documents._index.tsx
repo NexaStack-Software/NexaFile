@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
@@ -8,6 +8,7 @@ import { Trans } from '@lingui/react/macro';
 import {
   AlertCircleIcon,
   ArchiveIcon,
+  BarChart3Icon,
   CalendarIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -68,6 +69,9 @@ const STATUS_TABS: ReadonlyArray<{ value: DiscoveryTab; label: ReturnType<typeof
   { value: 'archived', label: msg`Archiv` },
 ];
 
+const TAX_SEARCH_TERM = 'Rechnung';
+const TAX_QUICK_TERMS = ['Rechnung', 'invoice', 'Beleg', 'Quittung', 'Finanzamt'];
+
 const formatRelativeTime = (date: Date, locale: string): string => {
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   const diffSeconds = Math.round((date.getTime() - Date.now()) / 1000);
@@ -96,6 +100,20 @@ const addDays = (value: string, days: number): Date => {
   date.setDate(date.getDate() + days);
   return date;
 };
+
+const parseDateInput = (value: string): Date | null => {
+  if (!value) return null;
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
+const startOfYear = (year: number): string => `${year}-01-01`;
+const endOfYear = (year: number): string => `${year}-12-31`;
+
+const getDocumentWorkDate = (doc: Document): Date => doc.documentDate ?? doc.capturedAt;
+
+const getYearMonthKey = (date: Date): string =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
 
 const StatusIcon = ({ status }: { status: DiscoveryStatus }) => {
   if (status === 'pending-manual') return <ClockIcon className="h-4 w-4" aria-hidden />;
@@ -495,6 +513,189 @@ const MailboxSearchPanel = ({
   </Card>
 );
 
+type CatchUpSummary = {
+  total: number;
+  accepted: number;
+  needsReview: number;
+  downloadable: number;
+  missingAmount: number;
+  missingInvoiceNumber: number;
+  months: Array<{ key: string; count: number }>;
+};
+
+const TaxCatchUpPanel = ({
+  summary,
+  setFromDate,
+  setToDate,
+  mailSearchTerm,
+  setMailSearchTerm,
+  setQuery,
+  applyDateFilter,
+  setApplyDateFilter,
+  onStart,
+  isPending,
+  canStart,
+  locale,
+}: {
+  summary: CatchUpSummary;
+  setFromDate: (value: string) => void;
+  setToDate: (value: string) => void;
+  mailSearchTerm: string;
+  setMailSearchTerm: (value: string) => void;
+  setQuery: (value: string) => void;
+  applyDateFilter: boolean;
+  setApplyDateFilter: (value: boolean) => void;
+  onStart: () => void;
+  isPending: boolean;
+  canStart: boolean;
+  locale: string;
+}) => {
+  const currentYear = new Date().getFullYear();
+  const presets = [
+    { label: String(currentYear), from: startOfYear(currentYear), to: endOfYear(currentYear) },
+    {
+      label: String(currentYear - 1),
+      from: startOfYear(currentYear - 1),
+      to: endOfYear(currentYear - 1),
+    },
+    {
+      label: `${currentYear - 2}-${currentYear}`,
+      from: startOfYear(currentYear - 2),
+      to: endOfYear(currentYear),
+    },
+  ];
+
+  const setPreset = (from: string, to: string) => {
+    setFromDate(from);
+    setToDate(to);
+    setMailSearchTerm(TAX_SEARCH_TERM);
+    setApplyDateFilter(true);
+  };
+
+  const visibleMonthLabel = (key: string) => {
+    const [year, month] = key.split('-').map(Number);
+    return new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric' }).format(
+      new Date(year, month - 1, 1),
+    );
+  };
+
+  return (
+    <Card className="mb-6 border-neutral-300 bg-white p-4 shadow-sm">
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="flex items-center gap-2 text-base font-semibold">
+            <BarChart3Icon className="h-4 w-4" aria-hidden />
+            <Trans>Steuerunterlagen nachholen</Trans>
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            <Trans>
+              Jahre, Suchbegriff und Trefferliste zusammenführen, damit Rechnungen schneller
+              geprüft, exportiert und abgelegt werden.
+            </Trans>
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {presets.map((preset) => (
+            <Button
+              key={preset.label}
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => setPreset(preset.from, preset.to)}
+            >
+              {preset.label}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-6">
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            <Trans>Treffer</Trans>
+          </p>
+          <p className="mt-1 text-2xl font-semibold">{summary.total}</p>
+        </div>
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            <Trans>Geprüft</Trans>
+          </p>
+          <p className="mt-1 text-2xl font-semibold">{summary.accepted}</p>
+        </div>
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            <Trans>Offen</Trans>
+          </p>
+          <p className="mt-1 text-2xl font-semibold">{summary.needsReview}</p>
+        </div>
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            <Trans>Mit Anhang</Trans>
+          </p>
+          <p className="mt-1 text-2xl font-semibold">{summary.downloadable}</p>
+        </div>
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            <Trans>Ohne Betrag</Trans>
+          </p>
+          <p className="mt-1 text-2xl font-semibold">{summary.missingAmount}</p>
+        </div>
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            <Trans>Ohne Nr.</Trans>
+          </p>
+          <p className="mt-1 text-2xl font-semibold">{summary.missingInvoiceNumber}</p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.2fr_auto] lg:items-end">
+        <div className="flex flex-wrap gap-2">
+          {TAX_QUICK_TERMS.map((term) => (
+            <Button
+              key={term}
+              type="button"
+              size="sm"
+              variant={mailSearchTerm === term ? 'default' : 'outline'}
+              onClick={() => {
+                setMailSearchTerm(term);
+                setQuery(term);
+              }}
+            >
+              {term}
+            </Button>
+          ))}
+        </div>
+
+        <label className="flex items-center gap-2 text-sm">
+          <Checkbox
+            checked={applyDateFilter}
+            onCheckedChange={(checked) => setApplyDateFilter(checked === true)}
+            aria-label="Zeitraum auf Trefferliste anwenden"
+          />
+          <span>
+            <Trans>Zeitraum auf Trefferliste anwenden</Trans>
+          </span>
+        </label>
+
+        <Button onClick={onStart} disabled={isPending || !canStart}>
+          <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
+          <Trans>Postfach jetzt durchsuchen</Trans>
+        </Button>
+      </div>
+
+      {summary.months.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {summary.months.slice(0, 12).map((bucket) => (
+            <Badge key={bucket.key} variant="secondary" className="font-normal">
+              {visibleMonthLabel(bucket.key)} · {bucket.count}
+            </Badge>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+};
+
 const NoResultsCard = ({ sources, locale }: { sources: Source[]; locale: string }) => (
   <div className="flex flex-col gap-4">
     <SourcesStatusBar sources={sources} locale={locale} />
@@ -757,14 +958,25 @@ export default function FindDocumentsPage() {
   const [fromDate, setFromDate] = useState(thirtyDaysAgo);
   const [toDate, setToDate] = useState(today);
   const [mailSearchTerm, setMailSearchTerm] = useState('Rechnung');
+  const [applyDateFilter, setApplyDateFilter] = useState(false);
   // Multi-Select-State pro Tab — beim Tab-Wechsel zurueckgesetzt.
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const utils = trpc.useUtils();
 
+  const dateFilterRange = useMemo(() => {
+    if (!applyDateFilter) return null;
+    const from = parseDateInput(fromDate);
+    const to = toDate ? addDays(toDate, 1) : null;
+    if (!from || !to || from >= to) return null;
+    return { from, to };
+  }, [applyDateFilter, fromDate, toDate]);
+
   const { data, isLoading } = trpc.discovery.findDocuments.useQuery({
     status,
     query: query.trim() || undefined,
+    documentDateFrom: dateFilterRange?.from,
+    documentDateTo: dateFilterRange?.to,
   });
 
   useEffect(() => {
@@ -848,6 +1060,35 @@ export default function FindDocumentsPage() {
   const hasAnySource = data?.hasAnySource ?? false;
   const sources = data?.sources ?? [];
   const visibleDocuments = data?.documents ?? [];
+  const catchUpSummary = useMemo<CatchUpSummary>(() => {
+    if (data?.summary) {
+      return data.summary;
+    }
+
+    const months = new Map<string, number>();
+
+    visibleDocuments.forEach((doc) => {
+      const key = getYearMonthKey(getDocumentWorkDate(doc));
+      months.set(key, (months.get(key) ?? 0) + 1);
+    });
+
+    return {
+      total: data?.total ?? visibleDocuments.length,
+      accepted: visibleDocuments.filter(
+        (doc) => doc.status === 'accepted' || doc.status === 'archived',
+      ).length,
+      needsReview: visibleDocuments.filter(
+        (doc) => doc.status === 'inbox' || doc.status === 'pending-manual',
+      ).length,
+      downloadable: visibleDocuments.filter((doc) => doc.hasArchive && doc.attachmentCount > 0)
+        .length,
+      missingAmount: visibleDocuments.filter((doc) => !doc.detectedAmount).length,
+      missingInvoiceNumber: visibleDocuments.filter((doc) => !doc.detectedInvoiceNumber).length,
+      months: Array.from(months.entries())
+        .sort(([a], [b]) => b.localeCompare(a))
+        .map(([key, count]) => ({ key, count })),
+    };
+  }, [data?.summary, data?.total, visibleDocuments]);
 
   const isSelected = (id: string) => selectedIds.has(id);
   const allVisibleSelected =
@@ -886,19 +1127,35 @@ export default function FindDocumentsPage() {
       </header>
 
       {hasAnySource && (
-        <MailboxSearchPanel
-          sources={sources}
-          sourceId={sourceId}
-          setSourceId={setSourceId}
-          fromDate={fromDate}
-          setFromDate={setFromDate}
-          toDate={toDate}
-          setToDate={setToDate}
-          searchTerm={mailSearchTerm}
-          setSearchTerm={setMailSearchTerm}
-          onStart={handleStartMailboxSearch}
-          isPending={startSyncRunMutation.isPending}
-        />
+        <>
+          <MailboxSearchPanel
+            sources={sources}
+            sourceId={sourceId}
+            setSourceId={setSourceId}
+            fromDate={fromDate}
+            setFromDate={setFromDate}
+            toDate={toDate}
+            setToDate={setToDate}
+            searchTerm={mailSearchTerm}
+            setSearchTerm={setMailSearchTerm}
+            onStart={handleStartMailboxSearch}
+            isPending={startSyncRunMutation.isPending}
+          />
+          <TaxCatchUpPanel
+            summary={catchUpSummary}
+            setFromDate={setFromDate}
+            setToDate={setToDate}
+            mailSearchTerm={mailSearchTerm}
+            setMailSearchTerm={setMailSearchTerm}
+            setQuery={setQuery}
+            applyDateFilter={applyDateFilter}
+            setApplyDateFilter={setApplyDateFilter}
+            onStart={handleStartMailboxSearch}
+            isPending={startSyncRunMutation.isPending}
+            canStart={Boolean(sourceId && fromDate && toDate)}
+            locale={i18n.locale}
+          />
+        </>
       )}
 
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

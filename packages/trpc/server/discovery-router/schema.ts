@@ -55,6 +55,21 @@ export const ZSourceSummarySchema = z.object({
   lastSyncStatus: ZSourceSyncStatusSchema.nullable(),
 });
 
+export const ZDiscoverySummarySchema = z.object({
+  total: z.number().int().nonnegative(),
+  accepted: z.number().int().nonnegative(),
+  needsReview: z.number().int().nonnegative(),
+  downloadable: z.number().int().nonnegative(),
+  missingAmount: z.number().int().nonnegative(),
+  missingInvoiceNumber: z.number().int().nonnegative(),
+  months: z.array(
+    z.object({
+      key: z.string(),
+      count: z.number().int().nonnegative(),
+    }),
+  ),
+});
+
 export const ZFindDiscoveryDocumentsRequestSchema = z.object({
   query: z.string().trim().optional(),
   // status entweder ein konkreter Status oder "all" für alle.
@@ -72,6 +87,7 @@ export const ZFindDiscoveryDocumentsResponseSchema = z.object({
   configured: z.boolean(),
   hasAnySource: z.boolean(),
   sources: z.array(ZSourceSummarySchema),
+  summary: ZDiscoverySummarySchema.nullable().optional(),
 });
 
 export const ZGetDiscoveryDocumentRequestSchema = z.object({
@@ -146,6 +162,7 @@ export const ZGetDocumentDetailResponseSchema = z
 
 export type TDiscoveryDocument = z.infer<typeof ZDiscoveryDocumentSchema>;
 export type TSourceSummary = z.infer<typeof ZSourceSummarySchema>;
+export type TDiscoverySummary = z.infer<typeof ZDiscoverySummarySchema>;
 export type TDiscoveryDocumentAction = z.infer<typeof ZDiscoveryDocumentActionSchema>;
 export type TDiscoveryArtifact = z.infer<typeof ZDiscoveryArtifactSchema>;
 export type TGetDocumentDetailResponse = z.infer<typeof ZGetDocumentDetailResponseSchema>;
