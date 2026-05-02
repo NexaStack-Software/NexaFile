@@ -91,13 +91,28 @@ Checked on 2026-05-02 after publishing `v1.0.0`:
 - Demo drift check passes with no failures; the remaining Docker inspect warning
   is non-blocking when direct `docker ps` confirms the container is healthy.
 
+Checked on 2026-05-02 after publishing `v1.0.1`:
+
+- Latest GitHub release is `NexaFile v1.0.1`, not draft and not prerelease.
+- Tag `v1.0.1` points to `438ed2d chore(release): prepare v1.0.1`.
+- `main` is clean and matches `origin/main`.
+- `npx npm@11.11.0 run release:gate` passed through typecheck, lint, build,
+  migration deploy, and 18/18 release E2E tests; the only pre-push failure was
+  the expected strict demo-drift `origin-main` mismatch.
+- `scripts/nexasign/smoke-fresh-install.sh` passed with isolated fresh install,
+  certificate gate, healthcheck, migrations, and cleanup.
+- Production `/api/health` returns `ok`.
+- Demo `/api/health` returns `ok`.
+- Runtime container `nexasign-app` is healthy.
+- Strict demo drift check passes with 14 PASS, 0 WARN, 0 FAIL.
+
 ## Post-V1 Maintenance Queue
 
 Track these as GitHub issues for `v1.0.1`/early `v1.1.0`:
 
-1. Migrate Prisma seed configuration from `package.json#prisma` to
+1. Done: Migrate Prisma seed configuration from `package.json#prisma` to
    `prisma.config.ts` without breaking generator output.
-2. Refresh Browserslist/caniuse-lite data and verify the production build.
-3. Reduce existing lint warnings without changing runtime behavior.
-4. Document the GitHub CLI based release workflow for future releases.
-5. Add a light post-release monitoring checklist for production and demo.
+2. Done: Refresh Browserslist/caniuse-lite data and verify the production build.
+3. Done: Reduce existing lint warnings without changing runtime behavior.
+4. Done: Document the GitHub CLI based release workflow for future releases.
+5. Done: Add a light post-release monitoring checklist for production and demo.
