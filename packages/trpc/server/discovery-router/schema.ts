@@ -19,6 +19,13 @@ export const ZDiscoveryListFilterSchema = z.union([
   ZDiscoveryDocumentStatusSchema,
 ]);
 
+export const ZDiscoveryQualityFilterSchema = z.enum([
+  'needs-review',
+  'downloadable',
+  'missing-amount',
+  'missing-invoice-number',
+]);
+
 export const ZDiscoveryDocumentSchema = z.object({
   id: z.string(),
   nativeId: z.string(),
@@ -74,6 +81,7 @@ export const ZFindDiscoveryDocumentsRequestSchema = z.object({
   query: z.string().trim().optional(),
   // status entweder ein konkreter Status oder "all" für alle.
   status: ZDiscoveryListFilterSchema.optional(),
+  qualityFilter: ZDiscoveryQualityFilterSchema.optional(),
   correspondent: z.string().trim().optional(),
   documentDateFrom: z.coerce.date().optional(),
   documentDateTo: z.coerce.date().optional(),
@@ -88,6 +96,7 @@ export const ZFindDiscoveryDocumentsResponseSchema = z.object({
   hasAnySource: z.boolean(),
   sources: z.array(ZSourceSummarySchema),
   summary: ZDiscoverySummarySchema.nullable().optional(),
+  focusSummary: ZDiscoverySummarySchema.nullable().optional(),
 });
 
 export const ZGetDiscoveryDocumentRequestSchema = z.object({

@@ -61,6 +61,12 @@ export type DiscoveryDocument = {
 
 export type DiscoveryListStatusFilter = DiscoveryDocumentStatus | 'all';
 
+export type DiscoveryQualityFilter =
+  | 'needs-review'
+  | 'downloadable'
+  | 'missing-amount'
+  | 'missing-invoice-number';
+
 export type DiscoveryFilter = {
   query?: string;
   /**
@@ -69,6 +75,7 @@ export type DiscoveryFilter = {
    * Workflow-getrennter Tabs-Blick.
    */
   status?: DiscoveryListStatusFilter;
+  qualityFilter?: DiscoveryQualityFilter;
   correspondent?: string;
   documentDateFrom?: Date;
   documentDateTo?: Date;

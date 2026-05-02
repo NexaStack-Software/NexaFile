@@ -78,6 +78,33 @@ type DbDiscoveryDocument = {
   _count: { artifacts: number };
 };
 
+const intersectStatus = (
+  left: PrismaDiscoveryDocumentStatus[] | undefined,
+  right: PrismaDiscoveryDocumentStatus[],
+): PrismaDiscoveryDocumentStatus[] => {
+  if (!left) return right;
+  return left.filter((status) => right.includes(status));
+};
+
+const setStatusWhere = (
+  where: Prisma.DiscoveryDocumentWhereInput,
+  statuses: PrismaDiscoveryDocumentStatus[],
+) => {
+  const current =
+    typeof where.status === 'object' && 'in' in where.status && Array.isArray(where.status.in)
+      ? where.status.in
+      : undefined;
+  where.status = { in: intersectStatus(current, statuses) };
+};
+
+const appendAnd = (
+  where: Prisma.DiscoveryDocumentWhereInput,
+  condition: Prisma.DiscoveryDocumentWhereInput,
+) => {
+  const current = Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : [];
+  where.AND = [...current, condition];
+};
+
 const toDiscoveryDocument = (doc: DbDiscoveryDocument): DiscoveryDocument => {
   // attachmentCount = Anzahl ATTACHMENT-Artifacts. _count.artifacts liefert
   // alle Artifacts (inkl. MAIL_EML/BODY/METADATA), wir interessieren uns aber
@@ -130,7 +157,7 @@ const buildWhere = (
 
   // 'all' überspringt den Status-Filter — Hauptanwendungsfall „Überblick".
   if (filter.status && filter.status !== 'all') {
-    where.status = { in: UI_TO_NATIVE_STATUS[filter.status] };
+    setStatusWhere(where, UI_TO_NATIVE_STATUS[filter.status]);
   }
 
   if (filter.query) {
@@ -139,7 +166,7 @@ const buildWhere = (
       { title: { contains: text, mode: 'insensitive' as const } },
       { correspondent: { contains: text, mode: 'insensitive' as const } },
     ];
-    where.AND = [{ OR: textFilter }];
+    appendAnd(where, { OR: textFilter });
   }
 
   if (filter.correspondent) {
@@ -151,6 +178,25 @@ const buildWhere = (
       gte: filter.documentDateFrom,
       lt: filter.documentDateTo,
     };
+  }
+
+  if (filter.qualityFilter === 'needs-review') {
+    setStatusWhere(where, ['INBOX', 'PENDING_MANUAL']);
+  }
+
+  if (filter.qualityFilter === 'downloadable') {
+    appendAnd(where, {
+      archivePath: { not: null },
+      artifacts: { some: { kind: 'ATTACHMENT' } },
+    });
+  }
+
+  if (filter.qualityFilter === 'missing-amount') {
+    where.detectedAmount = null;
+  }
+
+  if (filter.qualityFilter === 'missing-invoice-number') {
+    where.detectedInvoiceNumber = null;
   }
 
   return where;
@@ -210,7 +256,10 @@ export const dbDiscoveryReader: DiscoveryReader = {
         detectedAmount: true,
         detectedInvoiceNumber: true,
         archivePath: true,
-        _count: { select: { artifacts: true } },
+        artifacts: {
+          where: { kind: 'ATTACHMENT' },
+          select: { id: true },
+        },
       },
     });
 
@@ -231,7 +280,7 @@ export const dbDiscoveryReader: DiscoveryReader = {
       if (doc.status === 'INBOX' || doc.status === 'PENDING_MANUAL') {
         needsReview += 1;
       }
-      if (doc.archivePath && doc._count.artifacts > 3) {
+      if (doc.archivePath && doc.artifacts.length > 0) {
         downloadable += 1;
       }
       if (!doc.detectedAmount) {

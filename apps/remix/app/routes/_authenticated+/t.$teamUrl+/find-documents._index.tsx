@@ -58,6 +58,12 @@ type DiscoveryStatus =
 // "all" ist die Default-Übersicht — alle Belege auf einen Blick, sortiert nach
 // Datum. Die anderen Tabs sind Workflow-Filter.
 type DiscoveryTab = 'all' | 'inbox' | 'pending-manual' | 'accepted' | 'archived';
+type FocusFilter =
+  | 'all'
+  | 'needs-review'
+  | 'downloadable'
+  | 'missing-amount'
+  | 'missing-invoice-number';
 type Document = TFindDiscoveryDocumentsResponse['documents'][number];
 type Source = TFindDiscoveryDocumentsResponse['sources'][number];
 
@@ -71,6 +77,13 @@ const STATUS_TABS: ReadonlyArray<{ value: DiscoveryTab; label: ReturnType<typeof
 
 const TAX_SEARCH_TERM = 'Rechnung';
 const TAX_QUICK_TERMS = ['Rechnung', 'invoice', 'Beleg', 'Quittung', 'Finanzamt'];
+const FOCUS_FILTERS: ReadonlyArray<{ value: FocusFilter; label: ReturnType<typeof msg> }> = [
+  { value: 'all', label: msg`Alle Treffer` },
+  { value: 'needs-review', label: msg`Offen` },
+  { value: 'downloadable', label: msg`Mit Anhang` },
+  { value: 'missing-amount', label: msg`Ohne Betrag` },
+  { value: 'missing-invoice-number', label: msg`Ohne Nr.` },
+];
 
 const formatRelativeTime = (date: Date, locale: string): string => {
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
@@ -525,11 +538,14 @@ type CatchUpSummary = {
 
 const TaxCatchUpPanel = ({
   summary,
+  focusSummary,
   setFromDate,
   setToDate,
   mailSearchTerm,
   setMailSearchTerm,
   setQuery,
+  focusFilter,
+  setFocusFilter,
   applyDateFilter,
   setApplyDateFilter,
   onStart,
@@ -538,11 +554,14 @@ const TaxCatchUpPanel = ({
   locale,
 }: {
   summary: CatchUpSummary;
+  focusSummary: CatchUpSummary;
   setFromDate: (value: string) => void;
   setToDate: (value: string) => void;
   mailSearchTerm: string;
   setMailSearchTerm: (value: string) => void;
   setQuery: (value: string) => void;
+  focusFilter: FocusFilter;
+  setFocusFilter: (value: FocusFilter) => void;
   applyDateFilter: boolean;
   setApplyDateFilter: (value: boolean) => void;
   onStart: () => void;
@@ -550,6 +569,7 @@ const TaxCatchUpPanel = ({
   canStart: boolean;
   locale: string;
 }) => {
+  const { _ } = useLingui();
   const currentYear = new Date().getFullYear();
   const presets = [
     { label: String(currentYear), from: startOfYear(currentYear), to: endOfYear(currentYear) },
@@ -577,6 +597,14 @@ const TaxCatchUpPanel = ({
     return new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric' }).format(
       new Date(year, month - 1, 1),
     );
+  };
+
+  const getFocusCount = (value: FocusFilter): number => {
+    if (value === 'all') return focusSummary.total;
+    if (value === 'needs-review') return focusSummary.needsReview;
+    if (value === 'downloadable') return focusSummary.downloadable;
+    if (value === 'missing-amount') return focusSummary.missingAmount;
+    return focusSummary.missingInvoiceNumber;
   };
 
   return (
@@ -681,6 +709,23 @@ const TaxCatchUpPanel = ({
           <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
           <Trans>Postfach jetzt durchsuchen</Trans>
         </Button>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {FOCUS_FILTERS.map((filter) => (
+          <Button
+            key={filter.value}
+            type="button"
+            size="sm"
+            variant={focusFilter === filter.value ? 'default' : 'outline'}
+            onClick={() => setFocusFilter(filter.value)}
+          >
+            {_(filter.label)}
+            <span className="ml-2 rounded-sm bg-background/70 px-1.5 py-0.5 text-xs text-foreground">
+              {getFocusCount(filter.value)}
+            </span>
+          </Button>
+        ))}
       </div>
 
       {summary.months.length > 0 && (
@@ -959,6 +1004,7 @@ export default function FindDocumentsPage() {
   const [toDate, setToDate] = useState(today);
   const [mailSearchTerm, setMailSearchTerm] = useState('Rechnung');
   const [applyDateFilter, setApplyDateFilter] = useState(false);
+  const [focusFilter, setFocusFilterState] = useState<FocusFilter>('all');
   // Multi-Select-State pro Tab — beim Tab-Wechsel zurueckgesetzt.
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -975,6 +1021,7 @@ export default function FindDocumentsPage() {
   const { data, isLoading } = trpc.discovery.findDocuments.useQuery({
     status,
     query: query.trim() || undefined,
+    qualityFilter: focusFilter === 'all' ? undefined : focusFilter,
     documentDateFrom: dateFilterRange?.from,
     documentDateTo: dateFilterRange?.to,
   });
@@ -1057,6 +1104,11 @@ export default function FindDocumentsPage() {
     setSelectedIds(new Set());
   };
 
+  const handleFocusFilterChange = (next: FocusFilter) => {
+    setFocusFilterState(next);
+    setSelectedIds(new Set());
+  };
+
   const hasAnySource = data?.hasAnySource ?? false;
   const sources = data?.sources ?? [];
   const visibleDocuments = data?.documents ?? [];
@@ -1089,6 +1141,12 @@ export default function FindDocumentsPage() {
         .map(([key, count]) => ({ key, count })),
     };
   }, [data?.summary, data?.total, visibleDocuments]);
+  const focusSummary = useMemo<CatchUpSummary>(() => {
+    if (data?.focusSummary) {
+      return data.focusSummary;
+    }
+    return catchUpSummary;
+  }, [catchUpSummary, data?.focusSummary]);
 
   const isSelected = (id: string) => selectedIds.has(id);
   const allVisibleSelected =
@@ -1143,11 +1201,14 @@ export default function FindDocumentsPage() {
           />
           <TaxCatchUpPanel
             summary={catchUpSummary}
+            focusSummary={focusSummary}
             setFromDate={setFromDate}
             setToDate={setToDate}
             mailSearchTerm={mailSearchTerm}
             setMailSearchTerm={setMailSearchTerm}
             setQuery={setQuery}
+            focusFilter={focusFilter}
+            setFocusFilter={handleFocusFilterChange}
             applyDateFilter={applyDateFilter}
             setApplyDateFilter={setApplyDateFilter}
             onStart={handleStartMailboxSearch}

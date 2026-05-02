@@ -1618,6 +1618,10 @@ msgstr "Alle Belege"
 msgid "Alle Quellen"
 msgstr "Alle Quellen"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Alle Treffer"
+msgstr "Alle Treffer"
+
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
 msgid "Allow all organisation members to access this team"
 msgstr "Allow all organisation members to access this team"
@@ -7084,6 +7088,7 @@ msgid "Missing Recipients"
 msgstr "Missing Recipients"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Mit Anhang"
 msgstr "Mit Anhang"
 
@@ -7587,13 +7592,16 @@ msgid "Off"
 msgstr "Off"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Offen"
 msgstr "Offen"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Ohne Betrag"
 msgstr "Ohne Betrag"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Ohne Nr."
 msgstr "Ohne Nr."

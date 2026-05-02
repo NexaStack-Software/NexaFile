@@ -137,6 +137,7 @@ export const discoveryRouter = router({
           hasAnySource: sourceSummaries.length > 0,
           sources: sourceSummaries,
           summary: null,
+          focusSummary: null,
         };
       }
 
@@ -148,10 +149,12 @@ export const discoveryRouter = router({
         teamId: teamId ?? undefined,
         userId: user.id,
       };
+      const { qualityFilter: _qualityFilter, ...focusSummaryFilter } = filter;
 
-      const [page, summary] = await Promise.all([
+      const [page, summary, focusSummary] = await Promise.all([
         reader.findDocuments(filter, cursor ?? null, discoveryContext),
         reader.summarizeDocuments?.(filter, discoveryContext) ?? Promise.resolve(null),
+        reader.summarizeDocuments?.(focusSummaryFilter, discoveryContext) ?? Promise.resolve(null),
       ]);
 
       return {
@@ -162,6 +165,7 @@ export const discoveryRouter = router({
         hasAnySource: sourceSummaries.length > 0,
         sources: sourceSummaries,
         summary,
+        focusSummary,
       };
     }),
 
