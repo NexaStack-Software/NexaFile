@@ -200,6 +200,15 @@ Details in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
+## Betrieb und Releases
+
+- Backup und Restore: [BACKUP_RESTORE.nexafile.md](BACKUP_RESTORE.nexafile.md)
+- Upgrade und Rollback: [UPGRADE.nexafile.md](UPGRADE.nexafile.md)
+- Release-Workflow: [RELEASE_WORKFLOW.nexafile.md](RELEASE_WORKFLOW.nexafile.md)
+- Monitoring/Post-Release-Checks: [MONITORING.nexafile.md](MONITORING.nexafile.md)
+
+---
+
 ## Lizenz und Haftung
 
 - **Code:** [AGPL-3.0-or-later](LICENSE)
