@@ -102,7 +102,6 @@ export const AddFieldsFormPartial = ({
   onAutoSave,
   canGoBack = false,
   isDocumentPdfLoaded,
-  teamId,
 }: AddFieldsFormProps) => {
   const { toast } = useToast();
   const { _ } = useLingui();
@@ -534,22 +533,6 @@ export const AddFieldsFormPartial = ({
       recipientsByRoleToDisplay.find((r) => r.sendStatus !== SendStatus.SENT) ??
         recipientsByRoleToDisplay[0],
     );
-  }, [recipients]);
-
-  const recipientsByRole = useMemo(() => {
-    const recipientsByRole: Record<RecipientRole, TRecipientLite[]> = {
-      CC: [],
-      VIEWER: [],
-      SIGNER: [],
-      APPROVER: [],
-      ASSISTANT: [],
-    };
-
-    recipients.forEach((recipient) => {
-      recipientsByRole[recipient.role].push(recipient);
-    });
-
-    return recipientsByRole;
   }, [recipients]);
 
   const handleAdvancedSettings = () => {

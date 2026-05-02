@@ -56,7 +56,6 @@ export function EnvelopeRecipientFieldTooltip({
   field,
   showFieldStatus = false,
   showRecipientTooltip = false,
-  showRecipientColors = false,
 }: EnvelopeRecipientFieldTooltipProps) {
   const { t } = useLingui();
 

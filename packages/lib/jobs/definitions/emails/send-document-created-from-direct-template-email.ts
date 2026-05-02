@@ -22,7 +22,7 @@ export const SEND_DOCUMENT_CREATED_FROM_DIRECT_TEMPLATE_EMAIL_JOB_DEFINITION = {
     name: SEND_DOCUMENT_CREATED_FROM_DIRECT_TEMPLATE_EMAIL_JOB_DEFINITION_ID,
     schema: SEND_DOCUMENT_CREATED_FROM_DIRECT_TEMPLATE_EMAIL_JOB_DEFINITION_SCHEMA,
   },
-  handler: async ({ payload, io }) => {
+  handler: async ({ payload }) => {
     const handler = await import('./send-document-created-from-direct-template-email.handler');
 
     await handler.run({ payload });

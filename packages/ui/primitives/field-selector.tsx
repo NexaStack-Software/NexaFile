@@ -82,7 +82,7 @@ export const FieldSelector = ({
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className={cn('grid grid-cols-2 gap-2', className)}>
       {fieldTypes.map((field) => {
         const Icon = field.icon;
 

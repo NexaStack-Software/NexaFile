@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // © 2026 NexaStack, NexaSign contributors
-
 import { createHash } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -94,7 +93,11 @@ const safeSegment = (s: string): string => {
 const safeAttachmentName = (raw: string, index: number): string => {
   // Anhänge bekommen einen sicheren Namen mit dem Original-Suffix als Hint.
   // Original-Filename liegt zusätzlich in metadata.json mit drin.
-  const ext = path.extname(raw).slice(0, 12).replace(/[^a-z0-9.]/gi, '') || '.bin';
+  const ext =
+    path
+      .extname(raw)
+      .slice(0, 12)
+      .replace(/[^a-z0-9.]/gi, '') || '.bin';
   return `attachment-${index + 1}${ext}`;
 };
 
@@ -129,10 +132,7 @@ const monthSegment = (date: Date): { year: string; month: string } => ({
  * neu ein und geben sie zurück, statt zu schreiben. Damit ist das gesamte
  * Insert idempotent — auch ohne DB-Eintrag (z. B. nach DB-Reset).
  */
-const rescanExisting = async (
-  absoluteDir: string,
-  relativeArchivePath: string,
-): Promise<ArchiveArtifactRecord[]> => {
+const rescanExisting = async (absoluteDir: string): Promise<ArchiveArtifactRecord[]> => {
   const entries = await fs.readdir(absoluteDir);
   const out: ArchiveArtifactRecord[] = [];
 
@@ -195,7 +195,7 @@ export const writeArchive = async (input: ArchiveWriteInput): Promise<ArchiveWri
   try {
     const stat = await fs.stat(finalDir);
     if (stat.isDirectory()) {
-      const artifacts = await rescanExisting(finalDir, relativeArchivePath);
+      const artifacts = await rescanExisting(finalDir);
       return {
         archivePath: relativeArchivePath,
         absolutePath: finalDir,
@@ -297,7 +297,7 @@ export const writeArchive = async (input: ArchiveWriteInput): Promise<ArchiveWri
         (err.code === 'EEXIST' || err.code === 'ENOTEMPTY')
       ) {
         await fs.rm(tmpDir, { recursive: true, force: true });
-        const existingArtifacts = await rescanExisting(finalDir, relativeArchivePath);
+        const existingArtifacts = await rescanExisting(finalDir);
         return {
           archivePath: relativeArchivePath,
           absolutePath: finalDir,

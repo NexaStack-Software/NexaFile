@@ -89,7 +89,6 @@ export const AddTemplateFieldsFormPartial = ({
   fields,
   onSubmit,
   onAutoSave,
-  teamId,
 }: AddTemplateFieldsFormProps) => {
   const { _ } = useLingui();
   const { toast } = useToast();

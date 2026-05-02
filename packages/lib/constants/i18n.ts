@@ -70,4 +70,5 @@ export const SUPPORTED_LANGUAGES: Record<string, SupportedLanguage> = {
 } satisfies Record<SupportedLanguageCodes, SupportedLanguage>;
 
 export const isValidLanguageCode = (code: unknown): code is SupportedLanguageCodes =>
-  SUPPORTED_LANGUAGE_CODES.includes(code as SupportedLanguageCodes);
+  typeof code === 'string' &&
+  SUPPORTED_LANGUAGE_CODES.some((supportedLanguageCode) => supportedLanguageCode === code);

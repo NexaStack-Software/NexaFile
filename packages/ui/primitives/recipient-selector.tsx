@@ -51,24 +51,16 @@ export const RecipientSelector = ({
   }, [recipients]);
 
   const recipientsByRoleToDisplay = useMemo(() => {
-    return Object.entries(recipientsByRole)
-      .filter(
-        ([role]) =>
-          role !== RecipientRole.CC &&
-          role !== RecipientRole.VIEWER &&
-          role !== RecipientRole.ASSISTANT,
-      )
-      .map(
-        ([role, roleRecipients]) =>
-          [
-            role,
-            sortBy(
-              roleRecipients,
-              [(r) => r.signingOrder || Number.MAX_SAFE_INTEGER, 'asc'],
-              [(r) => r.id, 'asc'],
-            ),
-          ] as [RecipientRole, TRecipientLite[]],
-      );
+    const displayedRecipientRoles: RecipientRole[] = [RecipientRole.SIGNER, RecipientRole.APPROVER];
+
+    return displayedRecipientRoles.map((role): [RecipientRole, TRecipientLite[]] => [
+      role,
+      sortBy(
+        recipientsByRole[role],
+        [(r) => r.signingOrder || Number.MAX_SAFE_INTEGER, 'asc'],
+        [(r) => r.id, 'asc'],
+      ),
+    ]);
   }, [recipientsByRole]);
 
   const getRecipientLabel = useCallback(

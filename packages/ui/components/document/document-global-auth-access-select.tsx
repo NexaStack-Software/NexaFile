@@ -41,15 +41,15 @@ export const DocumentGlobalAuthAccessSelect = ({
 
   // Convert string array to Option array for MultiSelect
   const selectedOptions =
-    (value
+    value
       ?.map((val) => authOptions.find((option) => option.value === val))
-      .filter(Boolean) as Option[]) || [];
+      .filter((option): option is Option => option !== undefined) || [];
 
   // Convert default value to Option array
   const defaultOptions =
-    (defaultValue
+    defaultValue
       ?.map((val) => authOptions.find((option) => option.value === val))
-      .filter(Boolean) as Option[]) || [];
+      .filter((option): option is Option => option !== undefined) || [];
 
   const handleChange = (options: Option[]) => {
     const values = options.map((option) => option.value);
