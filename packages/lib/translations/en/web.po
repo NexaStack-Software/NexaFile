@@ -10275,6 +10275,10 @@ msgid "Step <0>{step} of {maxStep}</0>"
 msgstr "Step <0>{step} of {maxStep}</0>"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Steuerpaket"
+msgstr "Steuerpaket"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Steuerunterlagen nachholen"
 msgstr "Steuerunterlagen nachholen"
 

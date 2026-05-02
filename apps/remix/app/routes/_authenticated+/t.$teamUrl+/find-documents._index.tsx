@@ -552,6 +552,7 @@ const TaxCatchUpPanel = ({
   isPending,
   canStart,
   locale,
+  taxPackageHref,
 }: {
   summary: CatchUpSummary;
   focusSummary: CatchUpSummary;
@@ -568,6 +569,7 @@ const TaxCatchUpPanel = ({
   isPending: boolean;
   canStart: boolean;
   locale: string;
+  taxPackageHref: string;
 }) => {
   const { _ } = useLingui();
   const currentYear = new Date().getFullYear();
@@ -705,10 +707,18 @@ const TaxCatchUpPanel = ({
           </span>
         </label>
 
-        <Button onClick={onStart} disabled={isPending || !canStart}>
-          <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
-          <Trans>Postfach jetzt durchsuchen</Trans>
-        </Button>
+        <div className="flex flex-wrap gap-2 lg:justify-end">
+          <Button onClick={onStart} disabled={isPending || !canStart}>
+            <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
+            <Trans>Postfach jetzt durchsuchen</Trans>
+          </Button>
+          <Button asChild variant="outline">
+            <a href={taxPackageHref} download>
+              <DownloadIcon className="mr-2 h-4 w-4" aria-hidden />
+              <Trans>Steuerpaket</Trans>
+            </a>
+          </Button>
+        </div>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
@@ -1169,6 +1179,22 @@ export default function FindDocumentsPage() {
   // /t/{team}/zip-attachments (statt /t/{team}/find-documents/zip-attachments),
   // weil die List-URL keinen Trailing-Slash hat.
   const zipHref = `/t/${teamUrl}/find-documents/zip-attachments?ids=${Array.from(selectedIds).join(',')}`;
+  const taxPackageHref = (() => {
+    const params = new URLSearchParams();
+    params.set('status', status);
+    if (query.trim()) {
+      params.set('query', query.trim());
+    }
+    if (focusFilter !== 'all') {
+      params.set('qualityFilter', focusFilter);
+    }
+    if (dateFilterRange) {
+      params.set('documentDateFrom', dateFilterRange.from.toISOString());
+      params.set('documentDateTo', dateFilterRange.to.toISOString());
+    }
+    const qs = params.toString();
+    return `/t/${teamUrl}/find-documents/tax-package${qs ? `?${qs}` : ''}`;
+  })();
 
   return (
     <div className="mx-auto w-full max-w-screen-xl px-4 py-8 md:px-8">
@@ -1215,6 +1241,7 @@ export default function FindDocumentsPage() {
             isPending={startSyncRunMutation.isPending}
             canStart={Boolean(sourceId && fromDate && toDate)}
             locale={i18n.locale}
+            taxPackageHref={taxPackageHref}
           />
         </>
       )}
