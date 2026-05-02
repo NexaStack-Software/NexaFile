@@ -73,7 +73,8 @@ Status as of 2026-05-02:
 6. Done: Demo is deployed separately, has an hourly baseline reset, and passes
    strict demo-drift checks.
 7. Done: Tag `v1.0.0-rc.1` published on GitHub.
-8. In progress: Fix release-candidate findings.
-9. Next: Tag `v1.0.0-rc.2` after the Docker npm engine fix passes the release
-   checks.
-10. Next: Tag `v1.0.0`.
+8. Done: Tag `v1.0.0-rc.2` published on GitHub.
+9. In progress: Fix final release-candidate findings.
+10. Next: Tag `v1.0.0-rc.3` after Docker runtime install cleanup passes the
+   release checks.
+11. Next: Tag `v1.0.0`.

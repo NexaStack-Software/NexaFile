@@ -1,5 +1,14 @@
 # NexaFile Changelog
 
+## [1.0.0-rc.3] - 2026-05-02 - V1 Release Candidate
+
+Letzter V1-Release-Candidate mit Docker-Install-Cleanup.
+
+### Fixes
+
+- Docker-Runtime-Install nutzt jetzt `npm ci --omit=dev` statt der
+  veralteten `--only=production`-Option.
+
 ## [1.0.0-rc.2] - 2026-05-02 - V1 Release Candidate
 
 Zweiter V1-Release-Candidate mit Docker-Install-Hardening.
