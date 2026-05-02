@@ -128,6 +128,14 @@ const getDocumentWorkDate = (doc: Document): Date => doc.documentDate ?? doc.cap
 const getYearMonthKey = (date: Date): string =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
 
+const monthKeyToRange = (key: string): { from: string; to: string } | null => {
+  const [yearValue, monthValue] = key.split('-').map(Number);
+  if (!yearValue || !monthValue || monthValue < 1 || monthValue > 12) return null;
+  const from = new Date(yearValue, monthValue - 1, 1);
+  const to = new Date(yearValue, monthValue, 0);
+  return { from: toDateInputValue(from), to: toDateInputValue(to) };
+};
+
 const StatusIcon = ({ status }: { status: DiscoveryStatus }) => {
   if (status === 'pending-manual') return <ClockIcon className="h-4 w-4" aria-hidden />;
   if (status === 'accepted' || status === 'processed')
@@ -544,10 +552,12 @@ const TaxCatchUpPanel = ({
   mailSearchTerm,
   setMailSearchTerm,
   setQuery,
+  setStatus,
   focusFilter,
   setFocusFilter,
   applyDateFilter,
   setApplyDateFilter,
+  onMonthSelect,
   onStart,
   isPending,
   canStart,
@@ -561,10 +571,12 @@ const TaxCatchUpPanel = ({
   mailSearchTerm: string;
   setMailSearchTerm: (value: string) => void;
   setQuery: (value: string) => void;
+  setStatus: (value: DiscoveryTab) => void;
   focusFilter: FocusFilter;
   setFocusFilter: (value: FocusFilter) => void;
   applyDateFilter: boolean;
   setApplyDateFilter: (value: boolean) => void;
+  onMonthSelect: (key: string) => void;
   onStart: () => void;
   isPending: boolean;
   canStart: boolean;
@@ -608,6 +620,18 @@ const TaxCatchUpPanel = ({
     if (value === 'missing-amount') return focusSummary.missingAmount;
     return focusSummary.missingInvoiceNumber;
   };
+  const completionPercent =
+    summary.total > 0 ? Math.round((summary.accepted / summary.total) * 100) : 0;
+
+  const showReviewStep = summary.needsReview > 0;
+  const showMissingDataStep =
+    !showReviewStep && (summary.missingAmount > 0 || summary.missingInvoiceNumber > 0);
+  const showExportStep = !showReviewStep && !showMissingDataStep && summary.downloadable > 0;
+
+  const focusList = (value: FocusFilter) => {
+    setStatus('all');
+    setFocusFilter(value);
+  };
 
   return (
     <Card className="mb-6 border-neutral-300 bg-white p-4 shadow-sm">
@@ -636,6 +660,85 @@ const TaxCatchUpPanel = ({
               {preset.label}
             </Button>
           ))}
+        </div>
+      </div>
+
+      <div className="mb-4 rounded-md border bg-muted/20 p-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-medium uppercase text-muted-foreground">
+              <Trans>Fortschritt</Trans>
+            </p>
+            <p className="mt-1 text-sm text-foreground">
+              <Trans>
+                {summary.accepted} von {summary.total} Belegen sind geprüft.
+              </Trans>
+            </p>
+          </div>
+          <Badge variant="secondary">{completionPercent}%</Badge>
+        </div>
+        <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted">
+          <div className="h-full bg-primary" style={{ width: `${completionPercent}%` }} />
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t pt-3">
+          <div>
+            <p className="text-sm font-medium">
+              <Trans>Nächster Schritt</Trans>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {showReviewStep && (
+                <Trans>Erst offene Treffer prüfen, damit nichts Wichtiges verloren geht.</Trans>
+              )}
+              {showMissingDataStep && (
+                <Trans>Danach fehlende Beträge oder Rechnungsnummern gezielt bereinigen.</Trans>
+              )}
+              {showExportStep && (
+                <Trans>
+                  Alles sieht bereit aus. Jetzt das Steuerpaket mit Übersicht exportieren.
+                </Trans>
+              )}
+              {!showReviewStep && !showMissingDataStep && !showExportStep && (
+                <Trans>Zeitraum wählen und das Postfach nach Rechnungen durchsuchen.</Trans>
+              )}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {showReviewStep && (
+              <Button size="sm" onClick={() => focusList('needs-review')}>
+                <CheckCircleIcon className="mr-2 h-4 w-4" aria-hidden />
+                <Trans>Offene prüfen</Trans>
+              </Button>
+            )}
+            {showMissingDataStep && summary.missingAmount > 0 && (
+              <Button size="sm" variant="outline" onClick={() => focusList('missing-amount')}>
+                <Trans>Ohne Betrag</Trans>
+              </Button>
+            )}
+            {showMissingDataStep && summary.missingInvoiceNumber > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => focusList('missing-invoice-number')}
+              >
+                <Trans>Ohne Nr.</Trans>
+              </Button>
+            )}
+            {showExportStep && (
+              <Button asChild size="sm">
+                <a href={taxPackageHref} download>
+                  <DownloadIcon className="mr-2 h-4 w-4" aria-hidden />
+                  <Trans>Steuerpaket exportieren</Trans>
+                </a>
+              </Button>
+            )}
+            {!showReviewStep && !showMissingDataStep && !showExportStep && (
+              <Button size="sm" onClick={onStart} disabled={isPending || !canStart}>
+                <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
+                <Trans>Suche starten</Trans>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -741,9 +844,15 @@ const TaxCatchUpPanel = ({
       {summary.months.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
           {summary.months.slice(0, 12).map((bucket) => (
-            <Badge key={bucket.key} variant="secondary" className="font-normal">
+            <Button
+              key={bucket.key}
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => onMonthSelect(bucket.key)}
+            >
               {visibleMonthLabel(bucket.key)} · {bucket.count}
-            </Badge>
+            </Button>
           ))}
         </div>
       )}
@@ -1119,6 +1228,15 @@ export default function FindDocumentsPage() {
     setSelectedIds(new Set());
   };
 
+  const handleMonthSelect = (key: string) => {
+    const range = monthKeyToRange(key);
+    if (!range) return;
+    setFromDate(range.from);
+    setToDate(range.to);
+    setApplyDateFilter(true);
+    setSelectedIds(new Set());
+  };
+
   const hasAnySource = data?.hasAnySource ?? false;
   const sources = data?.sources ?? [];
   const visibleDocuments = data?.documents ?? [];
@@ -1233,10 +1351,12 @@ export default function FindDocumentsPage() {
             mailSearchTerm={mailSearchTerm}
             setMailSearchTerm={setMailSearchTerm}
             setQuery={setQuery}
+            setStatus={handleStatusChange}
             focusFilter={focusFilter}
             setFocusFilter={handleFocusFilterChange}
             applyDateFilter={applyDateFilter}
             setApplyDateFilter={setApplyDateFilter}
+            onMonthSelect={handleMonthSelect}
             onStart={handleStartMailboxSearch}
             isPending={startSyncRunMutation.isPending}
             canStart={Boolean(sourceId && fromDate && toDate)}

@@ -312,6 +312,12 @@ msgstr "{0} teams"
 msgid "{0} von {1} angezeigt"
 msgstr ""
 
+#. placeholder {0}: summary.accepted
+#. placeholder {1}: summary.total
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{0} von {1} Belegen sind geprüft."
+msgstr ""
+
 #. placeholder {0}: currentStepData.order
 #. placeholder {1}: envelopeEditorSteps.length
 #: apps/remix/app/components/general/envelope-editor/envelope-editor.tsx
@@ -1625,6 +1631,10 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Alle Treffer"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Alles sieht bereit aus. Jetzt das Steuerpaket mit Übersicht exportieren."
 msgstr ""
 
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
@@ -3535,6 +3545,10 @@ msgstr ""
 msgid "Custom Organisation Groups"
 msgstr "Aangepaste organisatiegroepen"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Danach fehlende Beträge oder Rechnungsnummern gezielt bereinigen."
+msgstr ""
+
 #: apps/remix/app/components/general/app-command-menu.tsx
 msgid "Dark Mode"
 msgstr "Donker modus"
@@ -5345,6 +5359,10 @@ msgstr "Fout bij het laden van de pagina"
 msgid "Error uploading file"
 msgstr "Fout bij uploaden van bestand"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Erst offene Treffer prüfen, damit nichts Wichtiges verloren geht."
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 msgid "Erster Sync läuft im Hintergrund."
 msgstr ""
@@ -5733,6 +5751,10 @@ msgstr "Wachtwoord vergeten?"
 #: packages/email/template-components/template-forgot-password.tsx
 msgid "Forgot your password?"
 msgstr "Wachtwoord vergeten?"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Fortschritt"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 msgctxt "Plan price"
@@ -7187,6 +7209,10 @@ msgstr "n.v.t."
 msgid "Nach § 147 Abs. 6 AO kann das Finanzamt drei Arten von Datenzugriff fordern:"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Nächster Schritt"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/assistant-confirmation-dialog.tsx
 #: apps/remix/app/components/dialogs/folder-update-dialog.tsx
@@ -7602,10 +7628,16 @@ msgid "Offen"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Offene prüfen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Ohne Betrag"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Ohne Nr."
@@ -10284,6 +10316,10 @@ msgid "Steuerpaket"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Steuerpaket exportieren"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Steuerunterlagen nachholen"
 msgstr ""
 
@@ -10433,6 +10469,10 @@ msgstr "Succesvol aangemaakt: {successCount}"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Suchbegriff"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Suche starten"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
@@ -14381,6 +14421,10 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Zeitraum prüfen"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Zeitraum wählen und das Postfach nach Rechnungen durchsuchen."
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
