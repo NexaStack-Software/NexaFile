@@ -1,5 +1,15 @@
 # NexaFile Changelog
 
+## [1.0.0-rc.2] - 2026-05-02 - V1 Release Candidate
+
+Zweiter V1-Release-Candidate mit Docker-Install-Hardening.
+
+### Fixes
+
+- Docker-Base-Image installiert jetzt `npm@11.11.0`, passend zur
+  `packageManager`- und `engines.npm`-Angabe des Repos. Dadurch verschwinden
+  die npm-Engine-Warnungen beim Fresh-Install-Build.
+
 ## [1.0.0-rc.1] - 2026-05-02 - V1 Release Candidate
 
 Erster V1-Release-Candidate nach bestandenem Release-Gate.

@@ -5,6 +5,7 @@ FROM node:22-alpine3.22 AS base
 
 RUN apk add --no-cache openssl
 RUN apk add --no-cache font-freefont
+RUN npm install -g npm@11.11.0
 
 
 ###########################
@@ -123,8 +124,9 @@ COPY --from=installer --chown=nodejs:nodejs /app/apps/remix/public ./apps/remix/
 COPY --from=installer --chown=nodejs:nodejs /app/packages/prisma/schema.prisma ./packages/prisma/schema.prisma
 COPY --from=installer --chown=nodejs:nodejs /app/packages/prisma/migrations ./packages/prisma/migrations
 
-# Generate the prisma client again
-RUN npx prisma generate --schema ./packages/prisma/schema.prisma
+# Generate the prisma client again from the Prisma workspace so Prisma can
+# resolve @prisma/client version metadata without warning.
+RUN cd packages/prisma && npx prisma generate --schema ./schema.prisma
 
 
 # Get the start script from docker/

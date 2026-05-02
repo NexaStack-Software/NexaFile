@@ -72,6 +72,8 @@ Status as of 2026-05-02:
    stack was isolated from production compose resources.
 6. Done: Demo is deployed separately, has an hourly baseline reset, and passes
    strict demo-drift checks.
-7. Next: Tag `v1.0.0-rc.1`.
-8. Next: Fix release-candidate findings.
-9. Next: Tag `v1.0.0`.
+7. Done: Tag `v1.0.0-rc.1` published on GitHub.
+8. In progress: Fix release-candidate findings.
+9. Next: Tag `v1.0.0-rc.2` after the Docker npm engine fix passes the release
+   checks.
+10. Next: Tag `v1.0.0`.
