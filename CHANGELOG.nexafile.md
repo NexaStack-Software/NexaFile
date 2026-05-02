@@ -1,5 +1,27 @@
 # NexaFile Changelog
 
+## [1.0.1] - 2026-05-02 - Patch Release
+
+Nachpflege direkt nach V1.0.0.
+
+### Fixed
+
+- Prisma-Seed-Konfiguration aus `package.json#prisma` nach
+  `packages/prisma/prisma.config.ts` migriert. Damit ist der Prisma-
+  Deprecation-Weg entfernt, ohne die bestehenden Generatoren zu verlieren.
+- Browserslist-/Caniuse-Daten aktualisiert, damit Builds nicht mehr mit
+  veralteten Browserdaten warnen.
+- Bestehende Lint-Warnungen in `@nexasign/lib`, `@nexasign/ui` und
+  `@nexasign/trpc` deutlich reduziert. Uebrig bleiben bekannte
+  `consistent-type-assertions`-Warnungen ohne Build-Blocker.
+
+### Operations
+
+- Release-Workflow und Monitoring-Runbook fuer GitHub-CLI-Releases,
+  Produktions-/Demo-Healthchecks und Demo-Drift-Kontrolle ergaenzt.
+- Finaler V1-Gate fuer den Patch-Stand: Typecheck, Lint, Build,
+  Migration-Deploy, Release-E2E-Subset und strikter Demo-Drift-Check.
+
 ## [1.0.0] - 2026-05-02 - V1
 
 Erste stabile NexaFile-Version.
