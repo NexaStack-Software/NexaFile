@@ -492,28 +492,20 @@ const MailboxSearchPanel = ({
   onStart: () => void;
   isPending: boolean;
 }) => (
-  <Card className="mb-6 border-neutral-300 bg-white p-4 shadow-sm">
-    <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <h2 className="text-base font-semibold">
-          <Trans>Postfach durchsuchen</Trans>
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          <Trans>
-            Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFile liest passende Mails ein und legt
-            Mail + Anhänge im Server-Archiv ab.
-          </Trans>
-        </p>
-      </div>
-      <Button asChild variant="outline" size="sm">
+  <details className="mb-4 rounded-md border border-neutral-300 bg-white shadow-sm">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3">
+      <span className="text-sm font-semibold">
+        <Trans>Postfach durchsuchen</Trans>
+      </span>
+      <Button asChild variant="ghost" size="sm" className="h-7 px-2">
         <Link to="/settings/sources">
           <Settings2Icon className="mr-2 h-4 w-4" aria-hidden />
-          <Trans>Quellen verwalten</Trans>
+          <Trans>Quellen</Trans>
         </Link>
       </Button>
-    </div>
+    </summary>
 
-    <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr_1.2fr_auto] md:items-end">
+    <div className="grid gap-3 border-t p-4 md:grid-cols-[1.4fr_1fr_1fr_1.2fr_auto] md:items-end">
       <label className="flex flex-col gap-1.5 text-sm">
         <span className="font-medium">
           <Trans>Quelle</Trans>
@@ -583,7 +575,7 @@ const MailboxSearchPanel = ({
         <Trans>Durchsuchen</Trans>
       </Button>
     </div>
-  </Card>
+  </details>
 );
 
 type CatchUpSummary = {
@@ -687,18 +679,28 @@ const TaxCatchUpPanel = ({
 
   return (
     <Card className="mb-6 border-neutral-300 bg-white p-4 shadow-sm">
-      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-        <div>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
           <h2 className="flex items-center gap-2 text-base font-semibold">
             <BarChart3Icon className="h-4 w-4" aria-hidden />
             <Trans>Steuerunterlagen nachholen</Trans>
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            <Trans>
-              Jahre, Suchbegriff und Trefferliste zusammenführen, damit Rechnungen schneller
-              geprüft, exportiert und abgelegt werden.
-            </Trans>
-          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Badge variant="secondary" size="small">
+              <Trans>{summary.total} Treffer</Trans>
+            </Badge>
+            <Badge variant="default" size="small">
+              <Trans>{summary.accepted} geprüft</Trans>
+            </Badge>
+            <Badge variant={summary.needsReview > 0 ? 'warning' : 'neutral'} size="small">
+              <Trans>{summary.needsReview} offen</Trans>
+            </Badge>
+            {(summary.missingAmount > 0 || summary.missingInvoiceNumber > 0) && (
+              <Badge variant="warning" size="small">
+                <Trans>{summary.missingAmount + summary.missingInvoiceNumber} Datenlücken</Trans>
+              </Badge>
+            )}
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           {presets.map((preset) => (
@@ -715,45 +717,20 @@ const TaxCatchUpPanel = ({
         </div>
       </div>
 
-      <div className="mb-4 rounded-md border bg-muted/20 p-3">
+      <div className="mt-4 rounded-md border bg-muted/20 p-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-medium uppercase text-muted-foreground">
-              <Trans>Fortschritt</Trans>
-            </p>
-            <p className="mt-1 text-sm text-foreground">
-              <Trans>
-                {summary.accepted} von {summary.total} Belegen sind geprüft.
-              </Trans>
-            </p>
-          </div>
-          <Badge variant="secondary">{completionPercent}%</Badge>
-        </div>
-        <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted">
-          <div className="h-full bg-primary" style={{ width: `${completionPercent}%` }} />
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t pt-3">
-          <div>
-            <p className="text-sm font-medium">
-              <Trans>Nächster Schritt</Trans>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {showReviewStep && (
-                <Trans>Erst offene Treffer prüfen, damit nichts Wichtiges verloren geht.</Trans>
-              )}
-              {showMissingDataStep && (
-                <Trans>Danach fehlende Beträge oder Rechnungsnummern gezielt bereinigen.</Trans>
-              )}
-              {showExportStep && (
-                <Trans>
-                  Alles sieht bereit aus. Jetzt das Steuerpaket mit Übersicht exportieren.
-                </Trans>
-              )}
-              {!showReviewStep && !showMissingDataStep && !showExportStep && (
-                <Trans>Zeitraum wählen und das Postfach nach Rechnungen durchsuchen.</Trans>
-              )}
-            </p>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium">
+                <Trans>Nächster Schritt</Trans>
+              </p>
+              <Badge variant="secondary" size="small">
+                {completionPercent}%
+              </Badge>
+            </div>
+            <div className="mt-2 h-2 max-w-md overflow-hidden rounded-full bg-muted">
+              <div className="h-full bg-primary" style={{ width: `${completionPercent}%` }} />
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             {showReviewStep && (
@@ -780,7 +757,7 @@ const TaxCatchUpPanel = ({
               <Button asChild size="sm">
                 <a href={taxPackageHref} download>
                   <DownloadIcon className="mr-2 h-4 w-4" aria-hidden />
-                  <Trans>Steuerpaket exportieren</Trans>
+                  <Trans>Steuerpaket</Trans>
                 </a>
               </Button>
             )}
@@ -794,89 +771,7 @@ const TaxCatchUpPanel = ({
         </div>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-6">
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
-            <Trans>Treffer</Trans>
-          </p>
-          <p className="mt-1 text-2xl font-semibold">{summary.total}</p>
-        </div>
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
-            <Trans>Geprüft</Trans>
-          </p>
-          <p className="mt-1 text-2xl font-semibold">{summary.accepted}</p>
-        </div>
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
-            <Trans>Offen</Trans>
-          </p>
-          <p className="mt-1 text-2xl font-semibold">{summary.needsReview}</p>
-        </div>
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
-            <Trans>Mit Anhang</Trans>
-          </p>
-          <p className="mt-1 text-2xl font-semibold">{summary.downloadable}</p>
-        </div>
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
-            <Trans>Ohne Betrag</Trans>
-          </p>
-          <p className="mt-1 text-2xl font-semibold">{summary.missingAmount}</p>
-        </div>
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-xs font-medium uppercase text-muted-foreground">
-            <Trans>Ohne Nr.</Trans>
-          </p>
-          <p className="mt-1 text-2xl font-semibold">{summary.missingInvoiceNumber}</p>
-        </div>
-      </div>
-
-      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.2fr_auto] lg:items-end">
-        <div className="flex flex-wrap gap-2">
-          {TAX_QUICK_TERMS.map((term) => (
-            <Button
-              key={term}
-              type="button"
-              size="sm"
-              variant={mailSearchTerm === term ? 'default' : 'outline'}
-              onClick={() => {
-                setMailSearchTerm(term);
-                setQuery(term);
-              }}
-            >
-              {term}
-            </Button>
-          ))}
-        </div>
-
-        <label className="flex items-center gap-2 text-sm">
-          <Checkbox
-            checked={applyDateFilter}
-            onCheckedChange={(checked) => setApplyDateFilter(checked === true)}
-            aria-label="Zeitraum auf Trefferliste anwenden"
-          />
-          <span>
-            <Trans>Zeitraum auf Trefferliste anwenden</Trans>
-          </span>
-        </label>
-
-        <div className="flex flex-wrap gap-2 lg:justify-end">
-          <Button onClick={onStart} disabled={isPending || !canStart}>
-            <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
-            <Trans>Postfach jetzt durchsuchen</Trans>
-          </Button>
-          <Button asChild variant="outline">
-            <a href={taxPackageHref} download>
-              <DownloadIcon className="mr-2 h-4 w-4" aria-hidden />
-              <Trans>Steuerpaket</Trans>
-            </a>
-          </Button>
-        </div>
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-2 border-t pt-4">
         {FOCUS_FILTERS.map((filter) => (
           <Button
             key={filter.value}
@@ -893,20 +788,65 @@ const TaxCatchUpPanel = ({
         ))}
       </div>
 
-      {summary.months.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {summary.months.slice(0, 12).map((bucket) => (
-            <Button
-              key={bucket.key}
-              type="button"
-              size="sm"
-              variant="outline"
-              onClick={() => onMonthSelect(bucket.key)}
-            >
-              {visibleMonthLabel(bucket.key)} · {bucket.count}
+      <details className="mt-4 rounded-md border bg-muted/10">
+        <summary className="cursor-pointer px-3 py-2 text-sm font-medium">
+          <Trans>Suche und Zeitraum</Trans>
+        </summary>
+        <div className="grid gap-3 border-t p-3 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="flex flex-wrap gap-2">
+            {TAX_QUICK_TERMS.map((term) => (
+              <Button
+                key={term}
+                type="button"
+                size="sm"
+                variant={mailSearchTerm === term ? 'default' : 'outline'}
+                onClick={() => {
+                  setMailSearchTerm(term);
+                  setQuery(term);
+                }}
+              >
+                {term}
+              </Button>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={applyDateFilter}
+                onCheckedChange={(checked) => setApplyDateFilter(checked === true)}
+                aria-label="Zeitraum auf Trefferliste anwenden"
+              />
+              <span>
+                <Trans>Zeitraum anwenden</Trans>
+              </span>
+            </label>
+            <Button onClick={onStart} disabled={isPending || !canStart} size="sm">
+              <PlayIcon className="mr-2 h-4 w-4" aria-hidden />
+              <Trans>Postfach durchsuchen</Trans>
             </Button>
-          ))}
+          </div>
         </div>
+      </details>
+
+      {summary.months.length > 0 && (
+        <details className="mt-3 rounded-md border bg-muted/10">
+          <summary className="cursor-pointer px-3 py-2 text-sm font-medium">
+            <Trans>Monate</Trans>
+          </summary>
+          <div className="flex flex-wrap gap-2 border-t p-3">
+            {summary.months.slice(0, 12).map((bucket) => (
+              <Button
+                key={bucket.key}
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => onMonthSelect(bucket.key)}
+              >
+                {visibleMonthLabel(bucket.key)} · {bucket.count}
+              </Button>
+            ))}
+          </div>
+        </details>
       )}
     </Card>
   );

@@ -257,6 +257,11 @@ msgstr "{0}"
 msgid "{0} Anhang/Anhänge wieder verfügbar."
 msgstr ""
 
+#. placeholder {0}: summary.missingAmount + summary.missingInvoiceNumber
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{0} Datenlücken"
+msgstr ""
+
 #. placeholder {0}: team.name
 #: apps/remix/app/components/dialogs/public-profile-template-manage-dialog.tsx
 msgid "{0} direct signing templates"
@@ -266,6 +271,11 @@ msgstr "Bezpośrednie szablony do podpisywania zespołu {0}"
 #: packages/ui/components/document/envelope-recipient-field-tooltip.tsx
 msgid "{0} field"
 msgstr "{0}"
+
+#. placeholder {0}: summary.accepted
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{0} geprüft"
+msgstr ""
 
 #. placeholder {0}: team.name
 #. placeholder {1}: envelope.title
@@ -294,6 +304,11 @@ msgstr "Sprawdź i {recipientActionVerb} dokument utworzony przez zespół {0}"
 msgid "{0} of {1} documents remaining this month."
 msgstr "Pozostało {0} z {1} dokumentów w tym miesiącu."
 
+#. placeholder {0}: summary.needsReview
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{0} offen"
+msgstr ""
+
 #. placeholder {0}: user.name || user.email
 #. placeholder {1}: envelope.team.name
 #. placeholder {2}: envelope.title
@@ -306,16 +321,15 @@ msgstr "Sprawdź i {recipientActionVerb} dokument „{2}” utworzony przez  uż
 msgid "{0} Teams"
 msgstr "Zespół {0}"
 
+#. placeholder {0}: summary.total
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "{0} Treffer"
+msgstr ""
+
 #. placeholder {0}: data.documents.length
 #. placeholder {1}: data.total
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "{0} von {1} angezeigt"
-msgstr ""
-
-#. placeholder {0}: summary.accepted
-#. placeholder {1}: summary.total
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "{0} von {1} Belegen sind geprüft."
 msgstr ""
 
 #. placeholder {0}: currentStepData.order
@@ -1631,10 +1645,6 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Alle Treffer"
-msgstr ""
-
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Alles sieht bereit aus. Jetzt das Steuerpaket mit Übersicht exportieren."
 msgstr ""
 
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
@@ -3549,10 +3559,6 @@ msgstr ""
 msgid "Custom Organisation Groups"
 msgstr "Niestandardowe grupy w organizacji"
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Danach fehlende Beträge oder Rechnungsnummern gezielt bereinigen."
-msgstr ""
-
 #: apps/remix/app/components/general/app-command-menu.tsx
 msgid "Dark Mode"
 msgstr "Tryb ciemny"
@@ -5363,10 +5369,6 @@ msgstr "Wystąpił błąd podczas ładowania strony"
 msgid "Error uploading file"
 msgstr "Wystąpił błąd podczas przesyłania pliku"
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Erst offene Treffer prüfen, damit nichts Wichtiges verloren geht."
-msgstr ""
-
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 msgid "Erster Sync läuft im Hintergrund."
 msgstr ""
@@ -5756,10 +5758,6 @@ msgstr "Nie pamiętasz hasła?"
 msgid "Forgot your password?"
 msgstr "Nie pamiętasz hasła?"
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Fortschritt"
-msgstr ""
-
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 msgctxt "Plan price"
 msgid "Free"
@@ -5819,10 +5817,6 @@ msgstr "Wygeneruj rekordy DKIM"
 #: packages/ui/primitives/document-flow/add-subject.tsx
 msgid "Generate Links"
 msgstr "Wygeneruj linki"
-
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Geprüft"
-msgstr ""
 
 #: packages/lib/constants/i18n.ts
 msgid "German"
@@ -6494,10 +6488,6 @@ msgstr "To nie jest Twoja kolej na podpisanie dokumentu. Gdy nadejdzie Twoja kol
 msgid "Italian"
 msgstr "Włoski"
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Jahre, Suchbegriff und Trefferliste zusammenführen, damit Rechnungen schneller geprüft, exportiert und abgelegt werden."
-msgstr ""
-
 #: packages/lib/constants/i18n.ts
 msgid "Japanese"
 msgstr "Japoński"
@@ -7120,7 +7110,6 @@ msgid "Missing Recipients"
 msgstr "Brak odbiorców"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Mit Anhang"
 msgstr ""
 
@@ -7132,6 +7121,10 @@ msgstr "Edytuj odbiorców"
 #: apps/remix/app/components/dialogs/claim-update-dialog.tsx
 msgid "Modify the details of the subscription claim."
 msgstr "Edytuj szczegóły subskrypcji."
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Monate"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 #: apps/remix/app/components/general/billing-plans.tsx
@@ -7632,7 +7625,6 @@ msgid "Off"
 msgstr "Wyłączone"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Offen"
 msgstr ""
 
@@ -7642,11 +7634,9 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Ohne Betrag"
 msgstr ""
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Ohne Nr."
@@ -8418,11 +8408,8 @@ msgid "Pos Y:"
 msgstr "Pozycja Y:"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Postfach durchsuchen"
-msgstr ""
-
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Postfach jetzt durchsuchen"
+msgid "Postfach durchsuchen"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
@@ -8600,10 +8587,10 @@ msgstr ""
 #: apps/remix/app/components/general/settings-nav-mobile.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/sources._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Quellen"
 msgstr ""
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Quellen verwalten"
 msgstr ""
@@ -10329,10 +10316,6 @@ msgid "Steuerpaket"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Steuerpaket exportieren"
-msgstr ""
-
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Steuerunterlagen nachholen"
 msgstr ""
 
@@ -10486,6 +10469,10 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Suche starten"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
+msgid "Suche und Zeitraum"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
@@ -11887,10 +11874,6 @@ msgstr "Łączna liczba użytkowników"
 msgid "Transfer documents to a different team"
 msgstr "Przenieś dokumenty do innego zespołu"
 
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Treffer"
-msgstr ""
-
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
 msgid "Triggers"
@@ -12790,10 +12773,6 @@ msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/sources.$id._index.tsx
 msgid "Wählen Sie einen Zeitraum aus. Belege aus diesem Zeitraum werden geprüft und in den Eingang importiert. Bereits importierte Belege werden automatisch übersprungen."
-msgstr ""
-
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Wählen Sie Quelle, Zeitraum und Suchbegriff. NexaFile liest passende Mails ein und legt Mail + Anhänge im Server-Archiv ab."
 msgstr ""
 
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
@@ -14435,15 +14414,11 @@ msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Zeitraum auf Trefferliste anwenden"
+msgid "Zeitraum anwenden"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
 msgid "Zeitraum prüfen"
-msgstr ""
-
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents._index.tsx
-msgid "Zeitraum wählen und das Postfach nach Rechnungen durchsuchen."
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/find-documents.$id._index.tsx
